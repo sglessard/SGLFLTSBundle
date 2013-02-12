@@ -1,0 +1,26 @@
+{
+    "name": "sgl/flts-bundle",
+    "type": "symfony-bundle",
+    "description": "Freelancer Timesheets and Billing Symfony2 Bundle",
+    "keywords": ["timesheet","invoice","project management"],
+    "homepage": "https://github.com/sglessard/SGLFLTSBundle/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Guillem-Lessard",
+            "email": "s.g.lessard@gmail.com",
+            "homepage": "https://github.com/sglessard",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "2.1.*",
+        "Friendsofsymfony/user-bundle": "*",
+        "genemu/form-bundle": "2.1.*",
+        "knplabs/knp-snappy-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "SGL\\FLTSBundle": "" }
+    },
+    "target-dir": "SGL/FLTSBundle"
+}
