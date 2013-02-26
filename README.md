@@ -1,7 +1,7 @@
 SGLFLTSBundle
 =============
 
-SGLFLTSBundle is a timesheet and billing application sf2 bundle mainly for freelancer.
+SGLFLTSBundle is a timesheet and billing application [Symfony2.1](http://symfony.com/doc/current/book/index.html) bundle mainly for freelancer.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
 
 #### Notice : application is not stable, do not use in production.  
@@ -9,7 +9,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## Objects  
 
-- **Users** -           The user (freelancer) using FLTS app (FOSUserBundle user)
+- **User** -           The user (freelancer) using FLTS app (FOSUserBundle user)
 - **Client** -          Direct client or agency who's dealing with client
 - **Project** -         e.g. Some quick neat app
 - **Project Part** -    e.g. The alpha version
@@ -21,9 +21,10 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 ## Installation
 
 1. Download using [composer](http://getcomposer.org)  
-composer.json
 
-    ``` yaml
+    ``` yaml  
+    
+        # composer.json  
         "require": {  
             "sgl/flts-bundle": "dev-master"  
         }  
@@ -33,6 +34,7 @@ composer.json
     1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
     1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
     1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
+    1.4 [TinyMCE](http://www.tinymce.com/)
 
 3. Add an admin user  
    Browse "http://.../register"
@@ -44,18 +46,20 @@ composer.json
 
 
 ## Parameters
-parameters.yml example:
+_Example_:
 
 ``` yaml
 
+    # parameters.yml  
+    
     # SGL FLTS params
     sgl_flts.business_name:                   "Symfony dev4fun"
     sgl_flts.business_logo_src:               "/bundles/myFltsExtended/images/logos/sgl.png"
     sgl_flts.business_logo_width:             284
-    sgl_flts.business_invoice_logo_src:       %sgl_flts.business_logo_src%
-    sgl_flts.business_invoice_logo_width:     %sgl_flts.business_logo_width%
+    sgl_flts.business_invoice_logo_src:       \%sgl_flts.business_logo_src%
+    sgl_flts.business_invoice_logo_width:     \%sgl_flts.business_logo_width%
     sgl_flts.business_address:                "30, rue de la Visitation\nSaint-Charles-Borromée, Québec\J6E 4M8"
-    sgl_flts.business_phone:                  "450 759-1113"
+    sgl_flts.business_phone:                  "457 059-1113"
 
     sgl_flts.tax_class:                       SGL\FLTSBundle\Util\Tax\CanadaTax
     sgl_flts.tax_gst:   # Goods and Services Tax
@@ -86,10 +90,12 @@ parameters.yml example:
 ```
 
 ## Config
-config.yml
+_Example_ :
 
 ``` yaml
 
+    # config.yml  
+    
     # FOS conf
     fos_user:
         db_driver: orm # other valid values are 'mongodb', 'couchdb'
@@ -120,7 +126,7 @@ config.yml
         tinymce:
             enabled: true
             theme:   advanced
-            script_url: /bundles/simonflts/js/tiny_mce/tiny_mce.js
+            script_url: /bundles/myFltsExtended/js/tiny_mce/tiny_mce.js
             configs:
                 content_css : /bundles/sglflts/css/invoice.css
                 plugins : table
