@@ -1,0 +1,36 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% form_theme form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
+
+{% set create_route = app.session.get('opened_parts', true) == true ? 'sgl_flts_part_create': 'sgl_flts_part_create_all' %}
+{% set list_route = app.session.get('opened_parts', true) == true ? 'sgl_flts_part_list': 'sgl_flts_part_list_all' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h1>Project part creation</h1>
+
+    <form action="{{ path(create_route) }}" method="post" {{ form_enctype(form) }}>
+
+        {{ form_widget(form) }}
+
+        <div class="record_submit">
+            <input type="submit" class="create" value="{% trans %}Confirm create{% endtrans%}" />
+        </div>
+    </form>
+
+    <div class="record_actions_ctn">
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path(list_route, { 'id_project': project.id }) }}" class="list">
+                    {% trans %}Back to the list (Cancel){% endtrans%}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+{% endblock %}

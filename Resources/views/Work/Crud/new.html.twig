@@ -1,0 +1,22 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% form_theme form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
+    <h3>Work creation</h3>
+
+    <form action="{{ path('sgl_flts_work_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+
+    {% include 'SGLFLTSBundle:Work:Common/record_actions.html.twig' with { 'project': project, 'part': part, 'task': task} %}
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% form_theme edit_form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
+
+    <form action="{{ path('sgl_flts_task_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+        {{ form_widget(edit_form) }}
+
+        <div class="record_submit">
+            <input type="submit" class="create" value="{% trans %}Confirm edit{% endtrans%}" />
+        </div>
+    </form>
+
+    <div class="record_actions_ctn">
+
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('sgl_flts_task', { 'id_project': project.id,'id_part': part.id }) }}" class="list">
+                    {% trans %}Back to the list (Cancel){% endtrans%}
+                </a>
+            </li>
+            {% include 'SGLFLTSBundle:Task:Common/record_action_delete.html.twig' with { 'entity_name': 'task','entity': entity } %}
+        </ul>
+    </div>
+
+{% endblock %}

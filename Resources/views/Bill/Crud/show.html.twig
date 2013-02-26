@@ -1,0 +1,165 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@SGLFLTSBundle/Resources/public/css/invoice.css'
+    %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+
+    <h2>{{ entity.part.fullname}}</h2>
+    <h1>{{ entity.fullname }}</h1>
+
+    <table class="record_properties" style="float:right; width:290px; margin-bottom:20px;">
+        <thead>
+            <tr>
+                <th colspan="2">{% trans %}Billing details{% endtrans %}</th>
+            </tr
+        </thead>
+        <tbody>
+             <tr>
+                <th>{% trans %}Billed hours{% endtrans %}</th>
+                <td>{{ entity.worksHours|hours }}</td>
+            </tr>
+             <tr>
+                 <th>{% trans %}Extra hours{% endtrans %}</th>
+                 <td>{{ entity.extrahours|hours }}</td>
+             </tr>
+            <tr>
+                <th>{% trans %}Works fees{% endtrans %}</th>
+                <td>{{ entity.worksAndExtraHoursSubtotal|price }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Extra fees{% endtrans %}</th>
+                <td>{% if (entity.extrafees) %}{{ entity.extrafees|price }}{% else %}{{ 0|price }}{% endif %}</td>
+            </tr>
+            <tr>
+               <th>{% trans %}Bill amount (subtotal){% endtrans %}</th>
+               <td>{{ entity.subtotal|price }}</td>
+            </tr>
+            {% if (entity.taxable) %}
+                {% if (entity.gst) %}
+                    <tr>
+                      <th>{% trans %}GST{% endtrans %}</th>
+                      <td>{{ entity.gstFees|price }}</td>
+                   </tr>
+                {% endif %}
+                {% if (entity.pst) %}
+                    <th>{% trans %}PST{% endtrans %}</th>
+                    <td>{{ entity.pstFees|price }}</td>
+                {% endif %}
+                {% if (entity.hst) %}
+                    <tr>
+                      <th>{% trans %}HST{% endtrans %}</th>
+                      <td>{{ entity.hstFees|price }}</td>
+                   </tr>
+                {% endif %}
+            {% endif %}
+            <tr>
+               <th>{% trans %}Bill total{% endtrans %}</th>
+               <td>{{ entity.total|price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="record_properties" style="float:right; width:290px; clear:right;">
+         <thead>
+             <tr>
+                 <th colspan="2">{% trans %}Billing stats{% endtrans %}</th>
+             </tr
+         </thead>
+         <tbody>
+              <tr>
+                 <th>{% trans %}Billed works{% endtrans %}</th>
+                 <td>{{ entity.works|length}}</td>
+             </tr>
+         </tbody>
+     </table>
+
+    <table class="record_properties" style="width:500px;">
+        <thead>
+            <tr>
+                <th colspan="2">{% trans %}Bill informations{% endtrans %}</th>
+            </tr
+        </thead>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Number</th>
+                <td><strong>{{ entity.number }}</strong></td>
+            </tr>
+            <tr>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+
+            <tr>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+               <th>{% trans %}Created at{% endtrans %}</th>
+               <td>{{ entity.createdAt|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Billed{% endtrans %}</th>
+                <td>{% if (entity.billedAt) %}{% trans %}Yes{% endtrans %} : {{ entity.billedAt|date('Y-m-d') }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Sent{% endtrans %}</th>
+                <td>{% if (entity.sentAt) %}{% trans %}Yes{% endtrans %} : {{ entity.sentAt|date('Y-m-d') }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Paid{% endtrans %}</th>
+                <td>{% if (entity.paidAt) %}{% trans %}Yes{% endtrans %} : {{ entity.paidAt|date('Y-m-d') }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Deposited at{% endtrans %}</th>
+                <td>{% if (entity.depositedAt) %}{% trans %}Yes{% endtrans %} : {{ entity.depositedAt|date('Y-m-d') }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Updated at{% endtrans %}</th>
+                <td>{{ entity.updatedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Taxable{% endtrans %}</th>
+                <td>
+                    {% if (entity.taxable) %}
+                        {% trans %}Yes{% endtrans %}<br />
+                        {% if (entity.gst) %}
+                           {% trans %}GST{% endtrans %} : {{ entity.gst }} %<br />
+                        {% endif %}
+                        {% if (entity.pst) %}
+                            {% trans %}PST{% endtrans %} : {{ entity.pst }} %<br />
+                        {% endif %}
+                        {% if (entity.hst) %}
+                            {% trans %}HST{% endtrans %} : {{ entity.hst }} %<br />
+                        {% endif %}
+                   {% else %}
+                        {% trans %}No{% endtrans %}
+                   {% endif %}
+                </td>
+           </tr>
+
+        </tbody>
+    </table>
+
+    <div id="bill-body-content-ctn" style="clear:both; margin-top:20px;">
+        {% if (entity.bodyContent) %}
+        <div id="task-details">{% trans %}Details{% endtrans %}</div>
+        {{ entity.bodyContent|raw }}
+        {% else %}
+        {% trans %}No content.{% endtrans %}
+        {% endif %}
+    </div>
+
+    {% include 'SGLFLTSBundle:Bill:Common/record_actions.html.twig' with { 'entity': entity, 'part': entity.part } %}
+
+{% endblock %}

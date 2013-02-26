@@ -1,0 +1,16 @@
+<li class="very-last">
+    <form id="delete_part_form" action="{{ path('sgl_flts_part_delete', {'id': entity.id }) }}" method="post">
+        {{ form_widget(delete_form) }}
+        <button type="submit" class="delete {% if (entity.closed == false) %}inactive{% endif %}">{% trans %}Delete{% endtrans%}</button>
+    </form>
+</li>
+
+<script type="text/javascript">
+$('#delete_part_form').submit(function() {
+    if ($('#form_closed').val() == 0) {
+        return call_alert('{% trans %}Close the project part before deleting it{% endtrans %}');
+    } else {
+        return call_confirm('{% trans %}Are you sure?{% endtrans%}')
+    }
+});
+</script>

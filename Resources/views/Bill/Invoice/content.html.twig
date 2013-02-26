@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ bill.fullname }}{% endblock %}</title>
+        {% block stylesheets %}
+            {% include 'SGLFLTSBundle:Bill:Invoice/stylesheets.html.twig' %}
+        {% endblock %}
+        {% block javascripts %}
+            {% include 'SGLFLTSBundle:Theme:Global/javascripts.html.twig' %}
+        {% endblock %}
+    </head>
+    <body id="invoice">
+    <div id="wrapper">
+        <header>
+            <img id="logo" src="{{asset(business_logo_src) }}" width="{{ business_logo_width }}" alt="{{ business_name }}" />
+            <table>
+                <tbody>
+                    <tr>
+                        <th width="25%">{% trans %}Address{% endtrans %}</th>
+                        <td width="75%">{{ business_address|nl2br }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans %}Phone{% endtrans %}</th>
+                        <td>{{ business_phone|nl2br }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </header>
+
+        <table id="project">
+            <thead>
+                <tr>
+                    <th>{% trans %}Bill to{% endtrans %}</th>
+                    <th>{% trans %}Purchase order{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="client">
+                        <div id="client_logo"><img src="{{ asset(client.webPath) }}" alt="{{ client.name }}"/></div>
+                        {{ client.address|nl2br }}
+                    </td>
+                    <td id="purchase-order">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th width="90">{% trans %}Number{% endtrans %}</th>
+                                    <td>{{ part.po }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans %}Date{% endtrans %}</th>
+                                    <td>{{ bill.billedAt|date('Y-m-d') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans %}Person in charge{% endtrans %}</th>
+                                    <td>{{ client.contactName }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans %}Project{% endtrans %}</th>
+                                    <td>{{ project }}</td>
+                                </tr>
+                                <tr>
+                                    <th>{% trans %}Description{% endtrans %}</th>
+                                    <td>{{ bill.description|raw }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="task-details">{% trans %}Details{% endtrans %}</div>
+
+        {{ bill.bodyContent|raw }}
+
+        <table id="subtotal">
+            <tbody>
+                <tr>
+                    <td><strong>{% trans %}Hourly rate{% endtrans %}</strong></td>
+                    <td width="70"><strong>{{ bill.rate.rate|price}}</strong></td>
+                </tr>
+                <tr>
+                    <td>{% trans %}Subtotal (before tax){% endtrans %}</td>
+                    <td>{{ bill.worksAndExtraHoursSubtotal|price }}</td>
+                </tr>
+        {% if (bill.taxable) %}
+            {% if (bill.gst) %}
+                <tr>
+                    <td>{% trans %}GST{% endtrans %} ({{ bill.gst|trim('.0') }} %)</td>
+                    <td>{{ bill.gstFees|price }}</td>
+                </tr>
+            {% endif %}
+            {% if (bill.pst) %}
+                <tr>
+                    <td>{% trans %}PST{% endtrans %} ({{ bill.pst|trim('.0') }} %)</td>
+                    <td>{{ bill.pstFees|price }}</td>
+                </tr>
+            {% endif %}
+            {% if (bill.hst) %}
+                <tr>
+                    <td>{% trans %}HST{% endtrans %} ({{ bill.hst|trim('.0') }} %)</td>
+                    <td>{{ bill.hstFees|price }}</td>
+                </tr>
+            {% endif %}
+        {% endif %}
+            </tbody>
+        </table>
+
+        <footer>
+            <table>
+                <tbody>
+                    <tr>
+                        <td width="220">
+                            <table id="invoice-date" width="140">
+                                <tbody>
+                                    <tr>
+                                        <th>{% trans %}Invoice date{% endtrans %}</th>
+                                        <td><strong>{{ bill.billedAt|date('Y-m-d') }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>{% trans %}Invoice number{% endtrans %}</th>
+                                        <td><strong>{{ bill.number }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td width="250">
+                        {% if (bill.taxable) %}
+                            <table id="tax-registration" width="190">
+                                <tbody>
+                                    {% if (bill.gst) %}
+                                    <tr>
+                                        <th>{% trans %}GST Number{% endtrans %}</th>
+                                        <td>{{ gst_registration_number }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if (bill.pst) %}
+                                    <tr>
+                                        <th>{% trans %}PST Number{% endtrans %}</th>
+                                        <td>{{ pst_registration_number }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if (bill.hst) %}
+                                    <tr>
+                                        <th>{% trans %}HST Number{% endtrans %}</th>
+                                        <td>{{ hst_registration_number }}</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                        </td>
+                        <td width="190">
+                            <table id="total" width="190">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>{% trans %}Total{% endtrans %}</strong></td>
+                                        <td width="70"><strong>{{ bill.total|price }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </footer>
+    </div>
+    <script type="text/javascript">
+        // Aesthetics
+        // Max #bill-body-content>tbody height to fit in one page
+        var max_tbody_height = 530;
+
+        var current_tbody_height = 0;
+        $('#bill-body-content tbody tr').each(function() {
+            current_tbody_height += $(this).height();
+        });
+        if (current_tbody_height  < max_tbody_height) {
+            var tfoot_height = max_tbody_height - current_tbody_height;
+            $('#bill-body-content tfoot tr td').attr('height',tfoot_height);
+        }
+    </script>
+    </body>
+</html>

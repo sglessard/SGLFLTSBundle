@@ -1,0 +1,146 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    <h1>{% trans %}Opened project part report{% endtrans %}</h1>
+    {% render 'SGLFLTSBundle:Part:selection' with {'part': part, 'redirect_route': 'sgl_flts_report_part'} %}
+
+    <h1>{% trans %}Project part report (all){% endtrans %}</h1>
+    {% render 'SGLFLTSBundle:Part:selection' with {'part': part, 'redirect_route': 'sgl_flts_report_part', 'opened_only': false} %}
+
+    {% if (part) %}
+
+        {% set works_count = 0 %}
+
+        {% for task in tasks %}
+
+            {% if (task.works|length) %}
+
+            {% set works_count = works_count + task.works|length %}
+
+            <h3>{{ task }}</h3>
+
+            <table class="records_list">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Date{% endtrans %}</th>
+                        <th>{% trans %}Hours{% endtrans %}</th>
+                        <th>{% trans %}Work{% endtrans %}</th>
+                        <th>{% trans %}Billed{% endtrans %}</th>
+                        <th>{% trans %}Paid{% endtrans %}</th>
+                        <th>{% trans %}Actions{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for work in task.works %}
+                        <tr>
+                            <td class="string">
+                                <a href="{{ path('sgl_flts_report_date',{'date': work.workedAt|date('Y-m-d') }) }}">{{ work.workedAt|date('Y-m-d') }}</a>
+                            </td>
+                            <td class="number">{{ work.hours|hours }}</td>
+                            <td class="string">
+                                <span class="task-ident">{{ task.identification }}</span>
+                                <a href="{{ path('sgl_flts_work_edit',{'id_project': part.project.id, 'id_part': part.id, 'id_task': task.id, 'id': work.id }) }}">{{ work }}</a>
+                                {% if (work.description) %}
+                                    <p>{{ work.description }}</p>
+                                {% endif %}
+                            </td>
+                            <td class="string bill">
+                                {% if (work.billed) %}{% trans %}Yes{% endtrans %} :  <a href="{{ path('sgl_flts_bill_edit',{'id': work.bill.id }) }}">{{ work.bill.fullname }}</a>{% else %}{% trans %}No{% endtrans %}{% endif %}
+                            </td>
+                            <td class="boolean">
+                                {% if (work.paid) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}
+                            </td>
+
+                            <td class="actions">
+                                <ul class="record_actions">
+                                    <li>
+                                        <a href="{{ path('sgl_flts_work_show', { 'id': work.id, 'id_project': work.task.part.project.id,'id_part': work.task.part.id,'id_task': work.task.id }) }}" class="show">{% trans %}Show{% endtrans %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('sgl_flts_work_edit', { 'id': work.id, 'id_project': work.task.part.project.id,'id_part': work.task.part.id,'id_task': work.task.id }) }}" class="edit">{% trans %}Edit{% endtrans %}</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7" class="header">
+                            <div class="three">
+                                {% trans %}Works{% endtrans %} : {{ task.works|length }}<br />
+                                {% trans %}Worked hours{% endtrans %} : {{ task.workedHours|hours }}
+                            </div>
+                            <div class="three">
+                                {% trans %}Billed hours{% endtrans %} : {{ task.billedHours|hours }}<br />
+                                {% trans %}Paid hours{% endtrans %} : {{ task.paidHours|hours }}<br />
+                            </div>
+                            <div class="three">
+                                {% trans %}To bill {% endtrans %} : {{ (task.workedHours - task.billedHours)|hours }}<br />
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            {% endif %}
+        {% endfor %}
+
+        <h2>{% trans %}Summary{% endtrans %} : {{ part.fullname }}</h2>
+        <table class="summary">
+            <tbody>
+            <tr>
+                <td>
+                    {% trans %}Works count{% endtrans %} : {{ works_count }}<br />
+                    {% trans %}Idle for{% endtrans %} : {{ part.durationSinceLastJob|relativeTime }}<br />
+                    {% trans %}Duration{% endtrans %} : {{ part.days }} {% trans %}days{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}Estimated hours{% endtrans %} : {{ part.estimation|hours }}<br />
+                    {% trans %}Worked hours{% endtrans %} : {{ part.workedHours|hours }} ({{ part.workedPourcentage }} %)<br />
+                    {% trans %}Billed hours{% endtrans %} : {{ part.billedHours|hours }} ({{ part.billedPourcentage }} %)<br />
+                </td>
+                <td>
+                    {% if (part.bills|length) %}
+                    <strong>Bills :</strong>
+                        <ul>
+                        {% for bill in part.bills %}
+                            <li>
+                                <a href="{{ path('sgl_flts_bill_show',{'id': bill.id }) }}">{{ bill.fullname }}</a>
+                                {% if (bill.sentAt) %}
+                                    <span>{% trans %}Bill sent at{% endtrans %} {{ bill.sentAt|date('Y-m-d') }}</span>
+                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Works list</a></li>
+                                {% else %}
+                                    <span>{% trans %}Created{% endtrans %}</span>
+                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Edit works</a></li>
+                                {% endif %}
+
+
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+
+            </tr
+            </tbody>
+        </table>
+
+        <div class="record_actions_ctn">
+
+            <ul class="record_actions">
+                <li>
+                    <a href="{{ path('sgl_flts_part_edit', { 'id': part.id, 'id_project': part.project.id }) }}" class="edit">
+                        {% trans %}Edit part{% endtrans%}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('sgl_flts_part_bills',{'id_part': part.id}) }}" class="money">{% trans %}Go to project part bills list{% endtrans %}</a>
+                </li>
+            </ul>
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h3>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h3>
+    <h2>{% trans %}Tasks list{% endtrans%}</h2>
+
+    {% include 'SGLFLTSBundle:Task:Common/list_actions.html.twig' with { 'project': project, 'part': part } %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Estimated{% endtrans %}</th>
+                <th>{% trans %}Worked{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td class="string">{{ entity.fullname }}</td>
+                <td class="number {% if (entity.estimatedhours == 0) %}empty{% endif %}">{{ entity.estimatedhours|hours }}</td>
+                <td class="number {% if (entity.workedHours == 0) %}empty{% endif %}">{{ entity.workedHours|hours }}</td>
+                <td class="actions">
+                    <ul class="record_actions">
+                        <li>
+                            <a href="{{ path('sgl_flts_task_show', { 'id': entity.id, 'id_project': project.id,'id_part': part.id }) }}" class="show">{% trans %}Show{% endtrans %}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sgl_flts_task_edit', { 'id': entity.id, 'id_project': project.id,'id_part': part.id }) }}" class="edit">{% trans %}Edit{% endtrans %}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sgl_flts_work', { 'id_project': project.id,'id_part': part.id,'id_task': entity.id }) }}" class="list">{% trans %}Works list{% endtrans %}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>{{ entities|length }} {% trans %}tasks{% endtrans%}</strong>
+    </p>
+
+    {% include 'SGLFLTSBundle:Task:Common/list_actions.html.twig' with { 'project': project, 'part': part } %}
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    <h1>{{ entity.fullname }}</h1>
+
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Identification</th>
+                <td>{{ entity.identification }}</td>
+            </tr>
+            <tr>
+                <th>Order</th>
+                <td>{{ entity.rank }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ entity.updatedat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% include 'SGLFLTSBundle:Theme:Common/record_actions.html.twig' with { 'entity_name': 'frequenttask','entity': entity } %}
+
+{% endblock %}

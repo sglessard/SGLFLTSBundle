@@ -1,0 +1,56 @@
+{% set action = getActionName(app.request.attributes)|lower %}
+
+<div class="record_actions_ctn">
+
+    <ul class="record_actions">
+        {% if (entity.id) %}
+            <li>
+                <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.id }) }}" class="pdf">
+                    {% trans %}Generate invoice{% endtrans%}
+                </a>
+            </li>
+        {% endif %}
+
+        {% if (action == 'edit') %}
+        <li>
+            <a href="{{ path('sgl_flts_bill_show', { 'id': entity.id }) }}" class="edit">
+                {% trans %}Show bill{% endtrans%}
+            </a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{{ path('sgl_flts_bill_edit', { 'id': entity.id }) }}" class="edit">
+                {% trans %}Edit bill{% endtrans%}
+            </a>
+        </li>
+        {% endif %}
+
+        <li>
+            <a href="{{ path('sgl_flts_bill') }}" class="money">
+                {% trans %}Lastest bills{% endtrans%}
+            </a>
+        </li>
+
+        {% if (action != "editwork") %}
+            {% if (entity.sent == false) %}
+        <li>
+            <a href="{{ path('sgl_flts_bill_works', { 'id': entity.id }) }}" class="edit">
+                {% trans %}Add/remove bill works{% endtrans%}
+            </a>
+        </li>
+            {% endif %}
+        {% endif %}
+        <li>
+            <a href="{{ path('sgl_flts_part_bills', {'id_part': part.id}) }}" class="money">
+                {% trans %}Got to part's bills{% endtrans%}
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ path('sgl_flts_report_part',{'id_part': part.id}) }}" class="report">{% trans %}Go to project part report{% endtrans %}</a>
+        </li>
+
+        {% include 'SGLFLTSBundle:Theme:Common/record_action_delete.html.twig' with { 'entity_name': 'bill','entity': entity } %}
+
+    </ul>
+</div>

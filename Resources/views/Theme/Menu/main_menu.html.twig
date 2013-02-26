@@ -1,0 +1,28 @@
+{% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+<nav id="main-nav">
+    {% if is_granted("ROLE_USER") %}
+
+        <strong>Timesheet</strong>
+        <ul>
+        {% if (part is defined and part is not null) %}
+            <li><a href="{{ path('sgl_flts_work_new',{'id_project': part.project.id, 'id_part': part.id, 'id_task': 0}) }}" class="add">{% trans %}Add work{% endtrans %}</a></li>
+        {% endif %}
+            <li><a href="{{ path('sgl_flts_part') }}">Opened Projects Parts</a></li>
+            <li><a href="{{ path('sgl_flts_report_now') }}">Daily reports</a></li>
+            <li><a href="{{ path('sgl_flts_report_part_search') }}">Project part reports</a></li>
+        {% if is_granted("ROLE_BILL") %}
+            <li><a href="{{ path('sgl_flts_bill') }}">Bills</a></li>
+        {% endif %}
+        </ul>
+    {% endif %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <strong>Admin</strong>
+        <ul>
+            <li><a href="{{ path('sgl_flts_client') }}">Clients</a></li>
+            <li><a href="{{ path('sgl_flts_project') }}">Projects and parts</a></li>
+            <li><a href="{{ path('sgl_flts_frequenttask') }}">Frequent tasks</a></li>
+            <li><a href="{{ path('sgl_flts_user') }}">Users</a></li>
+        </ul>
+    {% endif %}
+</nav>
+{% endif %}

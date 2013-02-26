@@ -1,0 +1,6 @@
+<li class="very-last">
+    <form action="{{ path('sgl_flts_'~entity_name~'_delete', { 'id': entity.id }) }}" method="post" onclick="return confirm('{% trans %}Are you sure?{% endtrans%}')">
+        {{ form_widget(delete_form) }}
+        <button type="submit" class="delete">{% trans %}Delete{% endtrans%}</button>
+    </form>
+</li>

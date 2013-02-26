@@ -1,0 +1,4 @@
+FLTS
+{% if is_granted("ROLE_USER") %}
+    - Logged as {{ app.user }} | <a href="{{ path('sgl_flts_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a> | <a href="{{ path('fos_user_security_logout') }}">{% trans %}Disconnect{% endtrans %}</a>
+{% endif %}

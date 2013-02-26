@@ -1,0 +1,16 @@
+{% set list_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_list':'sgl_flts_part_list_all' %}
+
+<div class="record_actions_ctn">
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('sgl_flts_task_new', { 'id_project': project.id,'id_part': part.id }) }}" class="create">
+                {% trans %}Create a new task{% endtrans%}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(list_route, { 'id_project': project.id }) }}" class="list">
+                {% if (app.session.get('opened_parts', true)) %}{% trans %}Back to opened project parts list{% endtrans%}{% else %}{% trans %}Back to project parts list{% endtrans%}{% endif %}
+            </a>
+        </li>
+    </ul>
+</div>

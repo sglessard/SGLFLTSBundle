@@ -1,0 +1,51 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% set total = 0 %}
+    <h1>{% trans %}Opened projects parts list{% endtrans%}</h1>
+
+    <div class="actions">
+
+    </div>
+
+    {% for client in clients %}
+        {% if client.projects|length %}
+
+            {% set total = total + client.projects|length %}
+
+            <h2>{{ client }}</h2>
+            <table class="records_list" style="width:760px;">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Identification{% endtrans%}</th>
+                        <th>{% trans %}Name{% endtrans%}</th>
+                        <th>{% trans %}Parts count{% endtrans%}</th>
+                        <th>{% trans %}Actions{% endtrans%}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for entity in client.projects %}
+                    <tr>
+                        <td class="string {% if (entity.closed) %}closed{% endif %}">{{ entity.identification }}</td>
+                        <td class="string {% if (entity.closed) %}closed{% endif %}">{{ entity.name }}</td>
+                        <td class="number {% if (entity.closed) %}closed{% endif %}">{{ entity.parts|length }}</td>
+                        <td class="actions">
+                            <ul class="record_actions">
+                                <li>
+                                    <a href="{{ path('sgl_flts_part_list', { 'id_project': entity.id }) }}" class="show">{% trans %}Project parts list{% endtrans%}</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endfor %}
+    
+    <p>
+        <strong>{{ total }} {% trans %}projects{% endtrans%}</strong>
+    </p>
+
+{% endblock %}

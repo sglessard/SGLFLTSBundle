@@ -1,0 +1,62 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Bills by opened project part</h1>
+    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'opened_only': true, 'redirect_error': 'sgl_flts_bill'} %}
+
+    <h1>Bills by project part (all)</h1>
+    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'redirect_error': 'sgl_flts_bill' } %}
+
+    <h1>{% trans %}Latest bills{% endtrans%}</h1>
+
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'entity_name': 'bill' } %}
+    </div>
+
+    <table class="records_list records_list_extend">
+        <thead>
+            <tr>
+                <th>{% trans %}Number{% endtrans%}</th>
+                <th>{% trans %}Name{% endtrans%}</th>
+                <th>{% trans %}Project part{% endtrans%}</th>
+                <th>{% trans %}Hours{% endtrans%}</th>
+                <th>{% trans %}Amount{% endtrans%}</th>
+                <th>{% trans %}Sent at{% endtrans%}</th>
+                <th>{% trans %}Paid at{% endtrans%}</th>
+                <th>{% trans %}Actions{% endtrans%}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td class="number">{{ entity.number}}</td>
+                <td class="string">{{ entity }}</td>
+                <td class="text">
+                    {{ entity.part.project.fullname }}<br />
+                    {{ entity.part.fullname }}
+                </td>
+                <td class="number">{{ entity.worksHours|hours }} ({{ entity.hours|hours }})</td>
+                <td class="money">{{ entity.total|price }}</td>
+                <td class="date">{% if entity.sentAt %}{{ entity.sentAt|date('Y-m-d') }}{% endif %}</td>
+                <td class="date">{% if entity.paidAt %}{{ entity.paidAt|date('Y-m-d') }}{% endif %}</td>
+                <td class="actions">
+                    {% include 'SGLFLTSBundle:Bill:Common/list_record_actions.html.twig' with { 'entity': entity } %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a name="more"></a>
+    <p>
+        <strong>{{ entities|length }} {% trans %}latest bills{% endtrans%}</strong>
+    </p>
+    <p style="text-align: center;">
+        <a href="{{ path('sgl_flts_bill',{'period': more_period}) }}#more">{% trans %}Show more bills{% endtrans %}</a>
+    </p>
+
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'entity_name': 'bill' } %}
+    </div>
+{% endblock %}

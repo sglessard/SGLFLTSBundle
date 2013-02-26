@@ -1,0 +1,71 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
+    <h3>{% trans %}Task{% endtrans %} : {{ task }}</h3>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>Revision</th>
+                <td>{{ entity.revision }}</td>
+            </tr>
+            <tr>
+                <th>Worked_at</th>
+                <td>{{ entity.workedat|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Started_at</th>
+                <td>{{ entity.startedat|date('H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Ended_at</th>
+                <td>{{ entity.endedat|date('H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ entity.hours|hours }}</td>
+            </tr>
+            <tr>
+                <th>Billed</th>
+                <td>{% if (entity.billed) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Paid</th>
+                <td>{% if (entity.paid) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Do_not_bill</th>
+                <td>{% if (entity.doNotBill) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ entity.updatedat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+
+
+        </tbody>
+    </table>
+
+    {% include 'SGLFLTSBundle:Work:Common/record_actions.html.twig' with { 'project': project, 'part': part, 'task': task} %}
+
+{% endblock %}

@@ -1,0 +1,54 @@
+sgl_flts_invoice:
+    resource: "@SGLFLTSBundle/Controller/InvoiceController.php"
+    type:     annotation
+    prefix:   /invoices
+
+sgl_flts_bill:
+    resource: "@SGLFLTSBundle/Controller/BillController.php"
+    type:     annotation
+    prefix:   /bills
+
+sgl_flts_report:
+    resource: "@SGLFLTSBundle/Controller/ReportController.php"
+    type:     annotation
+    prefix:   /reports
+
+sgl_flts_project:
+    resource: "@SGLFLTSBundle/Controller/ProjectController.php"
+    type:     annotation
+    prefix:   /projects
+
+sgl_flts_part:
+    resource: "@SGLFLTSBundle/Controller/PartController.php"
+    type:     annotation
+    prefix:   /parts
+
+sgl_flts_task:
+    resource: "@SGLFLTSBundle/Controller/TaskController.php"
+    type:     annotation
+    prefix:   /tasks
+
+sgl_flts_frequenttask:
+    resource: "@SGLFLTSBundle/Controller/FrequentTaskController.php"
+    type:     annotation
+    prefix:   /tasks/frequent
+
+sgl_flts_work:
+    resource: "@SGLFLTSBundle/Controller/WorkController.php"
+    type:     annotation
+    prefix:   /works
+
+sgl_flts_dashboard:
+    resource: "@SGLFLTSBundle/Controller/DashboardController.php"
+    type:     annotation
+    prefix:   /dashboard
+
+sgl_flts_client:
+    resource: "@SGLFLTSBundle/Controller/ClientController.php"
+    type:     annotation
+    prefix:   /clients
+
+sgl_flts_user:
+    resource: "@SGLFLTSBundle/Controller/UserController.php"
+    type:     annotation
+    prefix:   /users

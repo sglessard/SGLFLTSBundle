@@ -1,0 +1,21 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% form_theme form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <h1>{% trans %}Frequent task creation{% endtrans%}</h1>
+    
+    <form action="{{ path('sgl_flts_frequenttask_create') }}" method="post" {{ form_enctype(form) }}>
+
+        {{ form_widget(form) }}
+
+        <div class="record_submit">
+            <input type="submit" class="create" value="{% trans %}Create{% endtrans%}" />
+        </div>
+
+    </form>
+
+    {% include 'SGLFLTSBundle:Theme:Common/record_actions.html.twig' with { 'entity_name': 'frequenttask','entity': false } %}
+{% endblock %}

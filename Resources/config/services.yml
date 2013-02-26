@@ -1,0 +1,21 @@
+parameters:
+
+services:
+    sgl_flts.registration.form.type:
+        class: SGL\FLTSBundle\Form\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: sgl_fltsbundle_user_registration }
+
+    sgl_flts.image_type_extension:
+        class: SGL\FLTSBundle\Form\Extension\ImageTypeExtension
+        tags:
+            - { name: form.type_extension, alias: file }
+
+    request:
+        class:  Symfony\Component\HttpFoundation\Request
+
+    sgl_flts.sglflts_twig.extension:
+        class: SGL\FLTSBundle\Twig\TwigSGLFLTSExtension
+        tags:
+            - { name: 'twig.extension' }

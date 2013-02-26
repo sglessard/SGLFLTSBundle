@@ -1,0 +1,52 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+    <h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>
+
+
+    <table class="record_properties">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ part.id }}</td>
+        </tr>
+        <tr>
+            <th>Po</th>
+            <td>{{ part.po }}</td>
+        </tr>
+        <tr>
+            <th>Identification</th>
+            <td>{{ part.identification }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ part.name }}</td>
+        </tr>
+        <tr>
+            <th>Started_at</th>
+            <td>{{ part.startedat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Estimated_hours</th>
+            <td>{{ part.estimatedhours|hours }}</td>
+        </tr>
+        <tr>
+            <th>Closed</th>
+            <td>{% if (part.closedat) %}{% trans %}Yes : {% endtrans %}{{ part.closedat|date('Y-m-d H:i:s') }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Created_at</th>
+            <td>{{ part.createdat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Updated_at</th>
+            <td>{{ part.updatedat|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% include 'SGLFLTSBundle:Part:Common/record_actions.html.twig' with { 'project': project, 'entity': part } %}
+
+{% endblock %}

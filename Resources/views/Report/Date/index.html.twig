@@ -1,0 +1,79 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <h1>{% trans %}Daily work report{% endtrans %}</h1>
+
+    <form action="{{ path('sgl_flts_report_date_search') }}" method="post">
+        {{ form_widget(form) }}
+        <button type="submit" class="search">{% trans %}Search{% endtrans%}</button>
+    </form>
+
+    <ul>
+        <li><a href="{{ path('sgl_flts_report_date',{'date': previous_day|date('Y-m-d')}) }}">{% trans %}Previous day{% endtrans %}</a></li>
+        <li><a href="{{ path('sgl_flts_report_date',{'date': next_day|date('Y-m-d')}) }}">{% trans %}Next day{% endtrans %}</a></li>
+    </ul>
+
+    {% set morning_displayed = false %}
+    {% set afternoon_displayed = false %}
+    {% set total_hours = 0 %}
+
+    <table class="records_list">
+        {% include 'SGLFLTSBundle:Report:Common/thead_list.html.twig' %}
+        <tbody>
+        {% for entity in entities %}
+            {% set duration = entity.hours > 0 ? entity.hours : entity.duration %}
+
+            {% if (entity.isMorning and not morning_displayed) %}
+            <tr>
+                <td colspan="4" class="header">{% trans %}Morning work{% endtrans %}</td>
+                {% set morning_displayed = true %}
+            </tr>
+            {% endif %}
+            {% if (entity.isAfternoon and not afternoon_displayed) %}
+            <tr>
+                <td colspan="4" class="header">{% trans %}Afternoon work{% endtrans %}</td>
+                {% set afternoon_displayed = true %}
+            </tr>
+            {% endif %}
+            <tr>
+                <td class="string" style="vertical-align:top;">{{ entity.startedAt|date('H:i') }} - {{ entity.endedAt|date('H:i') }}</td>
+                <td class="number" style="vertical-align:top;">{{ duration|hours }}</td>
+                <td class="text">
+                    <p>
+                        {{ entity.task.part.project.fullname }}<br />
+                        {{ entity.task.part.fullname }}<br />
+                        {{ entity.task.fullname }}<br />
+                        <strong>{{ entity }}</strong>
+                    </p>
+                    {% if (entity.description) %}
+                        <p>{{ entity.description }}</p>
+                    {% endif %}
+                </td>
+                <td class="actions">
+                    <ul class="record_actions">
+                        <li>
+                            <a href="{{ path('sgl_flts_work_show', { 'id': entity.id, 'id_project': entity.task.part.project.id,'id_part': entity.task.part.id,'id_task': entity.task.id }) }}" class="show">{% trans %}Show{% endtrans %}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sgl_flts_work_edit', { 'id': entity.id, 'id_project': entity.task.part.project.id,'id_part': entity.task.part.id,'id_task': entity.task.id }) }}" class="edit">{% trans %}Edit{% endtrans %}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            {% set total_hours = total_hours + duration %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="header">Total : {{ total_hours|hours }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p>
+        <strong>{{ entities|length }} {% trans %}works{% endtrans%}</strong>
+    </p>
+
+{% endblock %}

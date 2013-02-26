@@ -1,0 +1,41 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+<p>
+    Hey {{ app.user.fullname }}
+    {% if (app.user.lastlogin) %}
+        <br />Your last login was {{ app.user.durationSinceLastLogin|relativeTime }} ago! (buggy)
+    {% endif %}
+</p>
+<p>
+    <strong>
+    {% if is_granted('ROLE_ADMIN') %}
+        You are an admin
+    {% elseif is_granted('ROLE_BILL') %}
+        You are a biller
+    {% elseif is_granted('ROLE_USER') %}
+        You are a user
+    {% else %}
+        Who are you??
+    {% endif %}
+    </strong>
+</p>
+
+<h4>{% trans %}Browse the latest project parts{% endtrans %} :</h4>
+<p>Todo</p>
+{% if is_granted('ROLE_ADMIN') %}
+<h4>{% trans %}Browse the latest bills{% endtrans %} :</h4>
+<p>Todo</p>
+{% endif %}
+
+<h4>{% trans %}Your last work{% endtrans %} :</h4>
+<p>Todo</p>
+<h4>{% trans %}Profile{% endtrans %}</h4>
+    <ul>
+        <li><a href="{{ path('sgl_flts_user_edit',{'id': app.user.id }) }}">{% trans %}Edit profile{% endtrans %}</a></li>
+        <li><a href="{{ path('fos_user_change_password') }}">{% trans %}Change password{% endtrans %}</a></li>
+    </ul>
+
+<h4>{% trans %}FLTS Project Home{% endtrans %} :</h4>
+<a href="https://github.com/sglessard/SGLFLTSBundle" title="FLTSBundle on Github">Github</a>
+{% endblock %}

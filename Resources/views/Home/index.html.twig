@@ -1,0 +1,9 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+    {% if is_granted("ROLE_USER") %}
+        <a href="{{ path('sgl_flts_dashboard') }}">Go to dashboard</a>
+    {% else %}
+        <a href="{{ path('fos_user_security_login') }}">Login</a>
+    {% endif %}
+{% endblock %}

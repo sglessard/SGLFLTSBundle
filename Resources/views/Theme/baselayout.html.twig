@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}FLTS{% endblock %}</title>
+        {% block stylesheets %}
+            {% include 'SGLFLTSBundle:Theme:Global/stylesheets.html.twig' %}
+        {% endblock %}
+        {% block javascripts %}
+            {% include 'SGLFLTSBundle:Theme:Global/javascripts.html.twig' %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body class="{{ getControllerName(app.request.attributes)|lower }}-body">
+        <aside id="top-bar">
+            {% include 'SGLFLTSBundle:Theme:Global/top.html.twig' %}
+        </aside>
+        <div id="wrapper">
+            <header>
+                <div id="recent-projects">{% trans %}Recent projects:{% endtrans%}</div>
+                <h1><a href="{{ path('sgl_flts_dashboard') }}" style="color:#000; text-decoration:none;"><img id="logo" src="{{ business_logo_src }}" width="{{ business_logo_width }}" alt="{{ business_name }}" /></a></h1>
+            </header>
+
+            {% block nav %}
+                {% include 'SGLFLTSBundle:Theme:Menu/main_menu.html.twig' %}
+            {% endblock %}
+            
+            <div id="content">
+            {% block body %}
+                <section class="{{ getControllerName(app.request.attributes)|lower }}-page {{ getActionName(app.request.attributes)|lower }}-action">
+                    {% block identification_title %}{% endblock %}
+                    {% block content %}{% endblock %}
+                </section>
+            {% endblock %}
+            </div>
+        </div>
+        {% block footer %}
+        <footer>
+            FLTS version 0.1 - NOT STABLE
+        </footer>
+        {% endblock %}
+        {% block doc_ready %}
+            <script type="text/javascript">doc_ready();</script>
+        {% endblock %}
+    </body>
+</html>

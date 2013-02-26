@@ -1,0 +1,39 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    <h1>{% trans %}Clients list{% endtrans%}</h1>
+
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Theme:Common/list_actions.html.twig' with { 'entity_name': 'client' } %}
+    </div>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{% trans %}Name{% endtrans%}</th>
+                <th>{% trans %}Updated at{% endtrans%}</th>
+                <th>{% trans %}Actions{% endtrans%}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td class="string">{{ entity.name }}</td>
+                <td class="date">{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="actions">
+                    {% include 'SGLFLTSBundle:Theme:Common/list_record_actions.html.twig' with { 'entity_name': 'client','entity': entity } %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>{{ entities|length }} {% trans %}clients{% endtrans%}</strong>
+    </p>
+
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Theme:Common/list_actions.html.twig' with { 'entity_name': 'client' } %}
+    </div>
+{% endblock %}

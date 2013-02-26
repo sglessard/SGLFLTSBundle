@@ -1,0 +1,14 @@
+<div class="select_form_ctn">
+    <form id="part_select_form" action="{{ path('sgl_flts_part_selection') }}" method="post">
+        <label for="form_part" class="required">Project part :</label>
+        {{ form_widget(form.part, { 'attr': {'class': 'selection'} }) }}
+        {{ form_widget(form.redirect_route) }}
+        {{ form_widget(form.redirect_error) }}
+        <button type="submit" class="select">{% trans %}Select{% endtrans%}</button>
+    </form>
+</div>
+<script type="text/javascript">
+$('#part_select_form').change(function() {
+    $(this).submit();
+});
+</script>

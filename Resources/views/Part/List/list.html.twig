@@ -1,0 +1,71 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% set show_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_show':'sgl_flts_part_show_all' %}
+{% set edit_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_edit':'sgl_flts_part_edit_all' %}
+{% set task_route = app.session.get('opened_parts', true) ? 'sgl_flts_task':'sgl_flts_task' %}
+
+{% block content %}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h1>{% trans %}Part list{% endtrans%}</h1>
+
+    {% include 'SGLFLTSBundle:Part:Common/list_actions.html.twig' with { 'project': project } %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{% trans %}Name{% endtrans%}</th>
+                <th>{% trans %}Estimated{% endtrans%}</th>
+                <th>{% trans %}Worked{% endtrans%}</th>
+                <th>{% trans %}Billed{% endtrans%}</th>
+                <th>{% trans %}To bill{% endtrans%}</th>
+                <th>{% trans %}Started at{% endtrans%}</th>
+                <th>{% trans %}Actions{% endtrans%}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td class="string {% if entity.closed %}closed{% endif %}">
+                    {{ entity.fullname }}
+                    <p class="note">
+                        {% trans with {'%duration%': entity.durationSinceCreation|relativeTime} %}Created %duration% ago{% endtrans %}<br />
+                        {% set durationSinceLastJob = entity.durationSinceLastJob %}
+                        {% if (durationSinceLastJob) %}
+                            {% trans with {'%duration%': durationSinceLastJob|relativeTime} %}Idle for %duration%{% endtrans %}
+                        {% endif %}
+                    </p>
+                </td>
+
+                {% set toBillHours = entity.workedHours - entity.billedHours %}
+                <td class="number">{{ entity.estimation|hours }}</td>
+                <td class="number">{{ entity.workedHours|hours }}</td>
+                <td class="number">{{ entity.billedHours|hours }}</td>
+                <td class="number">{{ toBillHours|hours }}</td>
+                <td class="date">{% if entity.startedat %}{{ entity.startedat|date('Y-m-d') }}{% endif %}</td>
+                <td class="actions" style="width:180px;">
+                    <ul class="record_actions">
+                        <li>
+                            <a href="{{ path(show_route, { 'id_project': project.id, 'id': entity.id }) }}" class="show">{% trans %}show{% endtrans%}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path(edit_route, { 'id_project': project.id,  'id': entity.id }) }}" class="edit">{% trans %}edit{% endtrans%}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path(task_route, { 'id_project': project.id,  'id_part': entity.id }) }}" class="list">{% trans %}task list{% endtrans%}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <p>
+        <strong>{{ entities|length }} {% trans %}parts{% endtrans%}</strong>
+    </p>
+
+    {% include 'SGLFLTSBundle:Part:Common/list_actions.html.twig' with { 'project': project } %}
+
+{% endblock %}

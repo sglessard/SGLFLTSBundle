@@ -1,0 +1,56 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
+    <h3>{% trans %}Task{% endtrans %} : {{ task }}</h3>
+
+    <h4>Work list</h4>
+
+
+    {% include 'SGLFLTSBundle:Work:Common/list_actions.html.twig' with { 'project': project, 'part': part, 'task': task } %}
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{% trans %}Date{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Worked hours{% endtrans %}</th>
+                <th>{% trans %}Billed{% endtrans %}</th>
+                <th>{% trans %}Paid{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td class="date">{% if entity.workedat %}<a href="{{ path('sgl_flts_report_date',{'date': entity.workedat|date('Y-m-d')}) }}">{{ entity.workedat|date('Y-m-d') }}</a>{% endif %}</td>
+                <td class="string">{{ entity.name }}</td>
+                <td class="number">{{ entity.hours|hours }}</td>
+                <td class="boolean">{% if (entity.billed) %}{% trans %}Yes{% endtrans %} : {{ entity.bill.fullname }}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+                <td class="boolean">{% if (entity.paid) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
+                <td class="actions">
+                    <ul class="record_actions">
+                        <li>
+                            <a href="{{ path('sgl_flts_work_show', { 'id': entity.id, 'id_project': project.id,'id_part': part.id,'id_task': task.id }) }}" class="show">{% trans %}show{% endtrans %}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sgl_flts_work_edit', { 'id': entity.id, 'id_project': project.id,'id_part': part.id,'id_task': task.id }) }}" class="edit">{% trans %}edit{% endtrans %}</a>
+                        </li>
+
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>{{ entities|length }} {% trans %}works{% endtrans%}</strong>
+    </p>
+
+    {% include 'SGLFLTSBundle:Work:Common/list_actions.html.twig' with { 'project': project, 'part': part, 'task': task } %}
+
+{% endblock %}

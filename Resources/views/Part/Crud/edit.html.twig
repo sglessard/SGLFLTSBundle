@@ -1,0 +1,26 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% form_theme edit_form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
+
+{% set update_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_update': 'sgl_flts_part_update_all' %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
+
+    <h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>
+
+    <form action="{{ path(update_route, { 'id': part.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+
+        {{ form_widget(edit_form) }}
+
+        <div class="record_submit">
+            <input type="submit" class="create" value="{% trans %}Confirm edit{% endtrans%}" />
+        </div>
+    </form>
+
+    {% include 'SGLFLTSBundle:Part:Common/record_actions.html.twig' with { 'entity_name': 'part','entity': part } %}
+
+
+{% endblock %}

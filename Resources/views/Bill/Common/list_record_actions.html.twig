@@ -1,0 +1,17 @@
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('sgl_flts_bill_show', { 'id': entity.id }) }}" class="show">{% trans %}Show{% endtrans%}</a>
+    </li>
+    <li>
+        <a href="{{ path('sgl_flts_bill_edit', { 'id': entity.id }) }}" class="edit">{% trans %}Edit{% endtrans%}</a>
+    </li>
+    {% if (entity.sent == false) %}
+    <li>
+        <a href="{{ path('sgl_flts_bill_works', { 'id': entity.id }) }}" class="edit">{% trans %}Edit works{% endtrans%}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.id }) }}" class="pdf">{% trans %}Invoice{% endtrans%}</a>
+    </li>
+    {% endif %}
+</ul>

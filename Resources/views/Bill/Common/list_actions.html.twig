@@ -1,0 +1,8 @@
+{% set id_part = part is defined ? part.id : 0 %}
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('sgl_flts_bill_new',{'id_part': id_part}) }}" class="create">
+            {% trans with {'%entity_name%': 'bill'} %}Create a new %entity_name%{% endtrans%}
+        </a>
+    </li>
+</ul>

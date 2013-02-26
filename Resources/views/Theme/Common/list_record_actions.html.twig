@@ -1,0 +1,8 @@
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('sgl_flts_'~entity_name~'_show', { 'id': entity.id }) }}" class="show">{% trans %}show{% endtrans%}</a>
+    </li>
+    <li>
+        <a href="{{ path('sgl_flts_'~entity_name~'_edit', { 'id': entity.id }) }}" class="edit">{% trans %}edit{% endtrans%}</a>
+    </li>
+</ul>

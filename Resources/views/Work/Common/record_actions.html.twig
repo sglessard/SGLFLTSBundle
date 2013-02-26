@@ -1,0 +1,39 @@
+{% set action = getActionName(app.request.attributes)|lower %}
+
+<div class="record_actions_ctn">
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('sgl_flts_work', { 'id_project': project.id, 'id_part': part.id, 'id_task': task.id }) }}" class="list">
+                {% trans %}Back to the list (Cancel){% endtrans%}
+            </a>
+        </li>
+
+    {% if (action == 'show') %}
+        <li>
+           <a href="{{ path('sgl_flts_work_edit', { 'id_project': project.id, 'id_part': part.id, 'id_task': task.id, 'id': entity.id }) }}" class="edit">
+               {% trans %}Edit{% endtrans%}
+           </a>
+       </li>
+    {% endif %}
+
+    {% if (action == 'show' or action == 'edit') %}
+
+        <li>
+            <a href="{{ path('sgl_flts_report_date',{'date': entity.workedAt|date('Y-m-d')}) }}" class="date">{% trans %}Go to day report{% endtrans %}</a>
+        </li>
+        <li>
+            <a href="{{ path('sgl_flts_report_part',{'id_part': part.id}) }}" class="list">{% trans %}Go to project part report{% endtrans %}</a>
+        </li>
+
+        {% if (entity.billed) %}
+        <li>
+            <a href="{{ path('sgl_flts_bill_works',{'id': entity.bill.id}) }}" class="list">{% trans %}Go to bill works{% endtrans %}</a>
+        </li>
+        {% endif %}
+
+        {% include 'SGLFLTSBundle:Work:Common/record_action_delete.html.twig' with { 'project': project, 'part': part, 'task': task, 'entity': entity } %}
+    {% endif %}
+
+    </ul>
+</div>

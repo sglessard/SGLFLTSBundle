@@ -1,0 +1,29 @@
+<table id="bill-body-content">
+    <thead>
+        <tr>
+            <th>{% trans %}Tasks{% endtrans %}</th>
+            <th>{% trans %}Hours{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in part.tasks %}
+        <tr>
+            <td style="vertical-align:top;">
+                <h3>{{ task }}</h3>
+                <ul>
+                    <li>a</li>
+                </ul>
+            </td>
+            <td style="vertical-align:top;">
+                <strong>{{ task.workedHours(bill) }}</strong>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><h3>{% trans %}Total hours{% endtrans %}</h3></td>
+            <td><strong>{{ bill.hours }}</strong></td>
+        </tr>
+    </tfoot>
+</table>

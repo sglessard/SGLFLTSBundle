@@ -1,0 +1,50 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    {% set total = 0 %}
+    <h1>{% trans %}Project list{% endtrans%}</h1>
+
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Theme:Common/list_actions.html.twig' with { 'entity_name': 'project' } %}
+    </div>
+
+    {% for client in clients %}
+        {% if client.projects|length %}
+
+            {% set total = total + client.projects|length %}
+
+            <h2>{{ client }}</h2>
+            <table class="records_list" style="width:760px;">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Identification{% endtrans%}</th>
+                        <th>{% trans %}Name{% endtrans%}</th>
+                        <th>{% trans %}Updated at{% endtrans%}</th>
+                        <th>{% trans %}Actions{% endtrans%}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for entity in client.projects %}
+                    <tr>
+                        <td class="string {% if (entity.closed) %}closed{% endif %}">{{ entity.identification }}</td>
+                        <td class="string {% if (entity.closed) %}closed{% endif %}">{{ entity.name }}</td>
+                        <td class="date {% if (entity.closed) %}closed{% endif %}">{% if entity.updatedat %}{{ entity.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td class="actions">
+                            {% include 'SGLFLTSBundle:Project:Common/list_record_actions.html.twig' with { 'entity_name': 'project','entity': entity } %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endfor %}
+    
+    <p>
+        <strong>{{ total }} {% trans %}opened projects{% endtrans%}</strong>
+    </p>
+    
+    <div class="actions">
+        {% include 'SGLFLTSBundle:Theme:Common/list_actions.html.twig' with { 'entity_name': 'project' } %}
+    </div>
+{% endblock %}

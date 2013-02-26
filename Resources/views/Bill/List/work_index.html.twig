@@ -1,0 +1,108 @@
+{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block content %}
+
+    <h2>{{ part.fullname }}</h2>
+    <h1>{% trans %}Bill works{% endtrans %}</h1>
+
+    <p>{% trans %}To add or remove works from bill{% endtrans %} :
+    <ol>
+        <li>{% trans %}Select the bill{% endtrans %}</li>
+        <li>{% trans %}Check/uncheck the work checkbox{% endtrans %}</li>
+    </ol>
+
+    {% if (part) %}
+
+        <form id="bills_form" action="" method="post">
+            {{ form_widget(bills_form) }}
+            <button type="submit" class="search">{% trans %}Select{% endtrans%}</button>
+        </form>
+<script type="text/javascript">
+$('#bills_form').change(function() {
+    $(this).submit();
+}).submit(function() {
+    var action = '{{ path('sgl_flts_bill_works',{'id': -1 }) }}';
+    action = action.replace(/\-1/,$('#form_bill').val());
+    $(this).attr('action',action);
+    return true;
+});
+
+var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_work/bill/') + $('#form_bill').val();
+
+</script>
+
+        {% set works_count = 0 %}
+
+        {% for task in tasks %}
+
+            {% if (task.works|length) %}
+
+            {% set works_count = works_count + task.works|length %}
+
+            <h3>{{ task }}</h3>
+
+            <table class="records_list">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Date{% endtrans %}</th>
+                        <th>{% trans %}Hours{% endtrans %}</th>
+                        <th>{% trans %}Work{% endtrans %}</th>
+                        <th>{% trans %}Bill{% endtrans %}</th>
+                        <th>{% trans %}Add/remove{% endtrans %}</th>
+                        <th>{% trans %}Paid{% endtrans %}</th>
+                        <th>{% trans %}Actions{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for work in task.works %}
+                        <tr>
+                            <td class="date">
+                                <a href="{{ path('sgl_flts_report_date',{'date': work.workedAt|date('Y-m-d') }) }}">{{ work.workedAt|date('Y-m-d') }}</a>
+                            </td>
+                            <td class="number">{{ work.hours|hours }}</td>
+                            <td class="string">
+                                <span class="task-ident">{{ task.identification }}</span>
+                                <a href="{{ path('sgl_flts_work_edit',{'id_project': part.project.id, 'id_part': part.id, 'id_task': task.id, 'id': work.id }) }}">{{ work }}</a>
+                                {% if (work.description) %}
+                                    <p>{{ work.description }}</p>
+                                {% endif %}
+                            </td>
+                            <td class="string bill">
+                                {% if (work.billed) %}
+                                    <a href="{{ path('sgl_flts_bill_edit',{'id': work.bill.id }) }}">{{ work.bill.fullname }}</a>
+                                {% endif %}
+                            </td>
+                            <td class="checkbox">
+                                {% if not work.paid and not work.sent %}
+                                    <input type="checkbox" class="chk_billed" name="billed[{{ work.id }}]" id="billed_{{ work.id }}" {% if (work.billed) %}checked="checked"{% endif %}/>
+                                {% else %}
+                                    {% trans %}Bill sent{% endtrans %}
+                                {% endif %}
+                            </td>
+                            <td class="boolean">
+                                {% if (work.paid) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}
+                            </td>
+
+                            <td class="actions">
+                                <ul class="record_actions">
+                                    <li>
+                                        <a href="{{ path('sgl_flts_work_show', { 'id': work.id, 'id_project': project.id,'id_part': work.task.part.id,'id_task': work.task.id }) }}" class="show">{% trans %}Show{% endtrans %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('sgl_flts_work_edit', { 'id': work.id, 'id_project': project.id,'id_part': work.task.part.id,'id_task': work.task.id }) }}" class="edit">{% trans %}Edit{% endtrans %}</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        {% endfor %}
+
+        {% include 'SGLFLTSBundle:Bill:Common/record_actions.html.twig' with { 'entity': bill, 'part': bill.part } %}
+
+    {% endif %}
+
+{% endblock %}
