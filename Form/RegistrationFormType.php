@@ -22,6 +22,12 @@ class RegistrationFormType extends BaseType
 
         $builder->add('firstName');
         $builder->add('lastName');
+        $builder->add('roles', 'choice', array(
+            'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN (First user has to be admin)'),
+            'multiple' => true,
+            'required' => true,
+            'expanded' => true,
+        ));
     }
 
     public function getName()

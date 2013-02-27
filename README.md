@@ -36,10 +36,20 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
     1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
     1.4 [TinyMCE](http://www.tinymce.com/)
 
-3. Add an admin user  
+3. Add an admin user via FOSUserBundle registration
    Browse "http://.../register"
+   Check role 'ROLE_ADMIN'
 
-4. Disable route @fos\_user\_register (app/config/routing.yml) to avoid anonymous registration
+4. Remove anonymous registration access
+   FLTS has a User crud
+
+    ``` yaml
+
+        # security.yml
+        access_control: {
+            - { path: ^/register, role: ROLE_ADMIN }
+        }
+    ```
 
 5. After logging, create frequent tasks
 
@@ -56,8 +66,8 @@ _Example_:
     sgl_flts.business_name:                   "Symfony dev4fun"
     sgl_flts.business_logo_src:               "/bundles/myFltsExtended/images/logos/sgl.png"
     sgl_flts.business_logo_width:             284
-    sgl_flts.business_invoice_logo_src:       \%sgl_flts.business_logo_src%
-    sgl_flts.business_invoice_logo_width:     \%sgl_flts.business_logo_width%
+    sgl_flts.business_invoice_logo_src:       %sgl_flts.business_logo_src%
+    sgl_flts.business_invoice_logo_width:     %sgl_flts.business_logo_width%
     sgl_flts.business_address:                "30, rue de la Visitation\nSaint-Charles-Borromée, Québec\J6E 4M8"
     sgl_flts.business_phone:                  "457 059-1113"
 
