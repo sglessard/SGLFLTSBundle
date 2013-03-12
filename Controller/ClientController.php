@@ -36,7 +36,7 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SGLFLTSBundle:Client')->findAll();
+        $entities = $em->getRepository('SGLFLTSBundle:Client')->retrieve();
 
         return array(
             'entities' => $entities,
