@@ -20,7 +20,16 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## Installation
 
-1. Download using [composer](http://getcomposer.org)  
+1. Install symfony/framework-standard-edition 2.1.*
+
+2. Install FLTS requirements  
+   (using composer, see composer.json example at bottom)  
+   
+    1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
+    1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
+    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
+
+3. Install FLTS using [composer](http://getcomposer.org)
 
     ``` yaml  
     
@@ -30,18 +39,51 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
         }  
     ```
 
-2. Installation requirements  
-    1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
-    1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
-    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
-    1.4 [TinyMCE](http://www.tinymce.com/)
+4. Enable FLTS and requirements bundles  
 
-3. Add an admin user via FOSUserBundle registration
-   Browse "http://.../register"
+    ``` php  
+        
+        # AppKernel.php
+        
+        $bundles = array(
+            # [...]
+            
+            new FOS\UserBundle\FOSUserBundle(),
+            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new SGL\FLTSBundle\SGLFLTSBundle(),
+    ```
+
+5. Add required parameters (_parameters.yml_), config (_config.yml_) and routing (_routing.yml_)  
+   See examples at bottom  
+
+6. Install third-party helpers  
+   Hint : you can extend FLTS bundle in your project and install those libraries inside.
+
+    6.1 [TinyMCE](http://www.tinymce.com/)  
+    6.2 [JQuery](http://jquery.com/download/)  
+    6.3 [JQuery UI](http://jqueryui.com/download/)  
+
+7. Edit firewall and security (security.yml)  
+   See security.yml example at bottom  
+
+8. Update your database  
+   app/console doctrine:schema:update --dump-sql  
+   app/console doctrine:schema:update --force  
+
+9. Dump assets  
+   app/console assets:install web --symlink  
+   app/console --env=prod assetic:dump
+   app/console --env=dev assetic:dump
+
+
+10. Add an admin user  
+   Browse "http://.../register"  
    Check role 'ROLE_ADMIN'
 
-4. Remove anonymous registration access
-   FLTS has a User crud
+11. After creating your first admin user, remove anonymous registration access  
+    (FLTS has an User crud)  
+    You can also remove registration routes (routing.yml)  
 
     ``` yaml
 
@@ -51,21 +93,21 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
         }
     ```
 
-5. After logging, create frequent tasks
+12. After logging, create new clients, your frequent tasks, etc.
 
 
+## Configurations Examples
 
-## Parameters
-_Example_:
+### Parameters  
 
 ``` yaml
 
-    # parameters.yml  
+    # app/config/parameters.yml  
     
     # SGL FLTS params
     sgl_flts.business_name:                   "Symfony dev4fun"
-    sgl_flts.business_logo_src:               "/bundles/myFltsExtended/images/logos/sgl.png"
-    sgl_flts.business_logo_width:             284
+    sgl_flts.business_logo_src:               ~ # Ex.: "/bundles/myFltsExtended/images/logos/sgl.png"
+    sgl_flts.business_logo_width:             ~
     sgl_flts.business_invoice_logo_src:       %sgl_flts.business_logo_src%
     sgl_flts.business_invoice_logo_width:     %sgl_flts.business_logo_width%
     sgl_flts.business_address:                "30, rue de la Visitation\nSaint-Charles-Borromée, Québec\J6E 4M8"
@@ -99,12 +141,25 @@ _Example_:
 
 ```
 
-## Config
-_Example_ :
+### Config  
 
 ``` yaml
 
-    # config.yml  
+    # app/config/config.yml  
+    
+    # Notes
+    # You can comment the assetic.bundles array config to avoid adding bundles in it.
+    assetic:
+        #bundles:        [ ]
+    
+    # Twig global variables
+    twig:
+        debug:            %kernel.debug%
+        strict_variables: %kernel.debug%
+        globals:
+            business_name:       %sgl_flts.business_name%
+            business_logo_src:   %sgl_flts.business_logo_src%
+            business_logo_width: %sgl_flts.business_logo_width%
     
     # FOS conf
     fos_user:
@@ -156,8 +211,139 @@ _Example_ :
                 - [ setDefaultHst, [%sgl_flts.tax_hst%] ]
 ```
 
+
+### Routing  
+
+``` yaml
+
+    # app/config/routing.yml  
+    
+    homepage:
+        resource: "@SGLFLTSBundle/Resources/config/routing/home.yml"
+        prefix:   /
+    
+    sgl_flts:
+        resource: "@SGLFLTSBundle/Resources/config/routing/flts.yml"
+        prefix:   /timesheet
+    
+    fos_user_security:
+        resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    
+    fos_user_profile:
+        resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+        prefix: /profile
+    
+    fos_user_resetting:
+        resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+        prefix: /resetting
+    
+    fos_user_change_password:
+        resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+        prefix: /profile
+    
+    fos_user_registration:
+        resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+        prefix: /register
+    
+    genemu_image:
+        resource: "@GenemuFormBundle/Resources/config/routing/image.xml"
+```
+
+### Security  
+
+``` yaml
+
+    # app/config/security.yml
+
+    jms_security_extra:
+        secure_all_services: false
+        expressions: true
+    
+    security:
+        encoders:
+            FOS\UserBundle\Model\UserInterface: sha512
+    
+        providers:
+            fos_userbundle:
+                id: fos_user.user_provider.username
+    
+        firewalls:
+            main:
+                pattern: ^/
+                form_login:
+                    provider: fos_userbundle    # See providers
+                    csrf_provider: form.csrf_provider
+                    default_target_path: /timesheet/dashboard
+    
+                logout:       true
+                anonymous:    true
+            dev:
+                pattern:  ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+    
+            login:
+                pattern:  ^/login$
+                security: false
+    
+                #anonymous: ~
+                #http_basic:
+                #    realm: "Secured Demo Area"
+    
+        role_hierarchy:
+            ROLE_USER:        ~
+            ROLE_BILL:        ROLE_USER   # Bill user has user roles
+            ROLE_ADMIN:       ROLE_BILL   # Admin user has bill and user roles
+            ROLE_SUPER_ADMIN: ROLE_ADMIN  # Super admin has admin, bill and user roles
+    
+        access_control:
+            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    
+            - { path: ^/register, role: ROLE_ADMIN }
+            - { path: ^/profile, role: ROLE_ADMIN }
+    
+            - { path: ^/timesheet/invoices, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }  # Used by wkhtmltopdf locally
+            - { path: ^/timesheet/clients, role: ROLE_ADMIN }
+            - { path: ^/timesheet/projects, role: ROLE_ADMIN }
+            - { path: ^/timesheet/bills, role: ROLE_BILL }
+            - { path: ^/timesheet/tasks/frequent, role: ROLE_ADMIN }
+            - { path: ^/timesheet/users, role: ROLE_ADMIN }
+            - { path: ^/timesheet/dashboard, role: ROLE_USER }
+    
+            - { path: ^/timesheet, role: ROLE_USER }
+    
+            - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+```
+
+
+### composer.json  
+
+``` yaml
+
+    # composer.json
+
+    {
+        # [...]
+
+        "require": {
+
+            # [...]
+
+            "Friendsofsymfony/user-bundle": "*",
+            "genemu/form-bundle": "2.1.*",
+            "knplabs/knp-snappy-bundle": "dev-master",
+            "sgl/flts-bundle": "dev-master"
+        },
+
+        # [...]
+    }
+```
+
+
 ## TODO
 
+ - Rate crud
  - Recent projects quick menu
  - Multiuser has not been tested
  - Theme CSS cleanup
