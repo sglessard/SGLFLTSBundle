@@ -43,6 +43,11 @@ sgl_flts_dashboard:
     type:     annotation
     prefix:   /dashboard
 
+sgl_flts_rate:
+    resource: "@SGLFLTSBundle/Controller/RateController.php"
+    type:     annotation
+    prefix:   /rates
+
 sgl_flts_client:
     resource: "@SGLFLTSBundle/Controller/ClientController.php"
     type:     annotation

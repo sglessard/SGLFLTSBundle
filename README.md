@@ -73,7 +73,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 9. Dump assets  
    app/console assets:install web --symlink  
-   app/console --env=prod assetic:dump
+   app/console --env=prod assetic:dump  
    app/console --env=dev assetic:dump
 
 
@@ -110,7 +110,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
     sgl_flts.business_logo_width:             ~
     sgl_flts.business_invoice_logo_src:       %sgl_flts.business_logo_src%
     sgl_flts.business_invoice_logo_width:     %sgl_flts.business_logo_width%
-    sgl_flts.business_address:                "30, rue de la Visitation\nSaint-Charles-Borromée, Québec\J6E 4M8"
+    sgl_flts.business_address:                "30, rue de la Visitation\nSaint-Charles-Borromée, Québec\nJ6E 4M8"
     sgl_flts.business_phone:                  "457 059-1113"
 
     sgl_flts.tax_class:                       SGL\FLTSBundle\Util\Tax\CanadaTax
@@ -343,7 +343,6 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## TODO
 
- - Rate crud
  - Recent projects quick menu
  - Multiuser has not been tested
  - Theme CSS cleanup

@@ -174,18 +174,19 @@ class Rate
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      */
     public function prePersist() {
-        $this->createdAt = new \DateTime;
-        $this->updatedAt = new \DateTime;
+
+        $this->created_at = new \DateTime;
+        $this->updated_at = new \DateTime;
     }
 
     /**
-     * @ORM\preUpdate
+     * @ORM\PreUpdate
      */
     public function preUpdate() {
-        $this->updatedAt = new \DateTime;
+        $this->updated_at = new \DateTime;
     }
 
 }
