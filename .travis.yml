@@ -1,0 +1,11 @@
+language: php
+php:
+  - 5.4
+  - 5.3
+
+env:
+  - SYMFONY_VERSION="2.1.*" DB=mysql
+  - SYMFONY_VERSION="dev-master" DB=mysql
+
+before_script:
+  - composer require symfony/framework-bundle:${SYMFONY_VERSION}
