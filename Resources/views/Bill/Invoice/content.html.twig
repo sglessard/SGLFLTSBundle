@@ -50,7 +50,7 @@
                                 </tr>
                                 <tr>
                                     <th>{% trans %}Date{% endtrans %}</th>
-                                    <td>{{ bill.billedAt|date('Y-m-d') }}</td>
+                                    <td>{{ part.startedAt|date('F jS Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% trans %}Person in charge{% endtrans %}</th>
@@ -62,7 +62,7 @@
                                 </tr>
                                 <tr>
                                     <th>{% trans %}Description{% endtrans %}</th>
-                                    <td>{{ bill.description|raw }}</td>
+                                    <td>{{ bill.description|raw|nl2br }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -171,7 +171,7 @@
     <script type="text/javascript">
         // Aesthetics
         // Max #bill-body-content>tbody height to fit in one page
-        var max_tbody_height = 530;
+        var max_tbody_height = 500;
 
         var current_tbody_height = 0;
         $('#bill-body-content tbody tr').each(function() {

@@ -151,7 +151,8 @@ table#bill-body-content ul li {
     line-height:14px;
 }
 table#bill-body-content strong {
-    font-size:12px;
+    font-size:13px;
+    font-weight:bold;
 }
 
 table#bill-body-content tfoot tr:last-child td {
