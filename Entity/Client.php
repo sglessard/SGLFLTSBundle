@@ -53,7 +53,7 @@ class Client
      * @Assert\Image(
      *     minWidth = 50,
      *     maxWidth = 230,
-     *     minHeight = 50,
+     *     minHeight = 30,
      *     maxHeight = 125
      * )
      */
@@ -415,7 +415,7 @@ class Client
 
     protected function getUploadRootDir()
     {
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__.'/../../../../../../web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir()
