@@ -388,7 +388,7 @@ class PartController extends Controller
      *
      * @Template("SGLFLTSBundle:Part:Form/selection.html.twig")
      */
-    public function selectionAction(Request $request, $part=null, $redirect_route=null, $redirect_error=null, $opened_only=false)
+    public function selectionAction(Request $request, $part=null, $redirect_route=null, $redirect_error=null, $opened_only=true)
     {
 
         $em = $this->getDoctrine()->getManager();
