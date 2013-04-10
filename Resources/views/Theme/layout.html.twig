@@ -1,12 +1,1 @@
 {% extends 'SGLFLTSBundle:Theme:baselayout.html.twig' %}
-
-{% block content %}
-    {% if (form is defined) %}
-        {{ form_javascript(form) }}
-        {{ form_stylesheet(form) }}
-    {% endif %}
-    {% if (edit_form is defined) %}
-        {{ form_javascript(edit_form) }}
-        {{ form_stylesheet(edit_form) }}
-    {% endif %}
-{% endblock %}

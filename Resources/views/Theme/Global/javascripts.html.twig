@@ -11,3 +11,9 @@
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
+{% if (form is defined) %}
+    {{ form_javascript(form) }}
+{% elseif (edit_form is defined) %}
+    {{ form_javascript(edit_form) }}
+{% endif %}

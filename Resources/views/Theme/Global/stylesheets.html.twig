@@ -6,3 +6,9 @@
 %}
 <link rel="stylesheet" type="text/css" media="all" href="{{ asset_url }}" />
 {% endstylesheets %}
+
+{% if (form is defined) %}
+    {{ form_stylesheet(form) }}
+{% elseif (edit_form is defined) %}
+    {{ form_stylesheet(edit_form) }}
+{% endif %}
