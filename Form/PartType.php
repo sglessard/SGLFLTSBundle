@@ -22,6 +22,13 @@ class PartType extends AbstractType
         $client = $options['client'];
 
         $builder
+            ->add('project','entity',array(
+                'class'    => 'SGLFLTSBundle:Project',
+                'property' => 'fullname',
+                'query_builder' => function (\SGL\FLTSBundle\Entity\ProjectRepository $er) use ($client) {
+                    return $er->retrieve(true)->where('p.client = :id_client')->setParameter('id_client', $client->getId());
+                }
+            ))
             ->add('po')
             ->add('identification',null,array('required' => false))
             ->add('name')
@@ -33,13 +40,6 @@ class PartType extends AbstractType
                 'required' => false,
                 'widget' => 'single_text'
             ))
-            ->add('project','entity',array(
-                'class'    => 'SGLFLTSBundle:Project',
-                'property' => 'fullname',
-                'query_builder' => function (\SGL\FLTSBundle\Entity\ProjectRepository $er) use ($client) {
-                        return $er->retrieve(true)->where('p.client = :id_client')->setParameter('id_client', $client->getId());
-                    }
-                ))
            ;
     }
 
