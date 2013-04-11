@@ -2,13 +2,13 @@
 
 {% block content %}
 
-    <h1>Bills by opened project part</h1>
+    <h1>{% trans %}flts.bill.Bills by opened project part{% endtrans %}</h1>
     {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'opened_only': true, 'redirect_error': 'sgl_flts_bill'} %}
 
-    <h1>Bills by project part (all)</h1>
+    <h1>{% trans %}flts.bill.Bills by project part (all){% endtrans %}</h1>
     {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'redirect_error': 'sgl_flts_bill' } %}
 
-    <h1>{% trans %}Latest bills{% endtrans%}</h1>
+    <h1>{% trans %}flts.bill.Latest bills{% endtrans%}</h1>
 
     <div class="actions">
         {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'entity_name': 'bill' } %}

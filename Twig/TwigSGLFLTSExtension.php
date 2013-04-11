@@ -22,6 +22,7 @@ class TwigSGLFLTSExtension extends \Twig_Extension
             'relativeTime' => new \Twig_Filter_Method($this, 'twig_relative_time_filter'),
             'truncate' => new \Twig_Filter_Method($this,'twig_truncate_filter', array('needs_environment' => true)),
             'substring' => new \Twig_Filter_Method($this, 'twig_substring_filter', array('needs_environment' => true)),
+            'localizeddate' => new \Twig_Filter_Method($this, 'twig_localized_date_filter', array('needs_environment' => true))
         );
     }
 
@@ -125,6 +126,42 @@ class TwigSGLFLTSExtension extends \Twig_Extension
         preg_match($pattern, $request_attributes->get("_controller"), $matches);
 
         return $matches[1];
+    }
+
+    /*
+     * This method is part of Twig.
+     *
+     * (c) 2010 Fabien Potencier
+     *
+     * For the full copyright and license information, please view the LICENSE
+     * file that was distributed with this source code.
+     */
+    public function twig_localized_date_filter(\Twig_Environment $env, $date, $dateFormat = 'medium', $timeFormat = 'medium', $locale = null, $timezone = null, $format = null)
+    {
+        if (!class_exists('IntlDateFormatter')) {
+            throw new \RuntimeException('The intl extension is needed to use intl-based filters.');
+        }
+
+        $date = twig_date_converter($env, $date, $timezone);
+
+         $formatValues = array(
+             'none'   => \IntlDateFormatter::NONE,
+             'short'  => \IntlDateFormatter::SHORT,
+             'medium' => \IntlDateFormatter::MEDIUM,
+             'long'   => \IntlDateFormatter::LONG,
+             'full'   => \IntlDateFormatter::FULL,
+         );
+
+         $formatter = \IntlDateFormatter::create(
+             $locale !== null ? $locale : \Locale::getDefault(),
+             $formatValues[$dateFormat],
+             $formatValues[$timeFormat],
+             $date->getTimezone()->getName(),
+             \IntlDateFormatter::GREGORIAN,
+             $format
+         );
+
+         return $formatter->format($date->getTimestamp());
     }
 
     public function getName()

@@ -1,0 +1,35 @@
+flts:
+    global:
+        Recent projects: Recent projects
+
+    bill:
+        Bills by opened project part: Bills by opened project part
+        Bills by project part (all): Bills by project part (all)
+        Latest bills: Latest bills
+
+        invoice:
+            Address: Address
+            Phone: Phone
+            Bill to: Bill to
+            Purchase order: Purchase order
+            Number: Number
+            Date: Date
+            Person in charge: Person in charge
+            Project: Project
+            Description: Description
+            Details: Details
+            Tasks: Tasks
+            Hours: Hours
+            Total hours: Total hours
+            Hourly rate: Hourly rate
+            Subtotal (before tax): Subtotal (before tax)
+            GST: GST
+            PST: PST
+            HST: HST
+            Invoice date: Invoice date
+            Invoice number: Invoice number
+            GST Number: GST Number
+            PST Number: PST Number
+            HST Number: HST Number
+            Total: Total
+            Payment is due within 30 days upon receipt: Payment is due within 30 days upon receipt.

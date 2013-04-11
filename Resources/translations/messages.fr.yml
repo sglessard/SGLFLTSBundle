@@ -1,0 +1,35 @@
+flts:
+    global:
+        Recent projects: Projets récents
+
+    bill:
+        Bills by opened project part: Liste des factures (parties de projet ouvertes)
+        Bills by project part (all): Liste des factures (toutes les parties de projet)
+        Latest bills: Dernières factures
+
+        invoice:
+            Address: Adresse
+            Phone: Téléphone
+            Bill to: Facturé à
+            Purchase order: Bon de commande
+            Number: Numéro
+            Date: Date
+            Person in charge: Responsable
+            Project: Dossier
+            Description: Description
+            Details: Détails
+            Tasks: Tâches
+            Hours: Heures
+            Total hours: Temps total
+            Hourly rate: Taux horaire
+            Subtotal (before tax): Montant (avant taxes)
+            GST: TPS
+            PST: TVQ
+            HST: HST
+            Invoice date: Date de facturation
+            Invoice number: Nº de facturation
+            GST Number: Nº TPS
+            PST Number: Nº TVQ
+            HST Number: Nº HST
+            Total: Total
+            Payment is due within 30 days upon receipt: Payable dans les 30 jours suivant la date de réception. Merci.

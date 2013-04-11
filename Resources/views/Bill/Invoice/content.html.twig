@@ -17,11 +17,11 @@
             <table>
                 <tbody>
                     <tr>
-                        <th width="25%">{% trans %}Address{% endtrans %}</th>
+                        <th width="25%">{% trans %}flts.bill.invoice.Address{% endtrans %}</th>
                         <td width="75%">{{ business_address|nl2br }}</td>
                     </tr>
                     <tr>
-                        <th>{% trans %}Phone{% endtrans %}</th>
+                        <th>{% trans %}flts.bill.invoice.Phone{% endtrans %}</th>
                         <td>{{ business_phone|nl2br }}</td>
                     </tr>
                 </tbody>
@@ -31,8 +31,8 @@
         <table id="project">
             <thead>
                 <tr>
-                    <th>{% trans %}Bill to{% endtrans %}</th>
-                    <th>{% trans %}Purchase order{% endtrans %}</th>
+                    <th>{% trans %}flts.bill.invoice.Bill to{% endtrans %}</th>
+                    <th>{% trans %}flts.bill.invoice.Purchase order{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,26 +44,32 @@
                     <td id="purchase-order">
                         <table>
                             <tbody>
+                            {% if (part.po) %}
                                 <tr>
-                                    <th width="90">{% trans %}Number{% endtrans %}</th>
+                                    <th>{% trans %}flts.bill.invoice.Number{% endtrans %}</th>
                                     <td>{{ part.po }}</td>
                                 </tr>
+                            {% endif %}
                                 <tr>
-                                    <th>{% trans %}Date{% endtrans %}</th>
-                                    <td>{{ part.startedAt|date('F jS Y') }}</td>
+                                    <th>{% trans %}flts.bill.invoice.Date{% endtrans %}</th>
+                                    <td>{{ part.startedAt|localizeddate('long', 'none', locale)  }}</td>
                                 </tr>
+                            {% if (client.contactName) %}
                                 <tr>
-                                    <th>{% trans %}Person in charge{% endtrans %}</th>
+                                    <th>{% trans %}flts.bill.invoice.Person in charge{% endtrans %}</th>
                                     <td>{{ client.contactName }}</td>
                                 </tr>
+                            {% endif %}
                                 <tr>
-                                    <th>{% trans %}Project{% endtrans %}</th>
+                                    <th>{% trans %}flts.bill.invoice.Project{% endtrans %}</th>
                                     <td>{{ project }}</td>
                                 </tr>
+                            {% if (bill.description) %}
                                 <tr>
-                                    <th>{% trans %}Description{% endtrans %}</th>
+                                    <th>{% trans %}flts.bill.invoice.Description{% endtrans %}</th>
                                     <td>{{ bill.description|raw|nl2br }}</td>
                                 </tr>
+                            {% endif %}
                             </tbody>
                         </table>
                     </td>
@@ -71,36 +77,36 @@
             </tbody>
         </table>
 
-        <div id="task-details">{% trans %}Details{% endtrans %}</div>
+        <div id="task-details">{% trans %}flts.bill.invoice.Details{% endtrans %}</div>
 
         {{ bill.bodyContent|raw }}
 
         <table id="subtotal">
             <tbody>
                 <tr>
-                    <td><strong>{% trans %}Hourly rate{% endtrans %}</strong></td>
+                    <td><strong>{% trans %}flts.bill.invoice.Hourly rate{% endtrans %}</strong></td>
                     <td width="70"><strong>{{ bill.rate.rate|price}}</strong></td>
                 </tr>
                 <tr>
-                    <td>{% trans %}Subtotal (before tax){% endtrans %}</td>
+                    <td>{% trans %}flts.bill.invoice.Subtotal (before tax){% endtrans %}</td>
                     <td>{{ bill.worksAndExtraHoursSubtotal|price }}</td>
                 </tr>
         {% if (bill.taxable) %}
             {% if (bill.gst) %}
                 <tr>
-                    <td>{% trans %}GST{% endtrans %} ({{ bill.gst|trim('.0') }} %)</td>
+                    <td>{% trans %}flts.bill.invoice.GST{% endtrans %} ({{ bill.gst|trim('.0') }} %)</td>
                     <td>{{ bill.gstFees|price }}</td>
                 </tr>
             {% endif %}
             {% if (bill.pst) %}
                 <tr>
-                    <td>{% trans %}PST{% endtrans %} ({{ bill.pst|trim('.0') }} %)</td>
+                    <td>{% trans %}flts.bill.invoice.PST{% endtrans %} ({{ bill.pst|trim('.0') }} %)</td>
                     <td>{{ bill.pstFees|price }}</td>
                 </tr>
             {% endif %}
             {% if (bill.hst) %}
                 <tr>
-                    <td>{% trans %}HST{% endtrans %} ({{ bill.hst|trim('.0') }} %)</td>
+                    <td>{% trans %}flts.bill.invoice.HST{% endtrans %} ({{ bill.hst|trim('.0') }} %)</td>
                     <td>{{ bill.hstFees|price }}</td>
                 </tr>
             {% endif %}
@@ -113,14 +119,14 @@
                 <tbody>
                     <tr>
                         <td width="220">
-                            <table id="invoice-date" width="140">
+                            <table id="invoice-date" width="180">
                                 <tbody>
                                     <tr>
-                                        <th>{% trans %}Invoice date{% endtrans %}</th>
+                                        <th>{% trans %}flts.bill.invoice.Invoice date{% endtrans %}</th>
                                         <td><strong>{{ bill.billedAt|date('Y-m-d') }}</strong></td>
                                     </tr>
                                     <tr>
-                                        <th>{% trans %}Invoice number{% endtrans %}</th>
+                                        <th>{% trans %}flts.bill.invoice.Invoice number{% endtrans %}</th>
                                         <td><strong>{{ bill.number }}</strong></td>
                                     </tr>
                                 </tbody>
@@ -132,19 +138,19 @@
                                 <tbody>
                                     {% if (bill.gst) %}
                                     <tr>
-                                        <th>{% trans %}GST Number{% endtrans %}</th>
+                                        <th>{% trans %}flts.bill.invoice.GST Number{% endtrans %}</th>
                                         <td>{{ gst_registration_number }}</td>
                                     </tr>
                                     {% endif %}
                                     {% if (bill.pst) %}
                                     <tr>
-                                        <th>{% trans %}PST Number{% endtrans %}</th>
+                                        <th>{% trans %}flts.bill.invoice.PST Number{% endtrans %}</th>
                                         <td>{{ pst_registration_number }}</td>
                                     </tr>
                                     {% endif %}
                                     {% if (bill.hst) %}
                                     <tr>
-                                        <th>{% trans %}HST Number{% endtrans %}</th>
+                                        <th>{% trans %}flts.bill.invoice.HST Number{% endtrans %}</th>
                                         <td>{{ hst_registration_number }}</td>
                                     </tr>
                                     {% endif %}
@@ -156,7 +162,7 @@
                             <table id="total" width="190">
                                 <tbody>
                                     <tr>
-                                        <td><strong>{% trans %}Total{% endtrans %}</strong></td>
+                                        <td><strong>{% trans %}flts.bill.invoice.Total{% endtrans %}</strong></td>
                                         <td width="70"><strong>{{ bill.total|price }}</strong></td>
                                     </tr>
                                 </tbody>
@@ -165,7 +171,7 @@
                     </tr>
                 </tbody>
             </table>
-
+        <p id="footernotes">{% trans %}flts.bill.invoice.Payment is due within 30 days upon receipt{% endtrans %}</p>
         </footer>
     </div>
     <script type="text/javascript">
