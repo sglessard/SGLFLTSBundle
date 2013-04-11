@@ -41,11 +41,12 @@ body#invoice header table {
 
 body#invoice table#project {
     width:100%;
+    height: 170px;
 }
 body#invoice table thead th,
 #task-details {
     color:#000000;
-    font-size:11px;
+    font-size:10px;
     padding-bottom:4px;
     border-bottom:2px solid #eeedeb;
 }
@@ -53,6 +54,11 @@ body#invoice table thead th,
 body#invoice #purchase-order {
     padding-top:10px;
     padding-bottom:0;
+}
+
+body#invoice #purchase-order th {
+    padding-right:10px;
+    white-space:nowrap;
 }
 
 body#invoice #client {
@@ -82,7 +88,7 @@ body#invoice #subtotal {
     font-size:11px;
 }
 body#invoice #subtotal td {
-    padding: 5px 7px 5px 5px;
+    padding: 5px 7px 3px 5px;
 }
 body#invoice #subtotal strong {
     font-size:12px;
@@ -158,4 +164,10 @@ table#bill-body-content strong {
 table#bill-body-content tfoot tr:last-child td {
     padding-top:50px;
     vertical-align: bottom;
+}
+
+#footernotes {
+    font-size:10px;
+    margin:10px 0 0;
+    padding:0;
 }
