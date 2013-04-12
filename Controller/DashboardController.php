@@ -28,6 +28,14 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $em = $this->getDoctrine()->getManager();
+
+        $lastest_work = $em->getRepository('SGLFLTSBundle:Work')->retrieveLatest();
+        $latest_bills = $em->getRepository('SGLFLTSBundle:Bill')->retrieveFixedLatest(5);
+
+        return array(
+            'lastest_work'=>$lastest_work,
+            'latest_bills'=>$latest_bills
+        );
     }
 }

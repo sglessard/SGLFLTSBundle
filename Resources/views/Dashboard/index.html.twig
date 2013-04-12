@@ -1,41 +1,54 @@
 {% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
 
 {% block content %}
-<p>
-    Hey {{ app.user.fullname }}
-    {% if (app.user.lastlogin) %}
-        <br />Your last login was {{ app.user.durationSinceLastLogin|relativeTime }} ago! (buggy)
-    {% endif %}
-</p>
-<p>
-    <strong>
+    <p>
+        Hey {{ app.user.fullname }}
+        {% if (app.user.lastlogin) %}
+            <br />Your last login was {{ app.user.durationSinceLastLogin|relativeTime }} ago! (buggy)
+        {% endif %}
+    </p>
+    <p>
+        <strong>
+        {% if is_granted('ROLE_ADMIN') %}
+            You are an admin
+        {% elseif is_granted('ROLE_BILL') %}
+            You are a biller
+        {% elseif is_granted('ROLE_USER') %}
+            You are a user
+        {% else %}
+            Who are you??
+        {% endif %}
+        </strong>
+    </p>
+
+    <h4>{% trans %}Your last work{% endtrans %} :</h4>
+    <p>
+        <a href="{{ path('sgl_flts_report_date',{'date': lastest_work.workedAt|date('Y-m-d')}) }}">{{ lastest_work.workedAt|date('Y-m-d') }}</a><br />
+        {{ lastest_work.task.part.project }} - {{ lastest_work.task.part }} <br />
+        {{ lastest_work.startedAt|date('H:i') }} - {{ lastest_work.endedAt|date('H:i') }} <a href="{{ path('sgl_flts_work_show', { 'id': lastest_work.id, 'id_project': lastest_work.task.part.project.id,'id_part': lastest_work.task.part.id,'id_task': lastest_work.task.id }) }}">{{ lastest_work }}</a>
+    </p>
+
+    <h4>{% trans %}Browse the latest project parts{% endtrans %} :</h4>
+    <p>Todo</p>
+
     {% if is_granted('ROLE_ADMIN') %}
-        You are an admin
-    {% elseif is_granted('ROLE_BILL') %}
-        You are a biller
-    {% elseif is_granted('ROLE_USER') %}
-        You are a user
-    {% else %}
-        Who are you??
+    <h4>{% trans %}Browse the latest bills{% endtrans %} :</h4>
+
+        {% if (latest_bills|length > 0) %}
+        <ul>
+            {% for bill in latest_bills %}
+            <li>{{ bill.billedAt|date('Y-m-d') }} {{ bill.part.project }} - {{ bill.part }} - <a href="{{ path('sgl_flts_bill_show', { 'id': bill.id }) }}">{{ bill }}</a></li>
+            {% endfor %}
+        </ul>
+            {% endif %}
     {% endif %}
-    </strong>
-</p>
 
-<h4>{% trans %}Browse the latest project parts{% endtrans %} :</h4>
-<p>Todo</p>
-{% if is_granted('ROLE_ADMIN') %}
-<h4>{% trans %}Browse the latest bills{% endtrans %} :</h4>
-<p>Todo</p>
-{% endif %}
+    <h4>{% trans %}Profile{% endtrans %}</h4>
+        <ul>
+            <li><a href="{{ path('sgl_flts_user_edit',{'id': app.user.id }) }}">{% trans %}Edit profile{% endtrans %}</a></li>
+            <li><a href="{{ path('fos_user_change_password') }}">{% trans %}Change password{% endtrans %}</a></li>
+        </ul>
 
-<h4>{% trans %}Your last work{% endtrans %} :</h4>
-<p>Todo</p>
-<h4>{% trans %}Profile{% endtrans %}</h4>
-    <ul>
-        <li><a href="{{ path('sgl_flts_user_edit',{'id': app.user.id }) }}">{% trans %}Edit profile{% endtrans %}</a></li>
-        <li><a href="{{ path('fos_user_change_password') }}">{% trans %}Change password{% endtrans %}</a></li>
-    </ul>
-
-<h4>{% trans %}FLTS Project Home{% endtrans %} :</h4>
-<a href="https://github.com/sglessard/SGLFLTSBundle" title="FLTSBundle on Github">Github</a>
+    <h4>{% trans %}FLTS Project Home{% endtrans %} :</h4>
+    <a href="https://github.com/sglessard/SGLFLTSBundle" title="FLTSBundle on Github">Github</a>
 {% endblock %}

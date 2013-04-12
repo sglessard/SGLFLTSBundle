@@ -82,6 +82,19 @@ class WorkRepository extends EntityRepository
         return $this->dispatch($query, $queryBuilder);
     }
 
+    public function retrieveLatest($queryBuilder = false)
+    {
+        $query = $this->retrieve(true);
+
+        $query->innerJoin('w.task', 'wt')
+             ->innerJoin('wt.part', 'wtp')
+             ->innerJoin('wtp.project', 'wtpp')
+             ->setMaxResults(1)
+        ;
+
+        return $this->dispatch($query, $queryBuilder, true);
+    }
+
     /*
      * dispatch
      *

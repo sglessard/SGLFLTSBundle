@@ -38,7 +38,7 @@ class BillRepository extends EntityRepository
     }
 
     /*
-     * Retrieve latest Bills
+     * Retrieve latest Bills (from Date)
      *
      * @param \DateTime $more_recent_than
      * @param bool $queryBuilder (return query builder only)
@@ -52,7 +52,27 @@ class BillRepository extends EntityRepository
             ->innerjoin('p.project','pp')
             ->leftjoin('b.works','w')
             ->where('b.billed_at > :date')
-            ->setParameter('date', $more_recent_than->format('Y-m-d'));
+            ->setParameter('date', $more_recent_than->format('Y-m-d'))
+        ;
+
+        return $this->dispatch($query, $queryBuilder);
+    }
+
+    /*
+     * Retrieve latest Bills (fixed limit)
+     *
+     * @param integer $limit
+     * @param bool $queryBuilder (return query builder only)
+     * @return Doctrine Collection or Query Builder
+     */
+    public function retrieveFixedLatest($limit=5, $queryBuilder = false)
+    {
+        $query = $this->retrieve(true)
+            ->select('b,p,pp')
+            ->innerjoin('b.part','p')
+            ->innerjoin('p.project','pp')
+            ->setMaxResults($limit)
+        ;
 
         return $this->dispatch($query, $queryBuilder);
     }
