@@ -21,34 +21,101 @@
         </strong>
     </p>
 
-    <h4>{% trans %}Your last work{% endtrans %} :</h4>
+    <h3>{% trans %}Your last work{% endtrans %} :</h3>
     <p>
         <a href="{{ path('sgl_flts_report_date',{'date': lastest_work.workedAt|date('Y-m-d')}) }}">{{ lastest_work.workedAt|date('Y-m-d') }}</a><br />
         {{ lastest_work.task.part.project }} - {{ lastest_work.task.part }} <br />
         {{ lastest_work.startedAt|date('H:i') }} - {{ lastest_work.endedAt|date('H:i') }} <a href="{{ path('sgl_flts_work_show', { 'id': lastest_work.id, 'id_project': lastest_work.task.part.project.id,'id_part': lastest_work.task.part.id,'id_task': lastest_work.task.id }) }}">{{ lastest_work }}</a>
     </p>
 
-    <h4>{% trans %}Browse the latest project parts{% endtrans %} :</h4>
-    <p>Todo</p>
-
-    {% if is_granted('ROLE_ADMIN') %}
-    <h4>{% trans %}Browse the latest bills{% endtrans %} :</h4>
-
-        {% if (latest_bills|length > 0) %}
-        <ul>
-            {% for bill in latest_bills %}
-            <li>{{ bill.billedAt|date('Y-m-d') }} {{ bill.part.project }} - {{ bill.part }} - <a href="{{ path('sgl_flts_bill_show', { 'id': bill.id }) }}">{{ bill }}</a></li>
-            {% endfor %}
-        </ul>
-            {% endif %}
+    <h3>{% trans %}Browse the latest worked project parts{% endtrans %} :</h3>
+    {% if (latest_workedon_parts|length > 0) %}
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{% trans %}Client{% endtrans %}</th>
+                <th>{% trans %}Part name{% endtrans %}</th>
+                <th>{% trans %}Status{% endtrans %}</th>
+                <th>{% trans %}Open since{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for part in latest_workedon_parts %}
+            <tr>
+                <td>
+                    {{ part.clientName }}
+                </td>
+                <td>
+                    <a href="{{ path('sgl_flts_task', { 'id_project': part.project.id,  'id_part': part.id }) }}" class="list" title="{{ part.fullname }} {% trans %}task list{% endtrans%}">{{ part.fullname }}</a>
+                </td>
+                <td>
+                    {% if (part.closed) %}
+                        {% trans %}Closed{% endtrans %}
+                    {% else %}
+                        {% trans %}Opened{% endtrans %} :
+                        {{ part.getWorkedPourcentage|number_format(0)  }} %
+                    {% endif %}
+                </td>
+                <td>
+                    {{ part.getDurationSinceCreation|relativeTime }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    <table>
     {% endif %}
 
-    <h4>{% trans %}Profile{% endtrans %}</h4>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h3>{% trans %}Browse the latest bills{% endtrans %} :</h3>
+
+        {% if (latest_bills|length > 0) %}
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>{% trans %}Nbr{% endtrans %}</th>
+                    <th>{% trans %}Client{% endtrans %}</th>
+                    <th>{% trans %}Bill name{% endtrans %}</th>
+                    <th>{% trans %}Billed At{% endtrans %}</th>
+                    <th>{% trans %}Paid At{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for bill in latest_bills %}
+                <tr>
+                    <td>
+                        {{ bill.number }}
+                    </td>
+                    <td>
+                        {{ bill.clientName }}
+                    </td>
+                    <td>
+                        <a href="{{ path('sgl_flts_bill_show', { 'id': bill.id }) }}" title="{% trans %}Show bill{% endtrans %}">{{ bill.part.fullname }} - {{ bill }}</a>
+                    </td>
+                    <td>
+                        {% if (bill.billedAt) %}
+                            {{ bill.billedAt|localizeddate('long', 'none', app.request.locale) }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if (bill.paidAt) %}
+                            {{ bill.paidAt|localizeddate('long', 'none', app.request.locale) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        <table>
+        {% endif %}
+
+    {% endif %}
+
+
+    <h3>{% trans %}Profile{% endtrans %}</h3>
         <ul>
             <li><a href="{{ path('sgl_flts_user_edit',{'id': app.user.id }) }}">{% trans %}Edit profile{% endtrans %}</a></li>
             <li><a href="{{ path('fos_user_change_password') }}">{% trans %}Change password{% endtrans %}</a></li>
         </ul>
 
-    <h4>{% trans %}FLTS Project Home{% endtrans %} :</h4>
+    <h3>{% trans %}FLTS Project Home{% endtrans %} :</h3>
     <a href="https://github.com/sglessard/SGLFLTSBundle" title="FLTSBundle on Github">Github</a>
 {% endblock %}

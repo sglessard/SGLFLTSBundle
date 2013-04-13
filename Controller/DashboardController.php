@@ -31,11 +31,13 @@ class DashboardController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $lastest_work = $em->getRepository('SGLFLTSBundle:Work')->retrieveLatest();
-        $latest_bills = $em->getRepository('SGLFLTSBundle:Bill')->retrieveFixedLatest(5);
+        $latest_bills = $em->getRepository('SGLFLTSBundle:Bill')->retrieveFixedLatest(10);
+        $latest_workedon_parts = $em->getRepository('SGLFLTSBundle:Part')->retrieveLatestWorkedOn(10);
 
         return array(
             'lastest_work'=>$lastest_work,
-            'latest_bills'=>$latest_bills
+            'latest_bills'=>$latest_bills,
+            'latest_workedon_parts'=>$latest_workedon_parts
         );
     }
 }

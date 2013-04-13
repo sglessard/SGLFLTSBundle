@@ -813,4 +813,13 @@ class Bill
         }
     }
 
+    /**
+     * Get client name
+     *
+     * @return string
+     */
+    public function getClientName()
+    {
+        return $this->getPart()->getProject()->getClient()->getName();
+    }
 }

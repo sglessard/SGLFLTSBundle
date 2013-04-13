@@ -120,6 +120,30 @@ class PartRepository extends EntityRepository
         return $this->dispatch($query, $queryBuilder);
     }
 
+    /**
+     * Retrieve parts with recent works
+     *
+     * @param int $limit
+     * @param bool $queryBuilder
+     * @return mixed
+     */
+    public function retrieveLatestWorkedOn($limit=5, $queryBuilder = false)
+    {
+        $query = $this->retrieve(true);
+
+        $query->select('DISTINCT p,pp,c')
+            ->innerjoin('p.project', 'pp')
+            ->innerjoin('pp.client', 'c')
+            ->innerjoin('p.tasks', 't')
+            ->innerjoin('t.works', 'w')
+            ->orderBy('w.worked_at', 'DESC')
+            ->addOrderBy('w.started_at', 'DESC')
+            ->setMaxResults($limit);
+        ;
+
+        return $this->dispatch($query, $queryBuilder);
+    }
+
     /*
      * dispatch
      *
