@@ -94,6 +94,8 @@ class WorkController extends Controller
 
         $task = $em->getRepository('SGLFLTSBundle:Task')->find($id_task);
         $part = $em->getRepository('SGLFLTSBundle:Part')->find($id_part);
+        $latest_part_work = $part->getLastWork();
+        $latest_part_work_ended_at = new \DateTime($latest_part_work->getEndedAt()->format('Y-m-d H:i:s'));
 
         if (!$part) {
             throw $this->createNotFoundException('Unable to find Part entity.');
@@ -111,6 +113,11 @@ class WorkController extends Controller
         $entity = new Work();
         $entity->setUser($this->getUser());
         $entity->setTask($task);
+        $entity->setWorkedAt($latest_part_work->getWorkedAt());                     // Default = last work day
+        $entity->setStartedAt($latest_part_work_ended_at);                          // Default = last work ended_at
+        $default_ended_at = clone $latest_part_work_ended_at;                       // Default = last work ended_at + 12 minutes
+        $entity->setEndedAt($default_ended_at->add(new \DateInterval('PT12M')));
+
         if ($rate = $part->getProject()->getClient()->getRate()) {
             $entity->setRate($rate);
         }
@@ -158,7 +165,13 @@ class WorkController extends Controller
 
             $task = $entity->getTask();
 
-            return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $entity->getId(), 'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            if ($request->request->get('submit-work-create-add')) {
+                return $this->redirect($this->generateUrl('sgl_flts_work_new', array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            } else if ($request->request->get('submit-work-create-show')) {
+                return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $entity->getId(),'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            } else {
+                return $this->redirect($this->generateUrl('sgl_flts_work_edit', array('id' => $entity->getId(), 'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            }
         }
 
         return array(
@@ -242,7 +255,15 @@ class WorkController extends Controller
 
             $task = $entity->getTask();
 
-            return $this->redirect($this->generateUrl('sgl_flts_work_edit', array('id' => $id, 'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            if ($request->request->get('submit-work-edit-add')) {
+                return $this->redirect($this->generateUrl('sgl_flts_work_new', array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            } else if ($request->request->get('submit-work-edit-show')) {
+                return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $id,'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            } else {
+                return $this->redirect($this->generateUrl('sgl_flts_work_edit', array('id' => $id, 'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+            }
+
+
         }
 
         return array(

@@ -539,7 +539,7 @@ class Work
      * @return boolean
      */
     public function getIsAfterNoon() {
-        return intval($this->getendedAt()->format('H')) > 12; // 12 : noon
+        return intval($this->getEndedAt()->format('H')) > 12; // 12 : noon
     }
 
     /**
