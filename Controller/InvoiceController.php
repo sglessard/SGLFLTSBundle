@@ -72,7 +72,7 @@ class InvoiceController extends Controller
             throw $this->createNotFoundException('Unable to find Bill entity.');
         }
 
-        $filename = 'Invoice-'.$bill->getBilledAt()->format('Y').'-'.$bill->getNumber().'.pdf';
+        $filename = $this->get('translator')->trans('flts.bill.invoice.Invoice-%year%-%number%',array('%year%'=>$bill->getBilledAt()->format('Y'),'%number%'=>$bill->getNumber())).'.pdf';
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutput($this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId()), true)),

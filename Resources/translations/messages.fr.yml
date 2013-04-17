@@ -33,3 +33,4 @@ flts:
             HST Number: Nº HST
             Total: Total
             Payment is due within 30 days upon receipt: Payable dans les 30 jours suivant la date de réception. Merci.
+            Invoice-%year%-%number%: Facture-%year%-%number%
