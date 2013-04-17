@@ -21,7 +21,10 @@ class BillSentType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description',null,array(
+                'attr'=>array('cols'=>50,'rows'=>3),
+                'required'=>false,
+            ))
             ->add('sent_at','genemu_jquerydate', array(
                'required' => false,
                 'widget' => 'single_text'
