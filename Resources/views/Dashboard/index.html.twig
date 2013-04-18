@@ -75,6 +75,7 @@
                     <th>{% trans %}Nbr{% endtrans %}</th>
                     <th>{% trans %}Client{% endtrans %}</th>
                     <th>{% trans %}Bill name{% endtrans %}</th>
+                    <th>{% trans %}Total{% endtrans %}</th>
                     <th>{% trans %}Billed At{% endtrans %}</th>
                     <th>{% trans %}Paid At{% endtrans %}</th>
                 </tr>
@@ -90,6 +91,9 @@
                     </td>
                     <td>
                         <a href="{{ path('sgl_flts_bill_show', { 'id': bill.id }) }}" title="{% trans %}Show bill{% endtrans %}">{{ bill.part.fullname }} - {{ bill }}</a>
+                    </td>
+                    <td class="money">
+                        {{ bill.total|price }}
                     </td>
                     <td>
                         {% if (bill.billedAt) %}
