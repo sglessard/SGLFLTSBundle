@@ -3,10 +3,10 @@
 {% block content %}
 
     <h1>Bills by opened project part</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'part_bills', 'part': part, 'opened_only': true, 'redirect_error': 'sgl_flts_bill'} %}
+    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'part': part, 'opened_only': true, 'redirect_error': 'sgl_flts_bill'} %}
 
     <h1>Bills by project part (all)</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'part_bills', 'part': part, 'redirect_error': 'sgl_flts_bill'} %}
+    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'part': part, 'redirect_error': 'sgl_flts_bill'} %}
 
     {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': part.project } %}
 
