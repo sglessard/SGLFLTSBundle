@@ -807,7 +807,7 @@ class Bill
 
     public function getTotal() {
         if ($this->taxable) {
-            return round($this->getSubtotal(),1) + round($this->getGstFees(),2) + round($this->getPstFees(),2) + round($this->getHstFees(),2);
+            return round($this->getSubtotal(),2) + round($this->getGstFees(),2) + round($this->getPstFees(),2) + round($this->getHstFees(),2);
         } else {
             return round($this->getSubtotal(),2);
         }
