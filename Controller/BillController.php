@@ -123,7 +123,7 @@ class BillController extends Controller
 
         $entity = new Bill();
         $entity->setNumber($em->getRepository('SGLFLTSBundle:Bill')->findNextNumber());
-        $entity->setName($translator->trans('Bill 1'));
+        $entity->setName($translator->trans('flts.bill.Default Name'));
         $entity->setGst($tax_calc->getGst());
         $entity->setPst($tax_calc->getPst());
         $entity->setHst($tax_calc->getHst());
