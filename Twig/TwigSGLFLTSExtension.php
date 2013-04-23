@@ -34,10 +34,15 @@ class TwigSGLFLTSExtension extends \Twig_Extension
         );
     }
 
-    public function twig_price_filter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ')
+    public function twig_price_filter($number, $decimals = 2, $decPoint = ',', $thousandsSep = ' ', $locale = null)
     {
+        if ($locale == null) $locale = \Locale::getDefault();
         $price = number_format($number, $decimals, $decPoint, $thousandsSep);
-        $price = '$ ' . $price;
+        if ($locale == 'fr') {
+            $price = $price.' $';
+        } else {
+            $price = '$ ' . $price;
+        }
 
         return $price;
     }
