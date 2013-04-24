@@ -96,6 +96,21 @@ class WorkRepository extends EntityRepository
     }
 
     /*
+     * retrieveDummyPartWork
+     *
+     * @param Part $part
+     *
+     * @return Work
+     */
+    public function retrieveDummyPartWork(Part $part) {
+        $work = new Work();
+        $work->setStartedAt(new \Datetime());
+        $work->setEndedAt(new \Datetime());
+        
+        return $work;
+    }
+
+    /*
      * dispatch
      *
      * @param Query Builder $query

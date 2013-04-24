@@ -94,12 +94,17 @@ class WorkController extends Controller
 
         $task = $em->getRepository('SGLFLTSBundle:Task')->find($id_task);
         $part = $em->getRepository('SGLFLTSBundle:Part')->find($id_part);
-        $latest_part_work = $part->getLastWork();
-        $latest_part_work_ended_at = new \DateTime($latest_part_work->getEndedAt()->format('Y-m-d H:i:s'));
 
         if (!$part) {
             throw $this->createNotFoundException('Unable to find Part entity.');
         }
+
+        $latest_part_work = $part->getLastWork();
+        if (!$latest_part_work) {
+            // Dummy work : now
+            $latest_part_work = $em->getRepository('SGLFLTSBundle:Work')->retrieveDummyPartWork($part);
+        }
+        $latest_part_work_ended_at = new \DateTime($latest_part_work->getEndedAt()->format('Y-m-d H:i:s'));
 
         if (!$task) {
             // Get first task
