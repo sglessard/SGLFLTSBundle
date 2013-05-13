@@ -22,7 +22,6 @@ class WorkType extends AbstractType
         $part = $options['part'];
 
         $builder
-            ->add('do_not_bill')
             ->add('task','entity',array(
                 'class'         => 'SGLFLTSBundle:Task',
                 'property'      => 'fullname',
@@ -63,9 +62,7 @@ class WorkType extends AbstractType
                 'with_seconds'=> false,
             ))
             ->add('revision')
-            //->add('bill')
-            //->add('billed')
-            //->add('paid')
+            ->add('do_not_bill')
         ;
     }
 

@@ -472,7 +472,7 @@ class Part
     public function getLastWork() {
         $work = null;
         foreach ($this->tasks as $task) {
-            $task_work = $task->getWorks()->last();
+            $task_work = $task->getWorks()->first();	// Task works ordered by DESC
             if ($task_work) {
                 $task_work_datetime = new \DateTime($task_work->getWorkedAt()->format('Y-m-d').' '.$task_work->getStartedAt()->format('H:i:s'));
                 if ($work) {
