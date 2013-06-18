@@ -403,8 +403,9 @@ input[type="date"] {
     border:1px solid #999999;
     padding:4px 4px 4px 24px;
 }
+
 input.native-date {
-    width:100px;
+    width:120px; /*Chrome*/
 }
 
 footer {
