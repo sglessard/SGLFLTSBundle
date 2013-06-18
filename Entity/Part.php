@@ -508,7 +508,7 @@ class Part
      */
     public function getDurationSinceCreation() {
         $now = new \DateTime('now');
-        return $now->getTimeStamp() - $this->getCreatedAt()->getTimeStamp();
+        return $now->getTimeStamp() - $this->getStartedAt()->getTimeStamp();
     }
 
     /**
