@@ -572,15 +572,21 @@ class Part
     *
     * @return float
     */
-   public function getBilledHours()
-   {
-       $hours = 0;
-       foreach ($this->getTasks() as $task) {
+    public function getBilledHours()
+    {
+        $hours = 0;
+        foreach ($this->getTasks() as $task) {
            $hours += $task->getBilledHours();
-       }
+        }
+
+        // Add extra hours
+        foreach ($this->getBills() as $bill) {
+            if ($bill->getExtraHours())
+                $hours += $bill->getExtraHours();
+        }
 
        return $hours;
-   }
+    }
 
     /**
     * Get worked days (in days)
