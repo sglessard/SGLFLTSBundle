@@ -42,7 +42,7 @@
                 <td class="number">{{ entity.estimation|hours }}</td>
                 <td class="number">{{ entity.workedHours|hours }}</td>
                 <td class="number">{{ entity.billedHours|hours }}</td>
-                <td class="number">{{ toBillHours|hours }}</td>
+                <td class="number">{% if toBillHours < 0 %}{{ 0|hours }}{% else %}{{ toBillHours|hours }}{% endif %}</td>
                 <td class="date">{% if entity.startedat %}{{ entity.startedat|date('Y-m-d') }}{% endif %}</td>
                 <td class="actions" style="width:180px;">
                     <ul class="record_actions">
