@@ -7,6 +7,10 @@
 
 <script type="text/javascript">
 $('#delete_work_form').submit(function() {
+    {% if (entity.sent) %}
     return call_alert('{% trans %}Cannot delete work since the bill is sent{% endtrans %}');
+    {% else %}
+    return confirm('Are you sure?');
+    {% endif %}
 });
 </script>
