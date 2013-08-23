@@ -87,7 +87,7 @@ class TaskController extends Controller
      * Displays a form to create a new Task entity.
      *
      * @Route("/{id_project}/{id_part}/new", name="sgl_flts_task_new")
-     * @Template("SGLFLTSBundle:Task:Crud/edit.html.twig")
+     * @Template("SGLFLTSBundle:Task:Crud/new.html.twig")
      */
     public function newAction($id_project,$id_part)
     {
