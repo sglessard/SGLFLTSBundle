@@ -96,6 +96,7 @@ class PartRepository extends EntityRepository
             ->leftjoin('t.works','w')
             ->where('p.closed_at is null')
             ->andWhere('p.project = :id_project')
+            ->orderBy('p.started_at', 'ASC')
             ->setParameter(':id_project',$id_project);
         ;
 
