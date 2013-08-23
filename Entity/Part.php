@@ -495,10 +495,12 @@ class Part
      * @return integer
      */
     public function getDurationSinceLastJob() {
-        if ($last_work = $this->getLastWork())
-            return $last_work->getWorkedAt()->getTimestamp() - $this->getCreatedAt()->getTimeStamp();
-        else
+        if ($last_work = $this->getLastWork()) {
+            $now = new \DateTime('now');
+            return $now->getTimeStamp() - $last_work->getWorkedAt()->getTimestamp();
+        } else {
             return 0;
+        }
     }
 
     /**
