@@ -276,6 +276,16 @@ class Project
     }
 
     /**
+     * Has part(s)
+     *
+     * @return bool
+     */
+    public function hasParts()
+    {
+        return $this->parts->count() > 0;
+    }
+
+    /**
      * Get closed
      *
      * @return boolean

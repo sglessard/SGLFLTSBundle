@@ -1,0 +1,30 @@
+{% set action = getActionName(app.request.attributes)|lower %}
+
+<div class="record_actions_ctn">
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('sgl_flts_'~entity_name) }}" class="list">
+                {% trans %}Back to the list (Cancel){% endtrans%}
+            </a>
+        </li>
+
+    {% if action == 'show' %}
+        <li>
+            <a href="{{ path('sgl_flts_'~entity_name~'_edit', { 'id': entity.id }) }}" class="edit">
+                {% trans %}Edit{% endtrans%}
+            </a>
+        </li>
+    {% endif %}
+    {% if (action == 'show' or action == 'edit') %}
+        {% if (part is defined) %}
+        <li>
+            <a href="{{ path('sgl_flts_report_part',{'id_part': part.id}) }}" class="report">{% trans %}Go to project part report{% endtrans %}</a>
+        </li>
+        {% endif %}
+
+        {% include 'SGLFLTSBundle:Project:Common/record_action_delete.html.twig' with { 'entity_name': entity_name,'entity': entity } %}
+    {% endif %}
+
+    </ul>
+</div>
