@@ -6,7 +6,7 @@ flts:
         Bills by opened project part: Bills by opened project part
         Bills by project part (all): Bills by project part (all)
         Latest bills: Latest bills
-        Default Name: Bill
+        Default Name: Bill <num>
 
         invoice:
             Address: Address

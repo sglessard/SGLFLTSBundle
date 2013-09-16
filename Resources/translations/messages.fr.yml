@@ -6,7 +6,7 @@ flts:
         Bills by opened project part: Liste des factures (parties de projet ouvertes)
         Bills by project part (all): Liste des factures (toutes les parties de projet)
         Latest bills: Dernières factures
-        Default Name: Facture
+        Default Name: Facture <num>
 
         invoice:
             Address: Adresse
