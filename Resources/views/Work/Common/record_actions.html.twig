@@ -32,6 +32,12 @@
         </li>
         {% endif %}
 
+        {% if (entity.canBeMoved) %}
+        <li>
+            <a href="{{ path('sgl_flts_work_move',{'id_project': project.id, 'id_part': part.id, 'id_task': task.id, 'id': entity.id })}}" class="move">{% trans %}Move work to{% endtrans %}</a>
+        </li>
+        {% endif %}
+
         {% include 'SGLFLTSBundle:Work:Common/record_action_delete.html.twig' with { 'project': project, 'part': part, 'task': task, 'entity': entity } %}
     {% endif %}
 

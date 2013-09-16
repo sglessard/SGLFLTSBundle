@@ -39,6 +39,9 @@
                         <li>
                             <a href="{{ path('sgl_flts_work_edit', { 'id': entity.id, 'id_project': project.id,'id_part': part.id,'id_task': task.id }) }}" class="edit">{% trans %}edit{% endtrans %}</a>
                         </li>
+                        <li>
+                            <a href="{{ path('sgl_flts_work_move', { 'id': entity.id, 'id_project': project.id,'id_part': part.id,'id_task': task.id }) }}" class="move {% if (entity.billed or part.closed) %}inactive{% endif %}">{% trans %}move{% endtrans %}</a>
+                        </li>
 
                     </ul>
                 </td>
@@ -53,4 +56,10 @@
 
     {% include 'SGLFLTSBundle:Work:Common/list_actions.html.twig' with { 'project': project, 'part': part, 'task': task } %}
 
+    <script type="text/javascript">
+    $('a.move.inactive').click(function(e) {
+        e.preventDefault();
+        return call_alert('{% trans %}Cannot move billed works or a closed part works.{% endtrans %}');
+    });
+    </script>
 {% endblock %}

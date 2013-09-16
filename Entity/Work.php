@@ -542,6 +542,11 @@ class Work
         return intval($this->getEndedAt()->format('H')) > 12; // 12 : noon
     }
 
+    public function canBeMoved() {
+        return !$this->getBill() && !$this->getPart()->getClosed();
+    }
+
+
     /**
      * get is Billed and paid
      * @param void
@@ -573,5 +578,15 @@ class Work
     public function getBill()
     {
         return $this->bill;
+    }
+
+    /**
+     * Get part proxy
+     *
+     * @return \SGL\FLTSBundle\Entity\Part
+     */
+    public function getPart()
+    {
+        return $this->getTask()->getPart();
     }
 }

@@ -323,6 +323,9 @@ ul.record_actions li .money {
 ul.record_actions li .pdf {
     background-image: url(/bundles/sglflts/images/icons/pdf.png);
 }
+ul.record_actions li .move {
+    background-image: url(/bundles/sglflts/images/icons/move.png);
+}
 
 table.record_properties tr td,
 table.record_properties tr th,

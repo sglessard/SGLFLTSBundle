@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Work;
 use SGL\FLTSBundle\Form\WorkType;
+use SGL\FLTSBundle\Form\WorkMoveType;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -348,6 +349,93 @@ class WorkController extends Controller
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_work',array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
+    }
+
+    /**
+     * Move an existing Work entity to another project part
+     *
+     * @Route("/{id_project}/{id_part}/{id_task}/{id}/move", name="sgl_flts_work_move")
+     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     */
+    public function moveAction($id_project,$id_part,$id_task,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Work entity.');
+        }
+
+        $task = $em->getRepository('SGLFLTSBundle:Task')->find($id_task);
+
+        if (!$task) {
+            throw $this->createNotFoundException('Unable to find Task entity.');
+        }
+
+        $editForm = $this->createForm(new WorkMoveType(), $entity);
+
+        // Since part's mapped attribute is false, we need to set the selected value
+        $editForm->get('part')->setData($entity->getPart());
+
+        return array(
+            'entity'      => $entity,
+            'project'     => $task->getPart()->getProject(),
+            'part'        => $task->getPart(),
+            'task'        => $task,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+
+    /**
+     * Moves a Work entity.
+     *
+     * @Route("/{id}/move-update", name="sgl_flts_work_moveupdate")
+     * @Method("POST")
+     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     */
+    public function moveupdateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $work_type = new WorkMoveType();
+
+        $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Work entity.');
+        }
+
+        $old_task = $entity->getTask();
+
+        $editForm = $this->createForm($work_type, $entity);
+        $editForm->bind($request);
+
+        if ($editForm->isValid()) {
+
+            // Moved-to part entity
+            $new_part = $editForm->get('part')->getData();
+
+            // Moved-to task entity, based on identification or name
+            $new_task = $em->getRepository('SGLFLTSBundle:Task')->retrievePartTaskFromForeignTask($new_part,$old_task);
+
+            if (!$new_task)
+                throw $this->createNotFoundException(sprintf('Unable to find Task "%s" in "%s" part.',$old_task->getFullname(), $new_part->getFullname()));
+
+            // Set new task to work entity
+            $entity->setTask($new_task);
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $id, 'id_project'=>$new_task->getPart()->getProject()->getId(), 'id_part'=>$new_task->getPart()->getId(), 'id_task'=>$new_task->getId())));
+        }
+
+        return array(
+            'entity'      => $entity,
+            'project'     => $task->getPart()->getProject(),
+            'part'        => $task->getPart(),
+            'task'        => $task,
+            'edit_form'   => $editForm->createView(),
+        );
     }
 
     private function createDeleteForm($id)

@@ -37,6 +37,29 @@ class TaskRepository extends EntityRepository
         return $this->dispatch($query, $queryBuilder);
     }
 
+    /**
+     * Retrieve a part task identical as a foreign part
+     *
+     * @param Part $part
+     * @param Task $foreign_task
+     * @param bool $queryBuilder
+     * @return mixed
+     */
+    public function retrievePartTaskFromForeignTask(Part $part, Task $foreign_task, $queryBuilder = false)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.part = :id_part')
+            ->andWhere('t.identification = :task_identification or t.name = :task_name')
+            ->orderBy('t.rank', 'ASC')
+            ->setParameters(array(
+                'id_part'=>$part->getId(), 'task_identification'=>$foreign_task->getIdentification(), 'task_name'=>$foreign_task->getName()
+            ))
+        ;
+
+        return $this->dispatch($query, $queryBuilder, true);
+    }
+
         /*
      * Retrieve Tasks (custom find)
      *
