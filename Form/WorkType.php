@@ -43,8 +43,12 @@ class WorkType extends AbstractType
                     return $er->retrieve(true);
                 }
             ))
-            ->add('name')
-            ->add('description')
+            ->add('name',null,array(
+                'attr' => array('class' => 'longtext'),
+            ))
+            ->add('description',null,array(
+                'attr'=>array('rows' => 3, 'cols'=>60, 'class'=>'longtext')
+            ))
             ->add('worked_at','genemu_jquerydate',array(
                 'required' => true,
                 'widget' => 'single_text'

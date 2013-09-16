@@ -397,6 +397,9 @@ input[type="text"] {
     border:1px solid #999999;
     padding:4px;
 }
+input[type="text"].longtext {
+    width:500px;
+}
 input[type="date"] {
     width: 70px;
     background: transparent url(/bundles/sglflts/images/icons/calendar_view_day.png) 4px center no-repeat;
@@ -407,8 +410,19 @@ input[type="date"] {
 input.native-date {
     width:120px; /*Chrome*/
 }
-
+textarea { }
+textarea.longtext {
+    width: 500px;
+}
 footer {
     clear:both;
     text-align:center;
+}
+
+/***********************************************************
+ * CUSTOM STYLES
+ */
+
+#bill_works_ctn {
+    margin-bottom: 1em;
 }
