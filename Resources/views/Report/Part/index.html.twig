@@ -3,10 +3,10 @@
 {% block content %}
 
     <h1>{% trans %}Opened project part report{% endtrans %}</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'part': part, 'redirect_route': 'sgl_flts_report_part'} %}
+    {% render 'SGLFLTSBundle:Part:selection' with {'opened_part': part, 'part': false, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'} %}
 
     <h1>{% trans %}Project part report (all){% endtrans %}</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'part': part, 'redirect_route': 'sgl_flts_report_part', 'opened_only': false} %}
+    {% render 'SGLFLTSBundle:Part:selection' with {'opened_part': false, 'part': part, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'} %}
 
     {% if (part) %}
 

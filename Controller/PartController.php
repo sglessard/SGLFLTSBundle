@@ -378,20 +378,23 @@ class PartController extends Controller
      * Part selection form component
      * It also handles the post action
      *
-     * @Route("/selection", name="sgl_flts_part_selection")
+     * @Route("/selection/{opened_only}", name="sgl_flts_part_selection")
      * @Method("POST")
      *
      * @param string $redirect_route
      * @param string $redirect_error
-     * @param Part $part
-     * @param boolean $opened_only
+     * @param Part $part    false, null or Part object
+     * @param Part $opened_part    false, null or Part object
      *
      * @Template("SGLFLTSBundle:Part:Form/selection.html.twig")
      */
-    public function selectionAction(Request $request, $part=null, $redirect_route=null, $redirect_error=null, $opened_only=true)
+    public function selectionAction(Request $request, $opened_part=null, $part=null, $redirect_route=null, $redirect_error=null)
     {
-
         $em = $this->getDoctrine()->getManager();
+
+        // if part === false, we look for opened_part
+        // if opened_part === false, we look for part
+        $opened_only = $opened_part !== false;
 
         $form = $this->createSelectPartForm($opened_only);
 
@@ -400,13 +403,14 @@ class PartController extends Controller
             $form->bind($request);
             $data = $form->getData();
 
-             if ($form->isValid()) {
-                 return $this->redirect($this->generateUrl($data['redirect_route'],array('id_part'=>$data['part']->getId())));
-             } else {
-                 // Error, back to previous action
-                 $post_var = $request->request->get('form');
-                 return $this->redirect($this->generateUrl($post_var['redirect_error']));
-             }
+            if ($form->isValid()) {
+                $part_id = isset($data['opened_part']) ? $data['opened_part']->getId() : $data['part']->getId();
+                return $this->redirect($this->generateUrl($data['redirect_route'],array('id_part'=>$part_id)));
+            } else {
+                // Error, back to previous action
+                $post_var = $request->request->get('form');
+                return $this->redirect($this->generateUrl($post_var['redirect_error']).'?error=true');
+            }
         }
 
         if ($redirect_route) {
@@ -421,6 +425,7 @@ class PartController extends Controller
 
         return array(
             'form'=>$form->createView(),
+            'form_attr_id'=>$opened_only ? 'opened_part_select_form' : 'part_select_form'
         );
     }
 
@@ -448,8 +453,9 @@ class PartController extends Controller
      */
     private function createSelectPartForm($opened_parts=true)
     {
+        $part_field_id = $opened_parts ? 'opened_part' : 'part';
         return $this->createFormBuilder(null,array('csrf_protection' => false))
-            ->add('part','entity',array(
+            ->add($part_field_id,'entity',array(
                 'class'         => 'SGLFLTSBundle:Part',
                 'property'      => 'fullname',
                 'group_by'      => 'clientName',
