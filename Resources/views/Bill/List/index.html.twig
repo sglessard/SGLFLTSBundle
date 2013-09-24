@@ -56,7 +56,7 @@
         <a href="{{ path('sgl_flts_bill',{'period': more_period}) }}#more">{% trans %}Show more bills{% endtrans %}</a>
     </p>
 
-    <div class="actions">
+    <div class="record_actions_ctn">
         {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'entity_name': 'bill' } %}
     </div>
 {% endblock %}
