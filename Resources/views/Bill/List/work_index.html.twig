@@ -5,18 +5,26 @@
     <h2>{{ part.fullname }}</h2>
     <h1>{% trans %}Bill works{% endtrans %}</h1>
 
-    <p>{% trans %}To add or remove works from bill{% endtrans %} :
-    <ol>
-        <li>{% trans %}Select the bill{% endtrans %}</li>
-        <li>{% trans %}Check/uncheck the work checkbox{% endtrans %}</li>
-    </ol>
+    <div class="explanation">
+        <p>{% trans %}To add or remove works from bill{% endtrans %} :
+        <ol>
+            <li>{% trans %}Select the bill{% endtrans %}</li>
+            <li>{% trans %}Check/uncheck the work checkbox{% endtrans %}</li>
+        </ol>
+    </div>
 
     {% if (part) %}
-
+    <div class="select_form_ctn">
         <form id="bills_form" action="" method="post">
-            {{ form_widget(bills_form) }}
+            <div class="row">
+                {{ form_label(bills_form.bill, 'Bill selection:'|trans, {'label_attr': {'class': 'inline-label'}}) }} {{ form_widget(bills_form.bill) }}<br />
+                {{ form_errors(bills_form.bill) }}
+            </div>
+            {{ form_rest(bills_form) }}
             <button type="submit" class="search">{% trans %}Select{% endtrans%}</button>
         </form>
+    </div>
+
 <script type="text/javascript">
 $('#bills_form').change(function() {
     $(this).submit();
@@ -26,14 +34,12 @@ $('#bills_form').change(function() {
     $(this).attr('action',action);
     return true;
 });
-
+// url to fetch when checking/unchecking a work
 var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_work/bill/') + $('#form_bill').val();
-
-
 </script>
 
         <div style="float:right;">
-            <a href="{{ path('sgl_flts_bill_addallworks', {id: -1}) }}" id="bill_check_all">{% trans %}Check all</a>{% endtrans %}</a> | <a href="{{ path('sgl_flts_bill_remallworks', {id: -1}) }}" id="bill_uncheck_all">{% trans %}Uncheck all{% endtrans %}</a>
+            <a href="{{ path('sgl_flts_bill_addallworks', {id: -1}) }}" id="bill_check_all">{% trans %}Check all unbilled works</a>{% endtrans %}</a> | <a href="{{ path('sgl_flts_bill_remallworks', {id: -1}) }}" id="bill_uncheck_all">{% trans %}Uncheck all bill's works{% endtrans %}</a>
         </div>
 
         {% set works_count = 0 %}

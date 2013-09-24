@@ -380,6 +380,12 @@ table.record_properties tr th {
     -webkit-border-radius: 6px;
     border-radius: 6px;
     border:1px solid #cccc66;
+    margin-bottom:1em;
+}
+
+.select_form_ctn .inline-label {
+    display:inline-block;
+    padding-right:6px;
 }
 
 ul.record_actions li .inactive,
@@ -417,6 +423,11 @@ textarea { }
 textarea.longtext {
     width: 500px;
 }
+
+
+/***********************************************************
+ * FOOTER
+ */
 footer {
     clear:both;
     text-align:center;

@@ -378,8 +378,6 @@ class BillController extends Controller
             throw $this->createNotFoundException('Unable to find Bill entity.');
         }
 
-        $part = $bill->getPart();
-
         $works_billed = $bill->getWorks();
         $works_primary_keys = array();
 
