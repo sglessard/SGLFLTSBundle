@@ -309,6 +309,16 @@ class Bill
     }
 
     /**
+     * Get number padded
+     *
+     * @return integer
+     */
+    public function getNumberPadded()
+    {
+        return str_pad($this->number,6,'0',STR_PAD_LEFT);
+    }
+
+    /**
      * Set extra_hours
      *
      * @param float $extraHours

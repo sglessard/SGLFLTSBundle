@@ -13,15 +13,14 @@
     <body id="invoice">
     <div id="wrapper">
         <header>
+            <div class="billnumber">{{ bill.numberPadded }}</div>
             <img id="logo" src="{{asset(business_logo_src) }}" width="{{ business_logo_width }}" alt="{{ business_name }}" />
             <table>
                 <tbody>
                     <tr>
-                        <th width="25%">{% trans %}flts.bill.invoice.Address{% endtrans %}</th>
-                        <td width="75%">{{ business_address|nl2br }}</td>
-                    </tr>
-                    <tr>
-                        <th>{% trans %}flts.bill.invoice.Phone{% endtrans %}</th>
+                        <th>{% trans %}flts.bill.invoice.Address{% endtrans %}</th>
+                        <td>{{ business_address|nl2br }}</td>
+                        <th width="10%">{% trans %}flts.bill.invoice.Phone{% endtrans %}</th>
                         <td>{{ business_phone|nl2br }}</td>
                     </tr>
                 </tbody>
@@ -177,7 +176,7 @@
     <script type="text/javascript">
         // Aesthetics
         // Max #bill-body-content>tbody height to fit in one page
-        var max_tbody_height = 500;
+        var max_tbody_height = 495;
 
         var current_tbody_height = 0;
         $('#bill-body-content tbody tr').each(function() {

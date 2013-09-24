@@ -30,15 +30,26 @@ body#invoice td {
 
 body#invoice header {
     height:60px;
+    margin:32px 0 6px;
+}
+body#invoice header .billnumber{
+    position:absolute;
+    top:-2px;
+    right:20px;
+    font-size:24px;
+    line-height:20px;
+    color:#dddddd;
 }
 body#invoice header #logo {
     float:left;
 }
 body#invoice header table {
-    width:240px;
+    width:350px;
     float:right;
 }
-
+body#invoice header table tr td:last-child {
+    text-align:right;
+}
 body#invoice table#project {
     width:100%;
     height: 170px;
@@ -52,6 +63,7 @@ body#invoice table thead th,
 }
 
 body#invoice #purchase-order {
+    width:320px;
     padding-top:10px;
     padding-bottom:0;
 }
