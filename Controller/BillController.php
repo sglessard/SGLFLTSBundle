@@ -326,6 +326,80 @@ class BillController extends Controller
        );
    }
 
+    /**
+     * Add all available (unchecked) works to a bill.
+     *
+     * @Route("/{id}/billall/", name="sgl_flts_bill_addallworks")
+     * @Method("POST")
+     */
+    public function AddAllWorksAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->find($id);
+        if (!$bill) {
+            throw $this->createNotFoundException('Unable to find Bill entity.');
+        }
+
+        $part = $bill->getPart();
+
+        $works_unbilled = $em->getRepository('SGLFLTSBundle:Work')->retrieveUnbilledByPart($part->getId());
+        $works_primary_keys = array();
+
+        foreach ($works_unbilled as $work) {
+            if ($work->setBill($bill)) {
+                $works_primary_keys[] = $work->getId();
+                $em->persist($work);
+            }
+        }
+
+        $em->flush();
+
+        $response = new Response(json_encode(array(
+            'id_bill' => $bill->getId(),
+            'works' => $works_primary_keys,
+        )));
+
+        return $response;
+    }
+
+    /**
+      * Remove all works to a bill.
+      *
+      * @Route("/{id}/unbillall/", name="sgl_flts_bill_remallworks")
+      * @Method("POST")
+      */
+    public function RemAllWorksAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->find($id);
+        if (!$bill) {
+            throw $this->createNotFoundException('Unable to find Bill entity.');
+        }
+
+        $part = $bill->getPart();
+
+        $works_billed = $bill->getWorks();
+        $works_primary_keys = array();
+
+        foreach ($works_billed as $work) {
+            if ($work->setBill(null)) {
+                $works_primary_keys[] = $work->getId();
+                $em->persist($work);
+            }
+        }
+
+        $em->flush();
+
+        $response = new Response(json_encode(array(
+            'id_bill' => $bill->getId(),
+            'works' => $works_primary_keys,
+        )));
+
+        return $response;
+    }
+
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

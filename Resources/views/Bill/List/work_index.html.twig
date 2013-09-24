@@ -29,7 +29,12 @@ $('#bills_form').change(function() {
 
 var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_work/bill/') + $('#form_bill').val();
 
+
 </script>
+
+        <div style="float:right;">
+            <a href="{{ path('sgl_flts_bill_addallworks', {id: -1}) }}" id="bill_check_all">{% trans %}Check all</a>{% endtrans %}</a> | <a href="{{ path('sgl_flts_bill_remallworks', {id: -1}) }}" id="bill_uncheck_all">{% trans %}Uncheck all{% endtrans %}</a>
+        </div>
 
         {% set works_count = 0 %}
 

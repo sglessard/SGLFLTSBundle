@@ -110,6 +110,29 @@ class WorkRepository extends EntityRepository
         return $work;
     }
 
+    /**
+     * retrieveUnbilledByPart : retrieve all part's unbilled works
+     *
+     * @param $id_part
+     * @param bool $queryBuilder
+     * @return mixed
+     */
+    public function retrieveUnbilledByPart($id_part,$queryBuilder = false)
+    {
+        $query = $this->retrieve(true);
+
+        $query->innerJoin('w.task', 'wt')
+             ->innerJoin('wt.part', 'wtp')
+             ->where('wtp.id = :id_part')
+             ->andWhere('w.bill is null')
+             ->setParameters(array(
+                 'id_part' =>$id_part,
+             ))
+        ;
+
+        return $this->dispatch($query, $queryBuilder);
+    }
+
     /*
      * dispatch
      *
