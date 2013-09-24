@@ -123,7 +123,7 @@ function uncheckall_billworks() {
 }
 
 function highlight(obj) {
-    $(obj).parent().addClass('highlight');
+    $(obj).parent().effect("highlight",{color:"#ffffaa"},3000);
 }
 
 
