@@ -42,13 +42,20 @@
         {% endif %}
         <li>
             <a href="{{ path('sgl_flts_part_bills', {'id_part': part.id}) }}" class="money">
-                {% trans %}Got to part's bills{% endtrans%}
+                {% trans %}Part's bills list{% endtrans%}
             </a>
         </li>
 
         <li>
             <a href="{{ path('sgl_flts_report_part',{'id_part': part.id}) }}" class="report">{% trans %}Go to project part report{% endtrans %}</a>
         </li>
+        <li>
+            <a href="{{ path('sgl_flts_bill_new',{'id_part': part.id}) }}" class="create">
+               {% trans with {'%entity_name%': 'bill'} %}Create a new %entity_name%{% endtrans%}
+           </a>
+        </li>
+
+
 
         {% include 'SGLFLTSBundle:Theme:Common/record_action_delete.html.twig' with { 'entity_name': 'bill','entity': entity } %}
 
