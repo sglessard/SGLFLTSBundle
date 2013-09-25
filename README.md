@@ -1,7 +1,7 @@
 SGLFLTSBundle
 =============
 
-SGLFLTSBundle is a timesheet and billing application [Symfony2.1](http://symfony.com/doc/current/book/index.html) bundle mainly for freelancer.
+SGLFLTSBundle is a timesheet and billing application [Symfony2.1](http://symfony.com/doc/current/book/index.html) bundle mainly for freelancers.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
 
 #### Notice : not production ready
@@ -343,7 +343,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## TODO
 
- - Recently accessed porject parts quick menu
+ - Recently accessed project parts quick menu
  - Multiuser has not been tested
  - Theme CSS cleanup
  - svn/git integration (revision/hash)
