@@ -2,6 +2,13 @@ flts:
     global:
         Recent projects: Recent projects
 
+    button:
+        Confirm create: Confirm create
+        Confirm creation and add new: Confirm creation and add again
+        Confirm edit: Confirm edit
+        Confirm edit and add new: Confirm edit and add new
+        Delete: Delete
+
     bill:
         Bills by opened project part: Bills by opened project part
         Bills by project part (all): Bills by project part (all)

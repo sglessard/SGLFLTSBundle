@@ -1,7 +1,7 @@
 <li class="very-last">
     <form id="delete_project_form" action="{{ path('sgl_flts_project_delete', {'id': entity.id }) }}" method="post">
         {{ form_widget(delete_form) }}
-        <button type="submit" class="delete {% if (entity.hasParts) %}inactive{% endif %}">{% trans %}Delete{% endtrans%}</button>
+        <button type="submit" class="delete {% if (entity.hasParts) %}inactive{% endif %}">{% trans %}flts.button.Delete{% endtrans%}</button>
     </form>
 </li>
 

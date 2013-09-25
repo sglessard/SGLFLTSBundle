@@ -2,6 +2,13 @@ flts:
     global:
         Recent projects: Projets récents
 
+    button:
+        Confirm create: Confirmer la création
+        Confirm creation and add new: Confirmer et ajouter un nouveau
+        Confirm edit: Confirmer l'édition
+        Confirm edit and add new: Confirmer et ajouter un nouveau
+        Delete: Supprimer
+
     bill:
         Bills by opened project part: Liste des factures (parties de projet ouvertes)
         Bills by project part (all): Liste des factures (toutes les parties de projet)
