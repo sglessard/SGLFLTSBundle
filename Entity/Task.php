@@ -336,6 +336,26 @@ class Task
     }
 
     /**
+     * Get most recent works
+     *
+     * @return \SGL\FLTSBundle\Entity\Work
+     */
+    public function getLastWork()
+    {
+        return $this->works->last();
+    }
+
+    /**
+     * Get the first works
+     *
+     * @return \SGL\FLTSBundle\Entity\Work
+     */
+    public function getFirstWork()
+    {
+        return $this->works->first();
+    }
+
+    /**
      * Get works to bill
      *
      * @return \Doctrine\Common\Collections\Collection

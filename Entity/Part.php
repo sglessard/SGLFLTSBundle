@@ -439,15 +439,14 @@ class Part
 
     /**
      * Get First Work
-     * Task works have to be order by workedAt DESC
+     * (Not true: Task works have to be order by workedAt DESC)
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
     public function getFirstWork() {
         $work = null;
         foreach ($this->tasks as $task) {
-            $task_work = $task->getWorks()->first();
-            if ($task_work) {
+            if ($task_work = $task->getFirstWork()) {
                 $task_work_datetime = new \DateTime($task_work->getWorkedAt()->format('Y-m-d').' '.$task_work->getStartedAt()->format('H:i:s'));
                 if ($work) {
                     $work_datetime = new \DateTime($work->getWorkedAt()->format('Y-m-d').' '.$work->getStartedAt()->format('H:i:s'));
@@ -465,15 +464,14 @@ class Part
 
     /**
      * Get last Work
-     * Task works have to be order by workedAt DESC
+     * (Not true: Task works have to be order by workedAt DESC)
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
     public function getLastWork() {
         $work = null;
         foreach ($this->tasks as $task) {
-            $task_work = $task->getWorks()->first();	// Task works ordered by DESC
-            if ($task_work) {
+            if ($task_work = $task->getLastWork()) {
                 $task_work_datetime = new \DateTime($task_work->getWorkedAt()->format('Y-m-d').' '.$task_work->getStartedAt()->format('H:i:s'));
                 if ($work) {
                     $work_datetime = new \DateTime($work->getWorkedAt()->format('Y-m-d').' '.$work->getStartedAt()->format('H:i:s'));
