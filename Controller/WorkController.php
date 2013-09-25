@@ -100,7 +100,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Part entity.');
         }
 
-        $latest_part_work = $part->getLastWork();
+        $latest_part_work = $part->getMostRecentWork();
         if (!$latest_part_work) {
             // Dummy work : now
             $latest_part_work = $em->getRepository('SGLFLTSBundle:Work')->retrieveDummyPartWork($part);

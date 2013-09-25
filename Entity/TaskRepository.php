@@ -87,7 +87,7 @@ class TaskRepository extends EntityRepository
      * @param bool $queryBuilder (return query builder only)
      * @return Doctrine Collection or Query Builder
      */
-    public function retrieveByPartWithWorksToBill($id_part,$queryBuilder = false)
+    public function retrieveByPartWithWorksToBill($id_part,$orderby = 'DESC', $queryBuilder = false)
     {
         $query = $this->retrieve(true)
             ->select('t,w,b')
@@ -96,8 +96,8 @@ class TaskRepository extends EntityRepository
             ->where('w.do_not_bill = false')
             ->andWhere('t.part = :id_part')
             ->orderBy('t.rank', 'ASC')
-            ->addOrderBy('w.worked_at', 'ASC')
-            ->addOrderBy('w.started_at', 'ASC')
+            ->addOrderBy('w.worked_at', $orderby)
+            ->addOrderBy('w.started_at', $orderby)
             ->setParameter('id_part',$id_part);
         ;
 
@@ -111,7 +111,7 @@ class TaskRepository extends EntityRepository
      * @param bool $queryBuilder (return query builder only)
      * @return Doctrine Collection or Query Builder
      */
-    public function retrieveByPartAvailableWorksToBill($id_part,$id_bill,$queryBuilder = false)
+    public function retrieveByPartAvailableWorksToBill($id_part,$id_bill,$orderby = 'DESC',$queryBuilder = false)
     {
         $query = $this->retrieve(true)
             ->select('t,w')
@@ -121,8 +121,8 @@ class TaskRepository extends EntityRepository
             ->andWhere('t.part = :id_part')
             ->andWhere('b = :id_bill or b is null')
             ->orderBy('t.rank', 'ASC')
-            ->addOrderBy('w.worked_at', 'ASC')
-            ->addOrderBy('w.started_at', 'ASC')
+            ->addOrderBy('w.worked_at', $orderby)
+            ->addOrderBy('w.started_at', $orderby)
             ->setParameters(array('id_part'=>$id_part, 'id_bill'=>$id_bill));
         ;
 

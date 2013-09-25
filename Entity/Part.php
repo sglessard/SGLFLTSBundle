@@ -439,14 +439,13 @@ class Part
 
     /**
      * Get First Work
-     * (Not true: Task works have to be order by workedAt DESC)
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
-    public function getFirstWork() {
+    public function getOldestWork() {
         $work = null;
         foreach ($this->tasks as $task) {
-            if ($task_work = $task->getFirstWork()) {
+            if ($task_work = $task->getOldestWork()) {
                 $task_work_datetime = new \DateTime($task_work->getWorkedAt()->format('Y-m-d').' '.$task_work->getStartedAt()->format('H:i:s'));
                 if ($work) {
                     $work_datetime = new \DateTime($work->getWorkedAt()->format('Y-m-d').' '.$work->getStartedAt()->format('H:i:s'));
@@ -464,14 +463,13 @@ class Part
 
     /**
      * Get last Work
-     * (Not true: Task works have to be order by workedAt DESC)
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
-    public function getLastWork() {
+    public function getMostRecentWork() {
         $work = null;
         foreach ($this->tasks as $task) {
-            if ($task_work = $task->getLastWork()) {
+            if ($task_work = $task->getMostRecentWork()) {
                 $task_work_datetime = new \DateTime($task_work->getWorkedAt()->format('Y-m-d').' '.$task_work->getStartedAt()->format('H:i:s'));
                 if ($work) {
                     $work_datetime = new \DateTime($work->getWorkedAt()->format('Y-m-d').' '.$work->getStartedAt()->format('H:i:s'));
@@ -493,7 +491,7 @@ class Part
      * @return integer
      */
     public function getDurationSinceLastJob() {
-        if ($last_work = $this->getLastWork()) {
+        if ($last_work = $this->getMostRecentWork()) {
             $now = new \DateTime('now');
             return $now->getTimeStamp() - $last_work->getWorkedAt()->getTimestamp();
         } else {
@@ -596,15 +594,15 @@ class Part
     */
    public function getDays()
    {
-       $first_work = $this->getFirstWork();
-       $last_work = $this->getLastWork();
+       $first_work = $this->getOldestWork();
+       $last_work = $this->getMostRecentWork();
 
        if (!$first_work || !$last_work) {
            return 0;
        }
 
        $interval = $last_work->getWorkedAt()->diff($first_work->getWorkedAt());
-       return $interval->format('%a');
+       return $interval->format('%a') < 1 ? 1 :$interval->format('%a');
 
    }
 

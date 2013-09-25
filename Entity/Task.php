@@ -336,23 +336,33 @@ class Task
     }
 
     /**
-     * Get most recent works
+     * Get most recent work in the Works collection
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
-    public function getLastWork()
+    public function getMostRecentWork()
     {
-        return $this->works->last();
+        if ($this->works->count() < 1) return null;
+
+        // Confirm works ordering
+        $first = new \DateTime($this->works->first()->getWorkedAt()->format('Y-m-d').' '.$this->works->first()->getStartedAt()->format('H:i:s'));
+        $last = new \DateTime($this->works->last()->getWorkedAt()->format('Y-m-d').' '.$this->works->last()->getStartedAt()->format('H:i:s'));
+        return $first->getTimestamp() >=  $last->getTimestamp() ? $this->works->first() : $this->works->last();
     }
 
     /**
-     * Get the first works
+     * Get the oldest works in the Works collection
      *
      * @return \SGL\FLTSBundle\Entity\Work
      */
-    public function getFirstWork()
+    public function getOldestWork()
     {
-        return $this->works->first();
+        if ($this->works->count() < 1) return null;
+
+        // Confirm works ordering
+        $first = new \DateTime($this->works->first()->getWorkedAt()->format('Y-m-d').' '.$this->works->first()->getStartedAt()->format('H:i:s'));
+        $last = new \DateTime($this->works->last()->getWorkedAt()->format('Y-m-d').' '.$this->works->last()->getStartedAt()->format('H:i:s'));
+        return $first->getTimestamp() >=  $last->getTimestamp() ? $this->works->last() : $this->works->first();
     }
 
     /**
