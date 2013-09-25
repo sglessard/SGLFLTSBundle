@@ -3,8 +3,8 @@
 {% block content %}
     <p>
         Hey {{ app.user.fullname }}
-        {% if (app.user.lastlogin) %}
-            <br />Your last login was {{ app.user.durationSinceLastLogin|relativeTime }} ago! (buggy)
+        {% if (app.user.lastlogin and app.user.durationSinceLastLogin > 60) %}
+            <br />{{ "You logged in %variableName% ago"|trans({'%variableName%': app.user.durationSinceLastLogin|relativeTime}) }}
         {% endif %}
     </p>
     <p>
@@ -21,7 +21,7 @@
         </strong>
     </p>
 
-    <h3>{% trans %}Your last work{% endtrans %} :</h3>
+    <h3>{% trans %}Your most recent work{% endtrans %} :</h3>
     <p>
         <a href="{{ path('sgl_flts_report_date',{'date': lastest_work.workedAt|date('Y-m-d')}) }}">{{ lastest_work.workedAt|date('Y-m-d') }}</a><br />
         {{ lastest_work.task.part.project }} - {{ lastest_work.task.part }} <br />
