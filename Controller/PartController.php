@@ -385,18 +385,15 @@ class PartController extends Controller
      * @param string $redirect_error
      * @param Part $part    false, null or Part object
      * @param Part $opened_part    false, null or Part object
+     * @param string $opened_only '0' or '1' (from render or from post action form)
+     *
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Template("SGLFLTSBundle:Part:Form/selection.html.twig")
      */
-    public function selectionAction(Request $request, $opened_part=null, $part=null, $redirect_route=null, $redirect_error=null)
+    public function selectionAction(Request $request, $opened_part=null, $part=null, $redirect_route=null, $redirect_error=null, $opened_only='0')
     {
-        $em = $this->getDoctrine()->getManager();
-
-        // if part === false, we look for opened_part
-        // if opened_part === false, we look for part
-        $opened_only = $opened_part !== false;
-
-        $form = $this->createSelectPartForm($opened_only);
+        $form = $this->createSelectPartForm($opened_only == '1');
 
         if ($request->getMethod() == 'POST') {
 
@@ -425,7 +422,7 @@ class PartController extends Controller
 
         return array(
             'form'=>$form->createView(),
-            'form_attr_id'=>$opened_only ? 'opened_part_select_form' : 'part_select_form'
+            'form_attr_id'=>$opened_only == '1' ? 'opened_part_select_form' : 'part_select_form'
         );
     }
 

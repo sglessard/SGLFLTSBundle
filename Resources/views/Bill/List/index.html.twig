@@ -3,10 +3,10 @@
 {% block content %}
 
     <h1>{% trans %}flts.bill.Bills by opened project part{% endtrans %}</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'opened_only': true, 'redirect_error': 'sgl_flts_bill'} %}
+    {{ render(controller('SGLFLTSBundle:Part:selection', {'redirect_route': 'sgl_flts_part_bills', 'opened_only': '1', 'redirect_error': 'sgl_flts_bill'})) }}
 
     <h1>{% trans %}flts.bill.Bills by project part (all){% endtrans %}</h1>
-    {% render 'SGLFLTSBundle:Part:selection' with {'redirect_route': 'sgl_flts_part_bills', 'redirect_error': 'sgl_flts_bill' } %}
+    {{ render(controller('SGLFLTSBundle:Part:selection', {'redirect_route': 'sgl_flts_part_bills', 'redirect_error': 'sgl_flts_bill'})) }}
 
     <h1>{% trans %}flts.bill.Latest bills{% endtrans%}</h1>
 

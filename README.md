@@ -20,7 +20,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## Installation
 
-1. Install symfony/framework-standard-edition 2.1.*
+1. Install symfony/framework-standard-edition 2.3.*
 
 2. Install FLTS requirements  
    (using composer, see composer.json example at bottom)  
@@ -330,9 +330,9 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
             # [...]
 
-            "Friendsofsymfony/user-bundle": "*",
-            "genemu/form-bundle": "2.1.*",
-            "knplabs/knp-snappy-bundle": "dev-master",
+            "Friendsofsymfony/user-bundle": "1.3.*",
+            "genemu/form-bundle": "2.2.*",
+            "knplabs/knp-snappy-bundle": "1.*",
             "sgl/flts-bundle": "dev-master"
         },
 
