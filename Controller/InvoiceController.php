@@ -59,6 +59,8 @@ class InvoiceController extends Controller
 
     /**
      * @param integer $id
+     * @return Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @Route("/{id}/pdf", name="sgl_flts_invoice_pdf")
      */
@@ -82,5 +84,16 @@ class InvoiceController extends Controller
                 'Content-Disposition'   => 'attachment; filename="'.$filename.'"'
             )
         );
+    }
+
+    /**
+     * @param $id
+     *
+     * @Route("/{id}/html", name="sgl_flts_invoice_html")
+     * @Template("SGLFLTSBundle:Bill:Invoice/content.html.twig")
+     */
+    public function showHTMLAction($id)
+    {
+        return $this->showAction($id);
     }
 }
