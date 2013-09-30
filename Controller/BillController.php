@@ -168,7 +168,7 @@ class BillController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             // Generate body content if empty
-            if (!$entity->getBodyContent()) {
+            if ($entity->hasEmptyContent()) {
                 $entity->setBodyContent($this->generateInvoiceBodyContent($entity));
             }
 
@@ -200,7 +200,7 @@ class BillController extends Controller
             throw $this->createNotFoundException('Unable to find Bill entity.');
         }
 
-        if (!$entity->getBodyContent()) {
+        if ($entity->hasEmptyContent()) {
             $entity->setBodyContent($this->generateInvoiceBodyContent($entity));
         }
 
@@ -250,7 +250,7 @@ class BillController extends Controller
         if ($editForm->isValid()) {
 
             // Generate body content if empty
-            if (!$entity->getBodyContent()) {
+            if ($entity->hasEmptyContent()) {
                 $entity->setBodyContent($this->generateInvoiceBodyContent($entity));
             }
 

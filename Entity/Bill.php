@@ -832,4 +832,8 @@ class Bill
     {
         return $this->getPart()->getProject()->getClient()->getName();
     }
+
+    public function hasEmptyContent() {
+        return !$this->getBodyContent();
+    }
 }
