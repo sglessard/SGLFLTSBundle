@@ -49,6 +49,8 @@ var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_wo
             {% if (task.works|length) %}
 
             {% set works_count = works_count + task.works|length %}
+            {% set works_hours = 0 %}
+            {% set works_billed_hours = 0 %}
 
             <h3>{{ task }}</h3>
 
@@ -67,6 +69,10 @@ var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_wo
                 <tbody>
 
                     {% for work in task.works %}
+                        {% set works_hours = works_hours + work.hours %}
+                        {% if (work.billed) %}
+                            {% set works_billed_hours = works_billed_hours + work.hours %}
+                        {% endif %}
                         <tr>
                             <td class="date">
                                 <a href="{{ path('sgl_flts_report_date',{'date': work.workedAt|date('Y-m-d') }) }}">{{ work.workedAt|date('Y-m-d') }}</a>
@@ -108,7 +114,16 @@ var work_bill_url = '{{ path('sgl_flts_work_create') }}'.replace(/create/,'id_wo
                         </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="number">{{ task.works|length }}</td>
+                        <td class="number">{{ works_hours|hours }}</td>
+                        <td></td>
+                        <td colspan="2" class="number">{% trans %}Selected:{% endtrans %} {{ works_billed_hours|hours }}</td>
+                    </tr>
+                </tfoot>
             </table>
+
             {% endif %}
         {% endfor %}
 
