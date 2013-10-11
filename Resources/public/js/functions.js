@@ -37,6 +37,7 @@ function checkbox_billed(work_bill_url) {
                 dataType: "json",
                 success: function(result){
                     if (typeof(result) != "undefined") {
+                        selected_hours_ajustment($(checkbox).closest('table.records_list').find('.selected_hours').get(0));
                         return highlight(checkbox);
                     }
                 },
@@ -73,6 +74,7 @@ function checkall_billworks() {
             success: function(result){
                 $.map(result.works, function(val,i) {
                     document.getElementById('billed_'+val).checked = true;
+                    selected_hours_ajustment_all();
                     highlight('#billed_'+val);
                 });
                 return true;
@@ -110,6 +112,7 @@ function uncheckall_billworks() {
             success: function(result){
                 $.map(result.works, function(val,i) {
                     document.getElementById('billed_'+val).checked = false;
+                    selected_hours_ajustment_all();
                     highlight('#billed_'+val);
                 });
                 return true;
@@ -121,6 +124,28 @@ function uncheckall_billworks() {
         });
     });
 }
+
+function selected_hours_ajustment(selected_hours) {
+    if ($(selected_hours).length < 1)
+        return;
+
+    var container = $(selected_hours).closest('table').get(0);
+    var selected_hours_value = 0;
+
+    $(container).find('td.val-hours').each(function() {
+        if ($(this).nextAll('.val-billed:first').find('input').get(0).checked)
+            selected_hours_value += parseFloat($(this).html().replace(/,/,'.'));
+    });
+
+    $(selected_hours).html(selected_hours_value.wackyRound(2).toString().replace(/\./,',')+ ' h');
+}
+
+function selected_hours_ajustment_all(val) {
+    $('.selected_hours').each(function() {
+        selected_hours_ajustment(this);
+    });
+}
+
 
 function highlight(obj) {
     $(obj).parent().effect("highlight",{color:"#ffffaa"},3000);
@@ -136,4 +161,14 @@ function call_alert($msg) {
 function call_confirm($msg) {
     // TODO : JQuery Modals
     return confirm($msg);
+}
+
+// Instead of using tofixed() on float.
+// http://stackoverflow.com/a/2862144/229088
+Number.prototype.wackyRound = function(places){
+    var multiplier = Math.pow(10, places+2); // get two extra digits
+    var fixed = Math.floor(this*multiplier); // convert to integer
+    fixed += 44; // round down on anything less than x.xxx56
+    fixed = Math.floor(fixed/100); // chop off last 2 digits
+    return fixed/Math.pow(10, places);
 }
