@@ -199,7 +199,9 @@ table.records_list td.money {
     text-align:right;
     white-space: nowrap;
 }
-
+table.records_list td.status {
+    white-space: nowrap;
+}
 table.records_list td.string {
     text-align:left;
 }

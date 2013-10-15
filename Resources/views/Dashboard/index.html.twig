@@ -48,7 +48,7 @@
                 <td>
                     <a href="{{ path('sgl_flts_task', { 'id_project': part.project.id,  'id_part': part.id }) }}" class="list" title="{{ part.fullname }} {% trans %}task list{% endtrans%}">{{ part.fullname }}</a>
                 </td>
-                <td style="white-space: nowrap;">
+                <td class="status">
                     {% if (part.closed) %}
                         {% trans %}Closed{% endtrans %}
                     {% else %}
@@ -56,7 +56,7 @@
                         {{ part.getWorkedPourcentage|number_format(0)  }} %
                     {% endif %}
                 </td>
-                <td style="white-space: nowrap;">
+                <td class="date">
                     {{ part.getDurationSinceCreation|relativeTime }}
                 </td>
             </tr>
@@ -95,12 +95,12 @@
                     <td class="money">
                         {{ bill.total|price }}
                     </td>
-                    <td>
+                    <td class="date">
                         {% if (bill.billedAt) %}
                             {{ bill.billedAt|localizeddate('long', 'none', app.request.locale) }}
                         {% endif %}
                     </td>
-                    <td>
+                    <td class="date">
                         {% if (bill.paidAt) %}
                             {{ bill.paidAt|localizeddate('long', 'none', app.request.locale) }}
                         {% endif %}
