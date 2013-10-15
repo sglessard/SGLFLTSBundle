@@ -46,7 +46,7 @@
                     {{ part.clientName }}
                 </td>
                 <td>
-                    <a href="{{ path('sgl_flts_task', { 'id_project': part.project.id,  'id_part': part.id }) }}" class="list" title="{{ part.fullname }} {% trans %}task list{% endtrans%}">{{ part.fullname }}</a>
+                    <a href="{{ path('sgl_flts_report_part', { 'id_part': part.id }) }}" class="list" title="{{ part.fullname }} {% trans %}part report{% endtrans%}">{{ part.fullname }}</a>
                 </td>
                 <td class="status">
                     {% if (part.closed) %}
