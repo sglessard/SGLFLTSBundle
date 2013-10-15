@@ -8,6 +8,11 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('sgl_flts_part_edit', { 'id_project': project.id,'id': part.id }) }}" class="edit">
+                {% trans %}Edit project part{% endtrans%}
+            </a>
+        </li>
+        <li>
             <a href="{{ path(list_route, { 'id_project': project.id }) }}" class="list">
                 {% if (app.session.get('opened_parts', true)) %}{% trans %}Back to opened project parts list{% endtrans%}{% else %}{% trans %}Back to project parts list{% endtrans%}{% endif %}
             </a>
