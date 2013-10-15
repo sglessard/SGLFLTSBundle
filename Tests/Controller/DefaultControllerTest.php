@@ -14,7 +14,7 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("href=\"/login\"")')->count()
+            $crawler->filter('#content section a[href*="login"]')->count()
         );
     }
 }

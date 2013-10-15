@@ -12,6 +12,10 @@
      bootstrap="Tests/bootstrap.php"
 >
 
+    <php>
+        <server name="KERNEL_DIR" value="../../../../../app/" />
+    </php>
+
     <testsuites>
         <testsuite name="SGLFLTSBundle Test Suite">
             <directory suffix="Test.php">./Tests</directory>

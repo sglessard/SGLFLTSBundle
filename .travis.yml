@@ -8,12 +8,10 @@ env:
   - SYMFONY_VERSION="2.3.*" DB=mysql
   - SYMFONY_VERSION="dev-master" DB=mysql
 
-services: mongodb
-
 before_script:
   - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar --dev --prefer-source install
+  - composer install --dev --prefer-source
 
 script: phpunit --coverage-text
 
