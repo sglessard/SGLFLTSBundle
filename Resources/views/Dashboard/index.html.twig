@@ -28,7 +28,7 @@
         {{ lastest_work.startedAt|date('H:i') }} - {{ lastest_work.endedAt|date('H:i') }} <a href="{{ path('sgl_flts_work_show', { 'id': lastest_work.id, 'id_project': lastest_work.task.part.project.id,'id_part': lastest_work.task.part.id,'id_task': lastest_work.task.id }) }}">{{ lastest_work }}</a>
     </p>
 
-    <h3>{% trans %}Browse the latest worked project parts{% endtrans %} :</h3>
+    <h3>{% trans %}Browse the latest active project parts{% endtrans %} :</h3>
     {% if (latest_workedon_parts|length > 0) %}
     <table class="records_list">
         <thead>
@@ -48,7 +48,7 @@
                 <td>
                     <a href="{{ path('sgl_flts_task', { 'id_project': part.project.id,  'id_part': part.id }) }}" class="list" title="{{ part.fullname }} {% trans %}task list{% endtrans%}">{{ part.fullname }}</a>
                 </td>
-                <td>
+                <td style="white-space: nowrap;">
                     {% if (part.closed) %}
                         {% trans %}Closed{% endtrans %}
                     {% else %}
@@ -56,7 +56,7 @@
                         {{ part.getWorkedPourcentage|number_format(0)  }} %
                     {% endif %}
                 </td>
-                <td>
+                <td style="white-space: nowrap;">
                     {{ part.getDurationSinceCreation|relativeTime }}
                 </td>
             </tr>

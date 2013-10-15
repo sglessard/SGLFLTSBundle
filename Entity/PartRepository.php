@@ -137,6 +137,7 @@ class PartRepository extends EntityRepository
             ->innerjoin('pp.client', 'c')
             ->innerjoin('p.tasks', 't')
             ->innerjoin('t.works', 'w')
+            ->andWhere('p.closed_at is null')
             ->orderBy('w.worked_at', 'DESC')
             ->addOrderBy('w.started_at', 'DESC')
             ->setMaxResults($limit);
