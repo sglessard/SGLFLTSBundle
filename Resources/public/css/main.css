@@ -426,6 +426,16 @@ textarea.longtext {
     width: 500px;
 }
 
+.record_field_actions {
+    float:right;
+    background-color:#ffffcc;
+    border-radius: 4px;
+    padding:6px 10px;
+    margin-bottom:8px;
+}
+.record_field_actions a {
+    color:#000000;
+}
 
 /***********************************************************
  * FOOTER

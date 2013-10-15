@@ -402,6 +402,25 @@ class BillController extends Controller
         return $response;
     }
 
+    /**
+    * @Route("/{id}/body-content", name="sgl_flts_bill_body_content")
+    * @Template("SGLFLTSBundle:Bill:Invoice/body_content.html.twig")
+    */
+    public function getGenerateInvoiceBodyContent($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->find($id);
+        if (!$bill) {
+            throw $this->createNotFoundException('Unable to find Bill entity.');
+        }
+
+        return array(
+            'bill'       => $bill,
+            'part'       => $bill->getPart(),
+       );
+    }
+
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
