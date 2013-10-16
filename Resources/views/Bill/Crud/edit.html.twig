@@ -10,6 +10,7 @@
     <form action="{{ path('sgl_flts_bill_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_errors(edit_form) }}
 
+    {% if (entity.sent == false) %}
         {{ form_row(edit_form.part) }}
         {{ form_row(edit_form.number) }}
         {{ form_row(edit_form.name) }}
@@ -37,6 +38,7 @@
 
         {{ form_row(edit_form.gst) }}
         {{ form_row(edit_form.pst) }}
+    {% endif %}
 
         {{ form_rest(edit_form) }}
 
