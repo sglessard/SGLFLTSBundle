@@ -1,7 +1,7 @@
 SGLFLTSBundle
 =============
 
-[![Build Status](http://travis-ci.org/sglessard/SGLFLTSBundle.png)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle)
+[![Build Status](https://api.travis-ci.org/sglessard/SGLFLTSBundle.png?branch=master)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle)
 
 SGLFLTSBundle is a timesheet and billing application [Symfony2.3](http://symfony.com/doc/current/book/index.html) bundle mainly for freelancers.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
