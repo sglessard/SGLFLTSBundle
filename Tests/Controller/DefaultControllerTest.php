@@ -12,5 +12,9 @@ class DefaultControllerTest extends WebTestCase
             0,
             1
         );
+        $this->assertGreaterThan(
+            0,
+            -1
+        );
     }
 }
