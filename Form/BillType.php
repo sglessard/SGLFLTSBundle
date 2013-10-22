@@ -63,7 +63,7 @@ class BillType extends AbstractType
 
         if (!$options['new_entity']) {
             $builder->add('body_content','genemu_tinymce',array(
-                'attr'=>array('cols'=>96,'rows'=>40),
+                'attr'=>array('style'=>'width: 680px; height:600px;'),
                 'required'=>false,
             ));
         }
