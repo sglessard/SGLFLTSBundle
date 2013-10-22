@@ -10,7 +10,7 @@ env:
 
 before_script:
   - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-#  - echo "zend.enable_gc=0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` # php 5.4 travis segfault
+  - echo "zend.enable_gc=0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` # php 5.4 travis segfault
   - curl -s http://getcomposer.org/installer | php
   - composer install --dev --prefer-source
 
