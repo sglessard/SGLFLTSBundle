@@ -1,12 +1,18 @@
 SGLFLTSBundle
 =============
 
-[![Build Status](https://api.travis-ci.org/sglessard/SGLFLTSBundle.png?branch=master)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle)
+
+
 
 SGLFLTSBundle is a timesheet and billing application [Symfony2.3](http://symfony.com/doc/current/book/index.html) bundle mainly for freelancers.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
 
-#### Notice : not production ready
+Build status
+------------
+
+| branch      | phpver | status |
+| ----------- | ------ | ------ |
+| master      | 5.3    | [![Build Status](https://api.travis-ci.org/sglessard/SGLFLTSBundle.png?branch=master)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle) |
 
 
 ## Objects  
@@ -56,7 +62,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
             new SGL\FLTSBundle\SGLFLTSBundle(),
     ```
 
-5. Add required parameters (_parameters.yml_), config (_config.yml_) and routing (_routing.yml_)  
+5. Add required parameters (parameters.yml), config (config.yml) and routing (routing.yml)
    See examples at bottom  
 
 6. Install third-party helpers  
@@ -66,7 +72,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
     6.2 [JQuery](http://jquery.com/download/)  
     6.3 [JQuery UI](http://jqueryui.com/download/)  
 
-7. Edit firewall and security (security.yml)  
+7. Edit firewall and security (security.yml)
    See security.yml example at bottom  
 
 8. Update your database  
@@ -133,6 +139,8 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
     sgl_flts.bill_latest_period:              P0Y4M  # In years-months, see DateInterval __construct parameter
     sgl_flts.bill_taxable:                    true   # Bill taxable by default
+
+    sgl_flts.recent_parts_limit:              10     # Maximum element in recent parts list
 
     # knp snappy params
     knp_snappy.pdf_binary:                    /usr/local/bin/wkhtmltopdf  # which wkhtmltopdf
@@ -345,8 +353,7 @@ It is a port of my sf1.0 timesheet application I used for 4 years.
 
 ## TODO
 
- - Recently accessed project parts quick menu
  - Multiuser has not been tested
- - Theme CSS cleanup
+ - Theme layout/CSS
  - svn/git integration (revision/hash)
  - Tests

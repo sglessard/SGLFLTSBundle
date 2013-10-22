@@ -1,0 +1,25 @@
+{% if (recents|length > 0) %}
+
+<div id="recent-projects">
+    {% trans %}Recent browsed project parts:{% endtrans%}
+
+    <select name="quick_recent_parts" id="quick_recent_parts_select">
+        <option value="">- {% trans %}Choose{% endtrans %} -</option>
+    {% for client,parts in recents %}
+        <optgroup label="{{ client }}">
+        {% for part in parts %}
+            <option value="{{ path('sgl_flts_task', { 'id_project': part.project.id,  'id_part': part.id }) }}">{{ part.fullname }}</option>
+        {% endfor %}
+        </optgroup>
+    {% endfor %}
+    </select>
+</div>
+
+<script type="text/javascript">
+$('#quick_recent_parts_select').change(function() {
+    if ($(this).val() != '')
+        location.href = $(this).val();
+});
+</script>
+
+{% endif %}

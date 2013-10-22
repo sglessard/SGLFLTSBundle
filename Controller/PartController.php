@@ -427,6 +427,33 @@ class PartController extends Controller
     }
 
     /**
+     * Recent part quick menu, ordered by client
+     * @return array
+     *
+     * @Template("SGLFLTSBundle:Part:List/recents.html.twig")
+     */
+    public function recentsAction()
+    {
+        $recents = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->container->get('session');
+        $part_ids = explode(',',$session->get('recentparts',','));
+
+        foreach ($part_ids as $id) {
+            if (($id = intval($id)) > 0) {
+                if ($part = $em->getRepository('SGLFLTSBundle:Part')->findWithProjectClient($id)) {
+                    $recents[$part->getProject()->getClient()->getName()][] = $part;
+                }
+            }
+        }
+        return array(
+            'recents'=>$recents,
+        );
+    }
+
+    /**
      * Part deletion form
      * @param integer $id
      * @param boolean $closed

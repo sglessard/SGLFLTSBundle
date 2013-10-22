@@ -17,7 +17,7 @@
         </aside>
         <div id="wrapper">
             <header>
-                <div id="recent-projects">{% trans %}Recent projects:{% endtrans%}</div>
+                {{ render(controller('SGLFLTSBundle:Part:recents')) }}
                 <h1><a href="{{ path('sgl_flts_dashboard') }}" style="color:#000; text-decoration:none;"><img id="logo" src="{{ business_logo_src }}" width="{{ business_logo_width }}" alt="{{ business_name }}" /></a></h1>
             </header>
 

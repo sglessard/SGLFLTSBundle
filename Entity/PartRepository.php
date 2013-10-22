@@ -80,6 +80,23 @@ class PartRepository extends EntityRepository
     }
 
     /*
+     * Find Part with project and client data
+     *
+     * @param int $id
+     * @param bool $queryBuilder (return query builder only)
+     * @return Doctrine Collection or Query Builder
+     */
+    public function findWithProjectClient($id_part,$queryBuilder = false)
+    {
+        $query = $this->retrieveWithProjectClient(true);
+
+        $query->andWhere('p.id = :id')
+            ->setParameter(':id',$id_part);
+
+        return $this->dispatch($query, $queryBuilder, true);
+    }
+
+    /*
      * Retrieve Parts by project, with bills and works
      *
      * @param integer $id_project
@@ -151,14 +168,22 @@ class PartRepository extends EntityRepository
      *
      * @param Query Builder $query
      * @param boolean  $queryBuilder (return query builder only)
+     * @param boolean  $single
      *
      * @return Doctrine Collection or Query Builder
      */
-    private function dispatch($query, $queryBuilder) {
+    private function dispatch($query, $queryBuilder, $single=false) {
         if ($queryBuilder) {
             return $query;
         } else {
-            return $query->getQuery()->getResult();
+
+            $results = $query->getQuery()->getResult();
+
+            if ($single && isset($results[0])) {
+                return $results[0];
+            } else {
+                return $results;
+            }
         }
     }
 }
