@@ -405,6 +405,7 @@ class BillController extends Controller
     /**
     * @Route("/{id}/body-content", name="sgl_flts_bill_body_content")
     * @Template("SGLFLTSBundle:Bill:Invoice/body_content.html.twig")
+    * @return array
     */
     public function getGenerateInvoiceBodyContent($id) {
 
@@ -418,6 +419,25 @@ class BillController extends Controller
         return array(
             'bill'       => $bill,
             'part'       => $bill->getPart(),
+       );
+    }
+
+    /**
+     * @Route("/{id}/works/list", name="sgl_flts_bill_works_list")
+     * @Template("SGLFLTSBundle:Work:List/simplelist.html.twig")
+     * @return array
+     */
+    public function showBilledWorks($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->findWithPartTasksWorks($id);  // Returns all fetched entities
+        if (!$bill) {
+            throw $this->createNotFoundException('Unable to find Bill entity.');
+        }
+
+        return array(
+            'bill'    => $bill
        );
     }
 

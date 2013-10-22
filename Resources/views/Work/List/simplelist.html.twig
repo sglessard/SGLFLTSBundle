@@ -1,0 +1,35 @@
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>{% trans %}Date{% endtrans %}</th>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <th>{% trans %}Worked hours{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set work_count = 0 %}
+    {% for task in bill.part.tasks %}
+        <tr>
+            <td colspan="3"><h3>{{ task }}</h3></td>
+        </tr>
+        {% for entity in task.works %}
+        <tr>
+            <td class="date">{% if entity.workedat %}{{ entity.workedat|date('Y-m-d') }}{% endif %}</td>
+            <td class="string">{{ entity.name }}</td>
+            <td class="number">{{ entity.hours|hours }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"><b>{% trans %}Billed hours{% endtrans %} : {{ task.billedHours|hours }}</b></td>
+        </tr>
+        {% set work_count = work_count + task.works|length %}
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>
+    <strong>
+        {{ work_count }} {% trans %}billed works{% endtrans%}<br />
+        {{ bill.hours|hours }}
+    </strong>
+</p>

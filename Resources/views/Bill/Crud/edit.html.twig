@@ -25,11 +25,12 @@
         {{ form_row(edit_form.deposited_at) }}
 
         <div class="row">
-            <div class="record_field_actions" style="margin-right:115px;">
-                <a href="" class="button" id="regenerate_bill_body_content">Regenerate body content</a>
-            </div>
             <div class="label">
                 <label for="sgl_fltsbundle_billtype_body_content">{% trans %}Body content{% endtrans %}</label>
+            </div>
+            <div id="sgl_fltsbundle_billtype_body_content_actions" class="record_field_actions">
+                <a href="{{ path('sgl_flts_bill_body_content', { 'id': entity.id }) }}" class="button" id="regenerate_bill_body_content">Regenerate body content</a>
+                <a href="{{ path('sgl_flts_bill_works_list', { 'id': entity.id }) }}" class="button" id="show_bill_checked_works">Show checked works</a>
             </div>
             <div class="field">
                 {{ form_widget(edit_form.body_content) }}
@@ -54,9 +55,30 @@
             event.preventDefault();
             if (!confirm('{% trans %}Are you sure you want to regenerate body content (changes will be lost)?{% endtrans %}'))
                 return false;
-            $.get("{{ path('sgl_flts_bill_body_content', { 'id': entity.id }) }}", function(content) {
+            $.get($(this).attr('href'), function(content) {
                 tinyMCE.activeEditor.setContent(content);
             });
+        });
+
+        $('#show_bill_checked_works').click(function(event) {
+            event.preventDefault();
+            if ($('#show_bill_checked_works_dialog').length == 0) {
+
+                $('<div id="show_bill_checked_works_dialog" class="ui-dialog"><div class="content">{% trans %}Loading...{% endtrans %}</div></div>').appendTo($(this).parent());
+                $("#show_bill_checked_works_dialog").dialog({
+                    autoOpen: false,
+                    show: "fade",
+                    hide: "fade",
+                    modal: true,
+                    height: 600,
+                    width: 850,
+                    resizable: true,
+                    title: 'Vessels'
+                });
+                $('#show_bill_checked_works_dialog .content').load($(this).attr('href'));
+            }
+
+            $("#show_bill_checked_works_dialog").dialog('open');
         });
     </script>
 {% endblock %}

@@ -106,6 +106,29 @@ class BillRepository extends EntityRepository
         return $this->dispatch($query, $queryBuilder, true);
     }
 
+     /*
+     * Find one with associated works
+     * Cascade is important to fetch every entities in one query (bill > part > task > works)
+     * @see https://gist.github.com/sglessard/7101357
+     *
+     * @param integer $id_bill
+     * @param bool $queryBuilder (return query builder only)
+     * @return Doctrine Collection or Query Builder
+     */
+    public function findWithPartTasksWorks($id_bill, $queryBuilder = false)
+    {
+        $query = $this->retrieve(true)
+            ->select('b,p,t,w')
+            ->innerjoin('b.part','p')
+            ->innerjoin('p.tasks','t')
+            ->innerjoin('t.works','w')
+            ->where('w.bill = :id_bill')
+            ->setParameter('id_bill', $id_bill);
+
+        return $this->dispatch($query, $queryBuilder, true);
+    }
+
+
     /*
      * Find bills by part
      *
@@ -148,7 +171,7 @@ class BillRepository extends EntityRepository
      *
      * @return Doctrine Collection or Query Builder
      */
-    private function dispatch($query, $queryBuilder,$single=false) {
+    private function dispatch($query, $queryBuilder, $single=false) {
         if ($queryBuilder) {
             return $query;
         } else {

@@ -426,16 +426,32 @@ textarea.longtext {
     width: 500px;
 }
 
+
+
+/***********************************************************
+ * RECORDS FORMS EXTRA ACTIONS
+ */
 .record_field_actions {
-    float:right;
-    background-color:#ffffcc;
-    border-radius: 4px;
-    padding:6px 10px;
-    margin-bottom:8px;
+    text-align:right;
+    border:1px solid #cccccc;
+    border-bottom: 0;
+    padding:10px 8px;
 }
 .record_field_actions a {
+    border-radius: 6px;
+    padding:6px 8px;
+    margin-left:6px;
+    background-color:#c9e9fc;
     color:#000000;
 }
+
+/***********************************************************
+ * RECORDS FORMS EXTRA ACTIONS CUSTOMISATIONS
+ */
+#sgl_fltsbundle_billtype_body_content_actions {
+    width: 662px;   /*680-20+2, @see BillType*/
+}
+
 
 /***********************************************************
  * FOOTER
@@ -444,6 +460,13 @@ footer {
     clear:both;
     text-align:center;
 }
+
+
+/***********************************************************
+ * JQUERY UI
+ */
+.ui-dialog { background: #ffffff none; }
+.ui-dialog .records_list { font-size:0.917em; }
 
 /***********************************************************
  * CUSTOM STYLES
