@@ -27,8 +27,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         if ($canTax->getHst() === 0.00)
             $result++;
 
-
-        // vérifie que votre classe a correctement calculé!
         $this->assertTrue($canTax->getGst() === 5.000);
         $this->assertTrue($canTax->getPst() === 9.975);
         $this->assertTrue($canTax->getHst() === 0);
