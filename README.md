@@ -68,9 +68,7 @@ Build status
 6. Install third-party helpers  
    Hint : you can extend FLTS bundle in your project and install those libraries inside.
 
-    6.1 [TinyMCE](http://www.tinymce.com/)  
-    6.2 [JQuery](http://jquery.com/download/)  
-    6.3 [JQuery UI](http://jqueryui.com/download/)  
+    6.1 [TinyMCE](http://www.tinymce.com/)
 
 7. Edit firewall and security (security.yml)
    See security.yml example at bottom  
