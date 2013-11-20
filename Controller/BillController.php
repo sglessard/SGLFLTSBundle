@@ -175,7 +175,8 @@ class BillController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('sgl_flts_bill_show', array('id' => $entity->getId())));
+            // Redirect to bill's works action
+            return $this->redirect($this->generateUrl('sgl_flts_bill_works', array('id' => $entity->getId())));
         }
 
         return array(
