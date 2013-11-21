@@ -1,6 +1,13 @@
 parameters:
 
 services:
+    sgl_flts.tax:
+        class: %sgl_flts.tax_class%
+        calls:
+            - [ setDefaultGst, [%sgl_flts.tax_gst%] ]
+            - [ setDefaultPst, [%sgl_flts.tax_pst%] ]
+            - [ setDefaultHst, [%sgl_flts.tax_hst%] ]
+
     sgl_flts.registration.form.type:
         class: SGL\FLTSBundle\Form\RegistrationFormType
         arguments: [%fos_user.model.user.class%]

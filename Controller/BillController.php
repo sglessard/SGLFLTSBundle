@@ -119,7 +119,7 @@ class BillController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $translator = $this->get('translator');
-        $tax_calc = $this->get('tax');
+        $tax_calc = $this->get('sgl_flts.tax');
 
         $entity = new Bill();
         $entity->setNumber($em->getRepository('SGLFLTSBundle:Bill')->findNextNumber());
