@@ -30,11 +30,11 @@ body#invoice td {
 
 body#invoice header {
     height:60px;
-    margin:32px 0 6px;
+    margin:28px 0 6px;
 }
-body#invoice header .billnumber{
+body#invoice header #billnumber{
     position:absolute;
-    top:-2px;
+    top:0px;
     right:20px;
     font-size:24px;
     line-height:20px;
@@ -44,11 +44,11 @@ body#invoice header #logo {
     float:left;
 }
 body#invoice header table {
-    width:350px;
+    width:353px;
     float:right;
 }
-body#invoice header table tr td:last-child {
-    text-align:right;
+body#invoice header table tr td {
+    padding-bottom:0.333em;
 }
 body#invoice table#project {
     width:100%;
@@ -57,7 +57,8 @@ body#invoice table#project {
 body#invoice table thead th,
 #task-details {
     color:#000000;
-    font-size:10px;
+    font-size:11px;
+    font-weight:bold;
     padding-bottom:4px;
     border-bottom:2px solid #eeedeb;
 }
