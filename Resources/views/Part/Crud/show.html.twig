@@ -1,10 +1,8 @@
-{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+{% extends 'SGLFLTSBundle:Part:layout.html.twig' %}
 
 {% block content %}
 
-    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
     <h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>
-
 
     <table class="record_properties">
         <tbody>

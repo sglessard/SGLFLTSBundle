@@ -1,4 +1,4 @@
-{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+{% extends 'SGLFLTSBundle:Part:layout.html.twig' %}
 
 {% form_theme edit_form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
 
@@ -6,8 +6,6 @@
 
 {% block content %}
     {{ parent() }}
-
-    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
 
     <h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>
 

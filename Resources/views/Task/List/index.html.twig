@@ -1,8 +1,6 @@
-{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+{% extends 'SGLFLTSBundle:Task:layout.html.twig' %}
 
 {% block content %}
-
-    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
 
     <h3>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h3>
     <h2>{% trans %}Tasks list{% endtrans%}</h2>

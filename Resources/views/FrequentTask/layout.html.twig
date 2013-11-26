@@ -1,7 +1,3 @@
 {% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
 
-{% block identification_title %}
-    {% if project is defined %}
-        {% include 'SGLFLTSBundle:Project:identification_title.html.twig' with { 'project': project } %}
-    {% endif %}
-{% endblock %}
+{% block pagetitle %}{% trans %}flts.section.FrequentTask{% endtrans %} - {{ parent() }}{% endblock %}

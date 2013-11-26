@@ -1,4 +1,20 @@
 flts:
+    section:
+        Bill: Bills
+        Client: Clients
+        Dashboard: Dashboard
+        FrequentTask: Frequent Tasks
+        Home: Home
+        Part: Project Parts
+        Project: Projects
+        Rate: Rates
+        Report: Reports
+        Report.Part: Project Part Report
+        Report.Date: Daily Report
+        Task: Tasks
+        User: Users
+        Work: Part Works
+
     global:
         Recent projects: Recent projects
 

@@ -1,7 +1,9 @@
 {% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
 
+{% block pagetitle %}{% trans %}flts.section.Bill{% endtrans %} - {{ parent() }}{% endblock %}
+
 {% block identification_title %}
     {% if project is defined %}
-        {% include 'SGLFLTSBundle:Project:identification_title.html.twig' with { 'project': project } %}
+        {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
     {% endif %}
 {% endblock %}

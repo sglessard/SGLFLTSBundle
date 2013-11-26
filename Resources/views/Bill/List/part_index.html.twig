@@ -1,4 +1,4 @@
-{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+{% extends 'SGLFLTSBundle:Bill:layout.html.twig' %}
 
 {% block content %}
 
@@ -7,8 +7,6 @@
 
     <h1>{% trans %}flts.bill.Bills by project part (all){% endtrans %}</h1>
     {{ render(controller('SGLFLTSBundle:Part:selection', {'redirect_route': 'sgl_flts_part_bills', 'redirect_error': 'sgl_flts_bill'})) }}
-
-    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': part.project } %}
 
     <div class="record_actions_ctn">
         {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'part': part } %}

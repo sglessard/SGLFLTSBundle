@@ -1,1 +1,9 @@
 {% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+
+{% block pagetitle %}{% trans %}flts.section.Project{% endtrans %} - {{ parent() }}{% endblock %}
+
+{% block identification_title %}
+    {% if entity is defined %}
+        {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': entity } %}
+    {% endif %}
+{% endblock %}

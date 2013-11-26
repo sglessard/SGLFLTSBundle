@@ -1,12 +1,10 @@
-{% extends 'SGLFLTSBundle:Theme:layout.html.twig' %}
+{% extends 'SGLFLTSBundle:Part:layout.html.twig' %}
 
 {% set show_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_show':'sgl_flts_part_show_all' %}
 {% set edit_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_edit':'sgl_flts_part_edit_all' %}
 {% set task_route = app.session.get('opened_parts', true) ? 'sgl_flts_task':'sgl_flts_task' %}
 
 {% block content %}
-
-    {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': project } %}
 
     <h1>{% trans %}Part list{% endtrans%}</h1>
 
