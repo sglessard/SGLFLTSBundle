@@ -1,1 +1,30 @@
 {% extends 'SGLFLTSBundle:Theme:baselayout.html.twig' %}
+
+{% block pagetitle %}FLTS{% endblock %}
+
+{% block header %}
+    {{ render(controller('SGLFLTSBundle:Part:recents')) }}
+    <h1><a href="{{ path('sgl_flts_dashboard') }}"><img id="logo" src="{{ business_logo_src }}" width="{{ business_logo_width }}" alt="{{ business_name }}" /></a></h1>
+{% endblock %}
+
+{% block nav %}
+   {% include 'SGLFLTSBundle:Theme:Menu/main_menu.html.twig' %}
+{% endblock %}
+
+{% block aside %}
+    {% include 'SGLFLTSBundle:Theme:Global/top.html.twig' %}
+{% endblock %}
+
+{% block notice %}
+    {% if (app.session.flashbag.has('notice')) %}
+        <div class="notice">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            {{ flashMessage|trans }}<br/>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    FLTS version 0.1
+{% endblock %}
