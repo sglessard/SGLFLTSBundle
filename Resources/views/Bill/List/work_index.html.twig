@@ -1,9 +1,12 @@
 {% extends 'SGLFLTSBundle:Bill:layout.html.twig' %}
 
-{% block content %}
-
+{% block content_title %}
     <h2>{{ part.fullname }}</h2>
     <h1>{% trans %}Bill works{% endtrans %}</h1>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
 
     <div class="explanation">
         <p>{% trans %}To add or remove works from bill{% endtrans %} :

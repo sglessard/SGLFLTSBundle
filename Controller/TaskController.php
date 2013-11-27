@@ -143,6 +143,11 @@ class TaskController extends Controller
 
             $part = $entity->getPart();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_task_show', array('id' => $entity->getId(), 'id_project'=>$part->getProject()->getId(), 'id_part'=>$part->getId())));
         }
 
@@ -225,6 +230,11 @@ class TaskController extends Controller
 
             $part = $entity->getPart();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_task_edit', array('id' => $id, 'id_project'=>$part->getProject()->getId(), 'id_part'=>$part->getId())));
         }
 
@@ -261,6 +271,11 @@ class TaskController extends Controller
         if ($form->isValid()) {
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_task', array('id_project'=>$part->getProject()->getId(), 'id_part'=>$part->getId())));

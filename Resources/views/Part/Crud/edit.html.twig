@@ -4,10 +4,10 @@
 
 {% set update_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_update': 'sgl_flts_part_update_all' %}
 
+{% block content_title %}<h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>{% endblock %}
+
 {% block content %}
     {{ parent() }}
-
-    <h1>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h1>
 
     <form action="{{ path(update_route, { 'id': part.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 

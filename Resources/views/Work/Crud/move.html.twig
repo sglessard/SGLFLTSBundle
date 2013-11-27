@@ -2,10 +2,10 @@
 
 {% form_theme edit_form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
 
+{% block content_title %}<h1>{% trans %}Move work{% endtrans %} : {{ entity  }}</h1>{% endblock %}
+
 {% block content %}
     {{ parent() }}
-
-    <h2>Move work « {{ entity  }}»</h2>
 
     <h3>{% trans %}Move from{% endtrans %} : </h3>
     <p>

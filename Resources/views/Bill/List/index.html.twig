@@ -1,7 +1,6 @@
 {% extends 'SGLFLTSBundle:Bill:layout.html.twig' %}
 
-{% block content %}
-
+{% block content_title %}
     <h1>{% trans %}flts.bill.Bills by opened project part{% endtrans %}</h1>
     {{ render(controller('SGLFLTSBundle:Part:selection', {'redirect_route': 'sgl_flts_part_bills', 'opened_only': '1', 'redirect_error': 'sgl_flts_bill'})) }}
 
@@ -13,6 +12,10 @@
     <div class="actions">
         {% include 'SGLFLTSBundle:Bill:Common/list_actions.html.twig' with { 'entity_name': 'bill' } %}
     </div>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
 
     <table class="records_list records_list_extend">
         <thead>

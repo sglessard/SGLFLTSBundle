@@ -1,12 +1,13 @@
 {% extends 'SGLFLTSBundle:Work:layout.html.twig' %}
 
-{% block content %}
-
+{% block content_title %}
     <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
     <h3>{% trans %}Task{% endtrans %} : {{ task }}</h3>
-
     <h4>Work list</h4>
+{% endblock %}
 
+{% block content %}
+    {{ parent() }}
 
     {% include 'SGLFLTSBundle:Work:Common/list_actions.html.twig' with { 'project': project, 'part': part, 'task': task } %}
 

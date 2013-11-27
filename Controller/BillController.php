@@ -175,6 +175,11 @@ class BillController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             // Redirect to bill's works action
             return $this->redirect($this->generateUrl('sgl_flts_bill_works', array('id' => $entity->getId())));
         }
@@ -258,6 +263,11 @@ class BillController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_bill_edit', array('id' => $id)));
         }
 
@@ -289,6 +299,11 @@ class BillController extends Controller
 
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_bill'));

@@ -2,11 +2,13 @@
 
 {% form_theme form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
 
-{% block content %}
-    {{ parent() }}
-
+{% block content_title %}
     <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
     <h3>Task creation</h3>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
 
     <form action="{{ path('sgl_flts_task_create' ) }}" method="post" {{ form_enctype(form) }}>
 

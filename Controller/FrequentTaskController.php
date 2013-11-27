@@ -102,6 +102,11 @@ class FrequentTaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_frequenttask_edit', array('id' => $entity->getId())));
         }
 
@@ -162,6 +167,11 @@ class FrequentTaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_frequenttask_edit', array('id' => $id)));
         }
 
@@ -193,6 +203,11 @@ class FrequentTaskController extends Controller
 
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_frequenttask'));

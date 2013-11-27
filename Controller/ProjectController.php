@@ -103,6 +103,11 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_project_show', array('id' => $entity->getId())));
         }
 
@@ -163,6 +168,11 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             return $this->redirect($this->generateUrl('sgl_flts_project_edit', array('id' => $id)));
         }
 
@@ -197,6 +207,11 @@ class ProjectController extends Controller
 
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_project'));

@@ -1,9 +1,12 @@
 {% extends 'SGLFLTSBundle:Task:layout.html.twig' %}
 
-{% block content %}
-
+{% block content_title %}
     <h2>{% trans %}Part{% endtrans %} : {{ part.fullname }}</h2>
     <h3>{{ entity.fullname }}</h3>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
 
     <table class="record_properties">
         <tbody>

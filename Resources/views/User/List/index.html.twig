@@ -1,8 +1,9 @@
 {% extends 'SGLFLTSBundle:User:layout.html.twig' %}
 
-{% block content %}
+{% block content_title %}<h1>{% trans %}Users list{% endtrans%}</h1>{% endblock %}
 
-    <h1>{% trans %}Users list{% endtrans%}</h1>
+{% block content %}
+    {{ parent() }}
 
     <div class="actions">
         {% include 'SGLFLTSBundle:Theme:Common/list_actions.html.twig' with { 'entity_name': 'user' } %}

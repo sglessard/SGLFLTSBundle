@@ -5,10 +5,10 @@
 {% set create_route = app.session.get('opened_parts', true) == true ? 'sgl_flts_part_create': 'sgl_flts_part_create_all' %}
 {% set list_route = app.session.get('opened_parts', true) == true ? 'sgl_flts_part_list': 'sgl_flts_part_list_all' %}
 
+{% block content_title %}<h1>Project part creation</h1>{% endblock %}
+
 {% block content %}
     {{ parent() }}
-
-    <h1>Project part creation</h1>
 
     <form action="{{ path(create_route) }}" method="post" {{ form_enctype(form) }}>
 

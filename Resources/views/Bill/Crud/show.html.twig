@@ -9,10 +9,13 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block content %}
-
+{% block content_title %}
     <h2>{{ entity.part.fullname}}</h2>
     <h1>{{ entity.fullname }}</h1>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
 
     <table class="record_properties" style="float:right; width:290px; margin-bottom:20px;">
         <thead>

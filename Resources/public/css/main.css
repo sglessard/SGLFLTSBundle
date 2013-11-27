@@ -395,6 +395,10 @@ table.record_properties tr th {
     padding-right:6px;
 }
 
+.explanation {
+
+}
+
 ul.record_actions li .inactive,
 button.inactive {
     opacity: 0.5;
@@ -472,6 +476,25 @@ footer {
  */
 .ui-dialog { background: #ffffff none; }
 .ui-dialog .records_list { font-size:0.917em; }
+
+/***********************************************************
+ * NOTICES
+ */
+.notice {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding:10px 10px 10px 26px;
+    background: #e5fee3 url(/bundles/sglflts/images/icons/tick.png) 6px center no-repeat;
+    color:#006600;
+    margin:1em auto;
+    width:75%;
+}
+.notice-error {
+    background-color: #cc0000;
+    color:#ffffff;
+    background-image: url(/bundles/sglflts/images/icons/error.png);
+}
 
 /***********************************************************
  * CUSTOM STYLES

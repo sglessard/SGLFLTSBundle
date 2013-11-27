@@ -177,6 +177,11 @@ class PartController extends Controller
             // Create frequent tasks
             $this->createFrequentTasks($entity);
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             $redirect = $opened_parts ? 'sgl_flts_part_show':'sgl_flts_part_show_all';
             return $this->redirect($this->generateUrl($redirect, array('id' => $entity->getId(), 'id_project'=>$project->getId())));
         }
@@ -258,6 +263,11 @@ class PartController extends Controller
 
             $project = $entity->getProject();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             $redirect = $opened_parts ? 'sgl_flts_part_edit':'sgl_flts_part_edit_all';
             return $this->redirect($this->generateUrl($redirect, array('id' => $id, 'id_project'=>$project->getId())));
         }
@@ -298,6 +308,11 @@ class PartController extends Controller
         if ($form->isValid()) {
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_part_list_all',array('id_project'=>$project->getId())));

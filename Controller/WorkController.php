@@ -171,6 +171,11 @@ class WorkController extends Controller
 
             $task = $entity->getTask();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Created!'
+            );
+
             if ($request->request->get('submit-work-create-add')) {
                 return $this->redirect($this->generateUrl('sgl_flts_work_new', array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
             } else if ($request->request->get('submit-work-create-show')) {
@@ -261,6 +266,11 @@ class WorkController extends Controller
 
             $task = $entity->getTask();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Updated!'
+            );
+
             if ($request->request->get('submit-work-edit-add')) {
                 return $this->redirect($this->generateUrl('sgl_flts_work_new', array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
             } else if ($request->request->get('submit-work-edit-show')) {
@@ -346,6 +356,11 @@ class WorkController extends Controller
         if ($form->isValid()) {
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Deleted!'
+            );
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_work',array('id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));

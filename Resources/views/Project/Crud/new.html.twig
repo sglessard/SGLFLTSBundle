@@ -2,11 +2,11 @@
 
 {% form_theme form 'SGLFLTSBundle:Theme:Common/fields.html.twig' %}
 
+{% block content_title %}<h1>{% trans %}Project creation{% endtrans%}</h1>{% endblock %}
+
 {% block content %}
     {{ parent() }}
 
-    <h1>{% trans %}Project creation{% endtrans%}</h1>
-    
     <form action="{{ path('sgl_flts_project_create') }}" method="post" {{ form_enctype(form) }}>
 
         {{ form_widget(form) }}

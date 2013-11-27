@@ -4,9 +4,10 @@
 {% set edit_route = app.session.get('opened_parts', true) ? 'sgl_flts_part_edit':'sgl_flts_part_edit_all' %}
 {% set task_route = app.session.get('opened_parts', true) ? 'sgl_flts_task':'sgl_flts_task' %}
 
-{% block content %}
+{% block content_title %}<h1>{% trans %}Part list{% endtrans%}</h1>{% endblock %}
 
-    <h1>{% trans %}Part list{% endtrans%}</h1>
+{% block content %}
+    {{ parent() }}
 
     {% include 'SGLFLTSBundle:Part:Common/list_actions.html.twig' with { 'project': project } %}
 
