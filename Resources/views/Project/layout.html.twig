@@ -3,7 +3,7 @@
 {% block pagetitle %}{% trans %}flts.section.Project{% endtrans %} - {{ parent() }}{% endblock %}
 
 {% block identification_title %}
-    {% if entity is defined %}
+    {% if entity is defined and entity.id is not null %}
         {% include 'SGLFLTSBundle:Project:Common/identification_title.html.twig' with { 'project': entity } %}
     {% endif %}
 {% endblock %}
