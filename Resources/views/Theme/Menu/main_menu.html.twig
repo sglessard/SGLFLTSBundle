@@ -4,7 +4,7 @@
 
         <strong>Timesheet</strong>
         <ul>
-        {% if (part is defined and part is not null) %}
+        {% if (part is defined and part is not null and part.id is not null) %}
             <li><a href="{{ path('sgl_flts_work_new',{'id_project': part.project.id, 'id_part': part.id, 'id_task': 0}) }}" class="add">{% trans %}Add work{% endtrans %}</a></li>
         {% endif %}
             <li><a href="{{ path('sgl_flts_part') }}">Opened Projects Parts</a></li>
