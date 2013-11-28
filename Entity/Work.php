@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Work
@@ -35,6 +36,7 @@ class Work
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.work.name.not_blank")
      */
     protected $name;
 
@@ -63,6 +65,7 @@ class Work
      * @var \DateTime
      *
      * @ORM\Column(name="worked_at", type="date")
+     * @Assert\NotBlank(message = "flts.work.worked_at.not_blank")
      */
     protected $worked_at;
 
@@ -91,6 +94,7 @@ class Work
      * @var \DateTime
      *
      * @ORM\Column(name="started_at", type="time")
+     * @Assert\NotBlank(message = "flts.work.started_at.not_blank")
      */
     protected $started_at;
 
@@ -98,31 +102,33 @@ class Work
      * @var \DateTime
      *
      * @ORM\Column(name="ended_at", type="time")
+     * @Assert\NotBlank(message = "flts.work.ended_at.not_blank")
      */
     protected $ended_at;
 
     /**
-    * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Task", inversedBy="works")
-    * @ORM\JoinColumn(name="id_task", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-    */
+     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Task", inversedBy="works")
+     * @ORM\JoinColumn(name="id_task", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @Assert\NotNull(message = "flts.work.task.not_null")
+     */
     protected $task;
 
     /**
-    * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\User")
-    * @ORM\JoinColumn(name="id_user", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-    */
+     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\User")
+     * @ORM\JoinColumn(name="id_user", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
     protected $user;
 
     /**
-    * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Rate")
-    * @ORM\JoinColumn(name="id_rate", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-    */
+     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Rate")
+     * @ORM\JoinColumn(name="id_rate", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
     protected $rate;
 
     /**
-    * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Bill", inversedBy="works")
-    * @ORM\JoinColumn(name="id_bill", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-    */
+     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Bill", inversedBy="works")
+     * @ORM\JoinColumn(name="id_bill", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
     protected $bill;
 
 

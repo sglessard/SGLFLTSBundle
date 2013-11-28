@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Project
@@ -35,6 +36,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="identification", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.project.identification.not_blank")
      */
     protected $identification;
 
@@ -42,6 +44,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.project.name.not_blank")
      */
     protected $name;
 

@@ -16,6 +16,14 @@
 {% endblock %}
 
 {% block notice %}
+    {% if (form is defined) %}
+        {% if not form.vars.valid %}
+        <div class="notice notice-error">
+            {% trans %}Form has error(s){% endtrans %}
+        </div>
+        {% endif %}
+    {% endif %}
+
     {% if (app.session.flashbag.has('notice')) %}
         <div class="notice">
         {% for flashMessage in app.session.flashbag.get('notice') %}

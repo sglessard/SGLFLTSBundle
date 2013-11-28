@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * FrequentTask
@@ -35,6 +36,7 @@ class FrequentTask
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.frequenttask.name.not_blank")
      */
     protected $name;
 

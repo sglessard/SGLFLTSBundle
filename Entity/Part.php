@@ -12,7 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Part
@@ -50,6 +50,7 @@ class Part
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.part.name.not_blank")
      */
     protected $name;
 
@@ -57,6 +58,7 @@ class Part
      * @var \DateTime
      *
      * @ORM\Column(name="started_at", type="datetime")
+     * @Assert\NotNull(message = "flts.part.started_at.not_null")
      */
     protected $started_at;
 
@@ -91,6 +93,7 @@ class Part
     /**
     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Project", inversedBy="parts")
     * @ORM\JoinColumn(name="id_project", referencedColumnName="id", nullable=false)
+    * @Assert\NotNull(message = "flts.part.project.not_null")
     */
     protected $project;
 

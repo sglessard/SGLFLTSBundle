@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Bill
@@ -35,6 +36,7 @@ class Bill
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.bill.name.not_blank")
      */
     protected $name;
 
@@ -56,6 +58,9 @@ class Bill
      * @var integer
      *
      * @ORM\Column(name="number", type="integer", unique=true)
+     * @Assert\Type(type="integer", message="flts.bill.number.integer")
+     * @Assert\GreaterThan(value = 0, message="flts.bill.number.integer")
+     * @Assert\NotNull(message="flts.bill.number.not_null")
      */
     protected $number;
 
@@ -153,12 +158,14 @@ class Bill
     /**
     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Part", inversedBy="bills")
     * @ORM\JoinColumn(name="id_part", referencedColumnName="id", nullable=false)
+    * @Assert\NotNull(message="flts.bill.part.not_null")
     */
     protected $part;
 
     /**
     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Rate")
     * @ORM\JoinColumn(name="id_rate", referencedColumnName="id", nullable=false)
+    * @Assert\NotNull(message="flts.bill.rate.not_null")
     */
     protected $rate;
 

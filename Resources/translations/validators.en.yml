@@ -1,0 +1,44 @@
+flts:
+    bill:
+        name.not_blank: Name should not be blank
+        number.not_null: Number should not be null
+        number.integer: Value should be a positive whole number
+        part.not_null: Part should not be null
+        rate.not_null: Rate should not be null
+
+    client:
+        name.not_blank: Name should not be blank
+        address.not_blank: Address should not be blank
+
+    frequenttask:
+        name.not_blank: Name should not be blank
+
+    part:
+        name.not_blank: Name should not be blank
+        started_at.not_null: Start at should not be null
+        project.not_null: Project should not be null
+
+    project:
+        name.not_blank: Name should not be blank
+        identification.not_blank: Identification should not be blank
+
+    rate:
+        name.not_blank: Name should not be blank
+        rate.not_blank: Rate should be a decimal number (00.00)
+
+    task:
+        name.not_blank: Name should not be blank
+        identification.not_blank: Identification should not be blank
+        part.not_null: Part should not be null
+
+    user:
+        first_name.not_blank: First name should not be blank
+        last_name.not_blank: Last name should not be blank
+
+    work:
+        name.not_blank: Name should not be blank
+        worked_at.not_blank: Worked at should not be blank
+        started_at.not_blank: Started at should not be blank
+        ended_at.not_blank: Ended at should not be blank
+        task.not_null: Task should not be null
+

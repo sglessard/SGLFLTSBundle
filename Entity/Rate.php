@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Rate
@@ -35,6 +36,7 @@ class Rate
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.rate.name.not_blank")
      */
     protected $name;
 
@@ -56,6 +58,7 @@ class Rate
      * @var float
      *
      * @ORM\Column(name="rate", type="decimal", precision=5, scale=2)
+     * @Assert\NotBlank(message = "flts.rate.rate.not_blank")
      */
     protected $rate;
 

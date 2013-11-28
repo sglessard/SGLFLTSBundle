@@ -14,7 +14,6 @@ namespace SGL\FLTSBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Client
@@ -38,6 +37,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.client.name.not_blank")
      */
     protected $name;
 
@@ -63,6 +63,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.client.address.not_blank")
      */
     protected $address;
 

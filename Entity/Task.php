@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Task
@@ -35,6 +36,7 @@ class Task
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message = "flts.task.name.not_blank")
      */
     protected $name;
 
@@ -42,6 +44,7 @@ class Task
      * @var string
      *
      * @ORM\Column(name="identification", type="string", length=50)
+     * @Assert\NotBlank(message = "flts.task.identification.not_blank")
      */
     protected $identification;
 
@@ -76,6 +79,7 @@ class Task
     /**
     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Part", inversedBy="tasks")
     * @ORM\JoinColumn(name="id_part", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+    * @Assert\NotNull(message = "flts.task.part.not_null")
     */
     protected $part;
 
