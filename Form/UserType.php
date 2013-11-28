@@ -11,14 +11,17 @@
 
 namespace SGL\FLTSBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
-class UserType extends AbstractType
+class UserType extends BaseType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+
         $action = $options['action'];
         $builder
             ->add('username')
@@ -31,13 +34,14 @@ class UserType extends AbstractType
             ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
         ;
 
-        if ($action == 'create') {
+        if ($action == 'edit') {
             $builder->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'form.password'),
-                'second_options' => array('label' => 'form.password_confirmation'),
+                'first_options' => array('label' => 'form.new_password'),
+                'second_options' => array('label' => 'form.new_password_confirmation'),
                 'invalid_message' => 'fos_user.password.mismatch',
+                'required' => false
             ));
         }
     }
@@ -46,7 +50,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SGL\FLTSBundle\Entity\User',
-            'action'     => 'edit'
+            'action'     => 'edit',
+            'validation_groups' => array('Registration'),
         ));
     }
 

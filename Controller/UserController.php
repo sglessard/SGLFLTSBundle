@@ -76,7 +76,7 @@ class UserController extends Controller
     public function newAction()
     {
         $entity = new User();
-        $form   = $this->createForm(new UserType(), $entity,array('action'=>'create'));
+        $form   = $this->createForm(new UserType($entity), $entity,array('action'=>'create'));
 
         return array(
             'entity' => $entity,
@@ -94,7 +94,7 @@ class UserController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new User();
-        $form = $this->createForm(new UserType(), $entity,array('action'=>'create'));
+        $form = $this->createForm(new UserType($entity), $entity,array('action'=>'create'));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -132,7 +132,7 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm = $this->createForm(new UserType(), $entity);
+        $editForm = $this->createForm(new UserType($entity), $entity, array('validation_groups'=>'Profile'));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -160,7 +160,7 @@ class UserController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new UserType(), $entity);
+        $editForm = $this->createForm(new UserType($entity), $entity, array('validation_groups'=>'Profile'));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
