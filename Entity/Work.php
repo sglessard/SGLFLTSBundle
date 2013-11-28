@@ -114,7 +114,7 @@ class Work
     protected $task;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\User", inversedBy="works")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $user;

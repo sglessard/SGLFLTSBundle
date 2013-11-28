@@ -62,6 +62,10 @@ class Rate
      */
     protected $rate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SGL\FLTSBundle\Entity\Client", mappedBy="rate")
+     */
+    protected $clients;
 
     /**
      * toString
