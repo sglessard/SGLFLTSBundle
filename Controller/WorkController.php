@@ -162,7 +162,7 @@ class WorkController extends Controller
 
         $entity  = new Work();
         $form = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
 
@@ -258,7 +258,7 @@ class WorkController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -338,7 +338,7 @@ class WorkController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->submit($request);
 
         $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
 
@@ -423,7 +423,7 @@ class WorkController extends Controller
         $old_task = $entity->getTask();
 
         $editForm = $this->createForm($work_type, $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
 

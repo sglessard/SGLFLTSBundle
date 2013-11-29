@@ -52,7 +52,7 @@ class ReportController extends Controller
    public function dateSearchAction(Request $request)
    {
        $search_form = $this->createSearchDateForm();
-       $search_form->bind($request);
+       $search_form->submit($request);
 
         if ($search_form->isValid()) {
             $data = $search_form->getData();

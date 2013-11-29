@@ -135,7 +135,7 @@ class TaskController extends Controller
 
         $entity  = new Task();
         $form = $this->createForm($task_type, $entity, array('project'=>$part->getProject()));
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em->persist($entity);
@@ -222,7 +222,7 @@ class TaskController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm($task_type, $entity, array('project'=>$part->getProject()));
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -266,7 +266,7 @@ class TaskController extends Controller
         $part = $entity->getPart();
 
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em->remove($entity);

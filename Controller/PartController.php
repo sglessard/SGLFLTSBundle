@@ -165,7 +165,7 @@ class PartController extends Controller
 
         $entity  = new Part();
         $form = $this->createForm($part_type, $entity, array('client'=>$project->getClient()));
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -255,7 +255,7 @@ class PartController extends Controller
 
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
         $editForm = $this->createForm($part_type, $entity, array('client'=>$project->getClient()));
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -303,7 +303,7 @@ class PartController extends Controller
         $project = $entity->getProject();
 
         $form = $this->createDeleteForm($id, $entity->getClosed());
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em->remove($entity);
@@ -412,7 +412,7 @@ class PartController extends Controller
 
         if ($request->getMethod() == 'POST') {
 
-            $form->bind($request);
+            $form->submit($request);
             $data = $form->getData();
 
             if ($form->isValid()) {

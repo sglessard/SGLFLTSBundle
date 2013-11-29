@@ -161,7 +161,7 @@ class BillController extends Controller
     {
         $entity  = new Bill();
         $form = $this->createForm(new BillType(), $entity,array('new_entity'=>true));
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
 
@@ -251,7 +251,7 @@ class BillController extends Controller
             $editForm = $this->createForm(new BillType(), $entity);
         }
 
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
 
@@ -287,7 +287,7 @@ class BillController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

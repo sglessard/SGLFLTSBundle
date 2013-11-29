@@ -95,7 +95,7 @@ class FrequentTaskController extends Controller
     {
         $entity  = new FrequentTask();
         $form = $this->createForm(new FrequentTaskType(), $entity);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -161,7 +161,7 @@ class FrequentTaskController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new FrequentTaskType(), $entity);
-        $editForm->bind($request);
+        $editForm->submit($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -191,7 +191,7 @@ class FrequentTaskController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
