@@ -1,6 +1,6 @@
 <div class="select_form_ctn">
     <form id="{{ form_attr_id }}" action="{{ path('sgl_flts_part_selection', { opened_only: form.opened_part is defined ? '1':'0' }) }}" method="post" class="part_select_form">
-        <label for="form_part" class="required">Project part :</label>
+        <label for="form_part" class="required">{% trans %}Project part{% endtrans %} :</label>
         {% if form.part is defined %}
             {{ form_widget(form.part, { 'attr': {'class': 'selection'} }) }}
         {% elseif form.opened_part is defined %}
