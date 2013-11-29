@@ -57,3 +57,8 @@ sgl_flts_user:
     resource: "@SGLFLTSBundle/Controller/UserController.php"
     type:     annotation
     prefix:   /users
+
+sgl_flts_home:
+    resource: "@SGLFLTSBundle/Controller/HomeController.php"
+    type:     annotation
+    prefix:   /
