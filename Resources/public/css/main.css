@@ -118,6 +118,29 @@ footer {
     margin: 0;
     padding:0;
 }
+
+.day-nav {
+    margin:1em 0;
+    height:1em;
+    list-style-type:none;
+    padding:0;
+}
+.day-nav li {
+    display:inline-block;
+    padding:6px 8px;
+    margin-bottom:0.333em;
+}
+.day-nav li.prev {
+    float:left;
+    padding-left:20px;
+    background:transparent url(/bundles/sglflts/images/icons/previous.png) left center no-repeat;
+}
+.day-nav li.next {
+    float:right;
+    padding-right:20px;
+    background:transparent url(/bundles/sglflts/images/icons/next.png) right center no-repeat;
+    text-align:right;
+}
 /***********************************************************
  * RECORDS LIST
  */
@@ -192,7 +215,7 @@ table.records_list td:last-child {
 table.records_list td {
     border-bottom:1px solid #dddddd;
 }
-table.records_list tr:last td {
+table.records_list tr:last-child td {
     border:0;
 }
 table.records_list td.number {
@@ -434,7 +457,7 @@ input[type="text"].longtext {
 }
 input[type="date"] {
     width: 70px;
-    background: transparent url(/bundles/sglflts/images/icons/calendar_view_day.png) 4px center no-repeat;
+    background: #ffffff url(/bundles/sglflts/images/icons/calendar_view_day.png) 4px center no-repeat;
     border:1px solid #999999;
     padding:4px 4px 4px 24px;
 }

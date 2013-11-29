@@ -8,13 +8,16 @@
     <h1>{% trans %}Daily work report{% endtrans %}</h1>
 
     <form action="{{ path('sgl_flts_report_date_search') }}" method="post">
-        {{ form_widget(form) }}
-        <button type="submit" class="search">{% trans %}Search{% endtrans%}</button>
+        <div class="select_form_ctn">
+            {{ form_label(form.date) }} {{ form_widget(form.date) }}
+            <button type="submit" class="search">{% trans %}Search{% endtrans %}</button>
+        </div>
+        {{ form_rest(form) }}
     </form>
 
-    <ul>
-        <li><a href="{{ path('sgl_flts_report_date',{'date': previous_day|date('Y-m-d')}) }}">{% trans %}Previous day{% endtrans %}</a></li>
-        <li><a href="{{ path('sgl_flts_report_date',{'date': next_day|date('Y-m-d')}) }}">{% trans %}Next day{% endtrans %}</a></li>
+    <ul class="day-nav">
+        <li class="prev"><a href="{{ path('sgl_flts_report_date',{'date': previous_day|date('Y-m-d')}) }}">{% trans %}Previous day{% endtrans %}</a></li>
+        <li class="next"><a href="{{ path('sgl_flts_report_date',{'date': next_day|date('Y-m-d')}) }}">{% trans %}Next day{% endtrans %}</a></li>
     </ul>
 
     {% set morning_displayed = false %}
