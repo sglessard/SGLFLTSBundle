@@ -43,7 +43,6 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('business_invoice_logo_width')->defaultValue('300')->end()
             ->scalarNode('business_address')->defaultValue('1000, my street\n mycity, my province\n my country my postal code')->end()
             ->scalarNode('business_phone')->defaultValue('010 110-0110')->end()
-            ->scalarNode('version')->defaultValue('0.1')->end()
 
             ->end();
 

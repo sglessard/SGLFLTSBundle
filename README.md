@@ -20,10 +20,10 @@ Build status
 - **User** -           The user (freelancer) using FLTS app (FOSUserBundle user)
 - **Client** -          Direct client or agency who's dealing with client
 - **Project** -         e.g. Some quick neat app
-- **Project Part** -    e.g. The alpha version
+- **Project Part** -    e.g. Dashboard modifications
 - **Task** -            e.g.. Backend programming, Team Coordination, Traveling, etc.
 - **Work** -            e.g. Work on the user dashboard (revision 110)
-- **Bill** -            Billed project part works invoice
+- **Bill** -            Invoice with checked works to bill client
 
 
 ## Installation
@@ -62,34 +62,38 @@ Build status
             new SGL\FLTSBundle\SGLFLTSBundle(),
     ```
 
-5. Add required parameters (parameters.yml), config (config.yml) and routing (routing.yml)
-   See examples at bottom  
+5. Add required parameters (parameters.yml), config (config.yml) and routing (routing.yml)  
+   See examples at bottom
 
 6. Install third-party helpers  
    Hint : you can extend FLTS bundle in your project and install those libraries inside.
 
     6.1 [TinyMCE](http://www.tinymce.com/)
 
-7. Edit firewall and security (security.yml)
+7. Edit firewall and security (security.yml)  
    See security.yml example at bottom  
 
-8. Update your database  
-   app/console doctrine:schema:update --dump-sql  
-   app/console doctrine:schema:update --force  
+8. Update your database
+    ``` bash
 
-9. Dump assets  
-   app/console assets:install web --symlink  
-   app/console --env=prod assetic:dump  
-   app/console --env=dev assetic:dump
+        app/console doctrine:schema:update --dump-sql
+        app/console doctrine:schema:update --force
+    ```
+9. Dump assets
+    ``` bash
 
+        app/console assets:install web --symlink
+        app/console --env=prod assetic:dump
+        app/console --env=dev assetic:dump
+    ```
 
 10. Add an admin user  
-   Browse "http://.../register"  
+   Browse "http://the-hostname/register"  
    Check role 'ROLE_ADMIN'
 
 11. After creating your first admin user, remove anonymous registration access  
-    (FLTS has an User crud)  
-    You can also remove registration routes (routing.yml)  
+    (FLTS has an User CRUD)
+    You can also remove registration routes inside routing.yml
 
     ``` yaml
 
@@ -99,7 +103,7 @@ Build status
         }
     ```
 
-12. After logging, create new clients, your frequent tasks, etc.
+12. Browse "http://the-hostname/timesheet" and create new clients, your frequent tasks, etc.
 
 
 ## Configurations Examples
