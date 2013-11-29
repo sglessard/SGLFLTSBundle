@@ -220,11 +220,7 @@ Build status
 
 ``` yaml
 
-    # app/config/routing.yml  
-    
-    homepage:
-        resource: "@SGLFLTSBundle/Resources/config/routing/home.yml"
-        prefix:   /
+    # app/config/routing.yml
     
     sgl_flts:
         resource: "@SGLFLTSBundle/Resources/config/routing/flts.yml"

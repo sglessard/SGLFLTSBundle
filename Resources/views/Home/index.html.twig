@@ -3,6 +3,7 @@
 {% block pagetitle %}{% trans %}flts.section.Home{% endtrans %} - {{ parent() }}{% endblock %}
 
 {% block content %}
+    {{ parent() }}
     {% if is_granted("ROLE_USER") %}
         <a href="{{ path('sgl_flts_dashboard') }}">Go to dashboard</a>
     {% else %}

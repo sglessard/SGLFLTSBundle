@@ -15,10 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+/**
+ * HomeController.
+ *
+ * @Route("/")
+ */
 class HomeController extends Controller
 {
     /**
-     * @Route("/", name="sgl_flts_homepage")
+     * @Route("/", name="sgl_flts_home")
      * @Template()
      */
     public function indexAction()
