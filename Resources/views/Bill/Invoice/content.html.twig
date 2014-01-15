@@ -39,7 +39,13 @@
             <tbody>
                 <tr>
                     <td id="client">
-                        <div id="client_logo"><img src="{{ asset(client.webPath) }}" alt="{{ client.name }}"/></div>
+                        <div id="client_logo">
+                        {% if (client.webPath) %}
+                            <img src="{{ asset(client.webPath) }}" alt="{{ client.name }}"/>
+                        {% else %}
+                            <h3>{{ client.name }}</h3>
+                            {% endif %}
+                        </div>
                         {{ client.address|nl2br }}
                     </td>
                     <td id="purchase-order">

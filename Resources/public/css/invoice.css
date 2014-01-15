@@ -81,6 +81,9 @@ body#invoice #client {
 body#invoice #client_logo {
     margin-bottom:10px;
 }
+body#invoice #client_logo h3 {
+    margin-top:0;
+}
 
 table#bill-body-content {
     border-collapse: collapse;
