@@ -90,10 +90,12 @@
 
         <table id="subtotal">
             <tbody>
+                {% if (bill.hours > 0) %}
                 <tr>
                     <td><strong>{% trans %}flts.bill.invoice.Hourly rate{% endtrans %}</strong></td>
                     <td width="70"><strong>{{ bill.rate.rate|price}}</strong></td>
                 </tr>
+                {% endif %}
                 <tr>
                     <td>{% trans %}flts.bill.invoice.Subtotal (before tax){% endtrans %}</td>
                     <td>{{ bill.worksAndExtraHoursSubtotal|price }}</td>
