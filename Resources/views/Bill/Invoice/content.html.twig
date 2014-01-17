@@ -98,7 +98,7 @@
                 {% endif %}
                 <tr>
                     <td>{% trans %}flts.bill.invoice.Subtotal (before tax){% endtrans %}</td>
-                    <td>{{ bill.worksAndExtraHoursSubtotal|price }}</td>
+                    <td>{{ bill.subtotal|price }}</td>
                 </tr>
         {% if (bill.taxable) %}
             {% if (bill.gst) %}
