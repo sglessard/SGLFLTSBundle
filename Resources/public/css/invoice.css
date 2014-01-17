@@ -30,7 +30,7 @@ body#invoice td {
 
 body#invoice header {
     height:60px;
-    margin:28px 0 6px;
+    margin:28px 0 10px;
 }
 body#invoice header #billnumber{
     position:absolute;
@@ -75,11 +75,12 @@ body#invoice #purchase-order th {
 }
 
 body#invoice #client {
-    vertical-align: middle;
     width:280px;
+    padding-top:15px;
+    vertical-align: top;
 }
 body#invoice #client_logo {
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 body#invoice #client_logo h3 {
     margin-top:0;
@@ -154,7 +155,12 @@ table#bill-body-content td {
 table#bill-body-content td:last-child {
     text-align:right;
 }
-
+table#bill-body-content tr.task td {
+    vertical-align:top;
+}
+table#bill-body-content tr.task td.hours {
+    white-space:nowrap;
+}
 table#bill-body-content h3 {
     margin:0;
     padding:0;

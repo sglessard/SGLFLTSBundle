@@ -7,14 +7,14 @@
     </thead>
     <tbody>
         {% for task in part.tasks %}
-        <tr>
-            <td style="vertical-align:top;">
+        <tr class="task">
+            <td class="desc">
                 <h3>{{ task }}</h3>
                 <ul>
                     <li>edit/remove me</li>
                 </ul>
             </td>
-            <td style="vertical-align:top;">
+            <td class="hours">
                 <strong>{{ task.workedHours(bill) }}</strong>
             </td>
         </tr>
