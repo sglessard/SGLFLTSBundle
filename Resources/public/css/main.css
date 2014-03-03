@@ -22,6 +22,13 @@ footer {
     margin:0 auto;
 }
 
+.hidden-print {
+    display:block;
+}
+.visible-print {
+    display:none;
+}
+
 #top-bar {
     height:22px;
     padding:11px;
@@ -536,4 +543,88 @@ footer {
 
 #bill_works_ctn {
     margin-bottom: 1em;
+}
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+    }
+
+    .report-body a[href]:after {
+        content: "";
+    }
+
+    .report-body abbr[title]:after {
+        content: "";
+    }
+
+    #main-nav,
+    #top-bar,
+    #recent-projects,
+    .record_actions_ctn,
+    .select_form_ctn {
+        display:none;
+    }
+
+    #wrapper {
+        width:auto;
+    }
+    #content {
+        border:0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        width:auto;
+        padding:0;
+        margin:0;
+        float:none;
+    }
+
+    table.records_list,
+    table.summary,
+    table.record_properties {
+        width:99%;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        border:1px solid #dddddd;
+        margin-bottom:2em;
+        margin-left:10px;
+        border-collapse: separate;
+    }
+
+    table.records_list .actions {
+        display:none;
+    }
+    table.records_list a {
+        text-decoration: none;
+    }
+    table.records_list tfoot .footer {
+        padding-top:2em;
+    }
+
+    table.records_list tbody .date,
+    table.records_list tbody .number,
+    table.records_list tbody .boolean {
+        width:10%;
+    }
+    table.records_list tbody .bill {
+        width:20%;
+    }
+    table.records_list tbody .text {
+        width:50%;
+    }
+    table.records_list tbody tr:last-child td {
+        border-bottom:1px solid #dddddd;
+    }
+    .hidden-print {
+        display:none;
+    }
+    .visible-print {
+        display:block;
+    }
 }

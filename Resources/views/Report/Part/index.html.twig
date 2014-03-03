@@ -10,11 +10,14 @@
 
 {% block content %}
 
-    <h1>{% trans %}Opened project part report{% endtrans %}</h1>
+    <h1 class="hidden-print">{% trans %}Opened project part report{% endtrans %}</h1>
     {{ render(controller('SGLFLTSBundle:Part:selection', {'opened_part': part, 'opened_only': '1', 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
 
-    <h1>{% trans %}Project part report (all){% endtrans %}</h1>
+    <h1 class="hidden-print">{% trans %}Project part report (all){% endtrans %}</h1>
     {{ render(controller('SGLFLTSBundle:Part:selection', { 'part': part, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
+
+    <h1 class="visible-print">{{ part.fullname }}</h1>
+    <h2 class="visible-print">{% trans %}flts.section.Report.Part{% endtrans %}</h2>
 
     {% if (part) %}
 
@@ -31,12 +34,12 @@
             <table class="records_list">
                 <thead>
                     <tr>
-                        <th>{% trans %}Date{% endtrans %}</th>
-                        <th>{% trans %}Hours{% endtrans %}</th>
-                        <th>{% trans %}Work{% endtrans %}</th>
-                        <th>{% trans %}Billed{% endtrans %}</th>
-                        <th>{% trans %}Paid{% endtrans %}</th>
-                        <th>{% trans %}Actions{% endtrans %}</th>
+                        <th class="date">{% trans %}Date{% endtrans %}</th>
+                        <th class="number">{% trans %}Hours{% endtrans %}</th>
+                        <th class="text">{% trans %}Work{% endtrans %}</th>
+                        <th class="string bill">{% trans %}Billed{% endtrans %}</th>
+                        <th class="boolean">{% trans %}Paid{% endtrans %}</th>
+                        <th class="actions">{% trans %}Actions{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +50,7 @@
                                 <a href="{{ path('sgl_flts_report_date',{'date': work.workedAt|date('Y-m-d') }) }}">{{ work.workedAt|date('Y-m-d') }}</a>
                             </td>
                             <td class="number">{{ work.hours|hours }}</td>
-                            <td class="string">
+                            <td class="string text">
                                 <span class="task-ident">{{ task.identification }}</span>
                                 <a href="{{ path('sgl_flts_work_edit',{'id_project': part.project.id, 'id_part': part.id, 'id_task': task.id, 'id': work.id }) }}">{{ work }}</a>
                                 {% if (work.description) %}
@@ -76,7 +79,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7" class="header">
+                        <td colspan="7" class="footer">
                             <div class="three">
                                 {% trans %}Works{% endtrans %} : {{ task.works|length }}<br />
                                 {% trans %}Worked hours{% endtrans %} : {{ task.workedHours|hours }}
