@@ -27,4 +27,9 @@
             </li>
         </ul>
     </div>
+<script type="text/javascript">
+$('#sgl_fltsbundle_billtype_part').change(function() {
+    select_part_rate($(this),$('#sgl_fltsbundle_billtype_rate'),'{{ path('sgl_flts_part_rate') }}');
+});
+</script>
 {% endblock %}
