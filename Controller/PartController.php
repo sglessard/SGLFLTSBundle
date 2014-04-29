@@ -431,8 +431,11 @@ class PartController extends Controller
         if ($redirect_error) {
             $form->get('redirect_error')->setData($redirect_error);
         }
+
         if ($part) {
             $form->get('part')->setData($part);
+        } else if ($opened_part) {
+            $form->get('opened_part')->setData($opened_part);
         }
 
         return array(
