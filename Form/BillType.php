@@ -25,6 +25,7 @@ class BillType extends AbstractType
                 'property'      => 'fullname',
                 'group_by'      => 'clientName',
                 'label'         => 'Opened project part',
+                'empty_value'   => 'Select one',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) {
                     return $er->retrieveOpened(true);
                 }))
@@ -47,25 +48,27 @@ class BillType extends AbstractType
             ))
             ->add('extra_hours')
             ->add('extra_fees')
-            ->add('sent_at','genemu_jquerydate', array(
-               'required' => false,
-                'widget' => 'single_text'
-             ))
-            ->add('paid_at','genemu_jquerydate', array(
-               'required' => false,
-            'widget' => 'single_text'
-             ))
-            ->add('deposited_at','genemu_jquerydate', array(
-               'required' => false,
-                'widget' => 'single_text'
-             ))
         ;
 
         if (!$options['new_entity']) {
-            $builder->add('body_content','genemu_tinymce',array(
-                'attr'=>array('style'=>'width: 680px; height:600px;'),
-                'required'=>false,
-            ));
+            $builder
+                ->add('body_content','genemu_tinymce',array(
+                    'attr'=>array('style'=>'width: 680px; height:600px;'),
+                    'required'=>false,
+                ))
+                ->add('sent_at','genemu_jquerydate', array(
+                   'required' => false,
+                    'widget' => 'single_text'
+                 ))
+                ->add('paid_at','genemu_jquerydate', array(
+                   'required' => false,
+                'widget' => 'single_text'
+                 ))
+                ->add('deposited_at','genemu_jquerydate', array(
+                   'required' => false,
+                    'widget' => 'single_text'
+                 ))
+            ;
         }
 
         if ($options['use_gst']) {

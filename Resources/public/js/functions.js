@@ -146,6 +146,21 @@ function selected_hours_ajustment_all(val) {
     });
 }
 
+// Post part to get the client rate back
+// @see Bill creation
+function select_part_rate(part_select,rate_select,post_url) {
+    $.ajax({
+        url:  post_url,
+        data: {part_id: part_select.val()},
+        dataType: 'json',
+        method: 'post',
+        success: function(response) {
+            if (parseInt(response.rate_id) > 0)
+                rate_select.children('option[value="'+parseInt(response.rate_id)+'"]').attr('selected','selected');;
+        },
+        error: function(e) { alert('Error ajax post select_part_rate()'); return null; }
+    });
+}
 
 function highlight(obj) {
     $(obj).parent().effect("highlight",{color:"#ffffaa"},3000);

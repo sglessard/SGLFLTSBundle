@@ -12,6 +12,7 @@
 namespace SGL\FLTSBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -211,6 +212,29 @@ class RateController extends Controller
         }
 
         return $this->redirect($this->generateUrl('sgl_flts_rate'));
+    }
+
+     /**
+      * Get Part's rate
+      *
+      * @Route("/part-rate/", name="sgl_flts_part_rate")
+      * @Method("POST")
+      */
+    public function getRateAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $data = $request->request->get('part_id');
+
+        $part = $em->getRepository('SGLFLTSBundle:Part')->find(intval($data));
+        if (!$part) {
+            throw $this->createNotFoundException('Unable to find Part entity.');
+        }
+
+        $response = new Response(json_encode(array(
+            'rate_id' => $part->getProject()->getClient()->getRate()->getId()
+        )));
+
+        return $response;
     }
 
     private function createDeleteForm($id)
