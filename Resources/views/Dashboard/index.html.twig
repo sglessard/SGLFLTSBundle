@@ -21,12 +21,14 @@
         </strong>
     </p>
 
+    {% if lastest_work %}
     <h3>{% trans %}Your most recent work{% endtrans %} :</h3>
     <p>
         <a href="{{ path('sgl_flts_report_date',{'date': lastest_work.workedAt|date('Y-m-d')}) }}">{{ lastest_work.workedAt|date('Y-m-d') }}</a><br />
         {{ lastest_work.task.part.project }} - {{ lastest_work.task.part }} <br />
         {{ lastest_work.startedAt|date('H:i') }} - {{ lastest_work.endedAt|date('H:i') }} <a href="{{ path('sgl_flts_work_show', { 'id': lastest_work.id, 'id_project': lastest_work.task.part.project.id,'id_part': lastest_work.task.part.id,'id_task': lastest_work.task.id }) }}">{{ lastest_work }}</a>
     </p>
+    {% endif %}
 
     <h3>{% trans %}Browse the latest active project parts{% endtrans %} :</h3>
     {% if (latest_workedon_parts|length > 0) %}
