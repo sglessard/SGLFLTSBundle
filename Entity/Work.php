@@ -421,7 +421,7 @@ class Work
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      */
     public function prePersist() {
         $this->created_at = new \DateTime;
@@ -432,7 +432,7 @@ class Work
     }
 
     /**
-     * @ORM\preUpdate
+     * @ORM\PreUpdate
      */
     public function preUpdate() {
         $this->updated_at = new \DateTime;

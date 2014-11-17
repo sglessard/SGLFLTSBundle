@@ -189,7 +189,7 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\prePersist
+     * @ORM\PrePersist
      */
     public function prePersist() {
         $this->created_at = new \DateTime;
@@ -197,7 +197,7 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\preUpdate
+     * @ORM\PreUpdate
      */
     public function preUpdate() {
         $this->updated_at = new \DateTime;
