@@ -15,6 +15,7 @@
         <thead>
             <tr>
                 <th>{% trans %}Name{% endtrans%}</th>
+                <th>{% trans %}PO{% endtrans%}</th>
                 <th>{% trans %}Estimated{% endtrans%}</th>
                 <th>{% trans %}Worked{% endtrans%}</th>
                 <th>{% trans %}Billed{% endtrans%}</th>
@@ -36,7 +37,7 @@
                         {% endif %}
                     </p>
                 </td>
-
+                <td class="number">{{ entity.po }}</td>
                 {% set toBillHours = entity.workedHours - entity.billedHours %}
                 <td class="number">{{ entity.estimation|hours }}</td>
                 <td class="number">{{ entity.workedHours|hours }}</td>
