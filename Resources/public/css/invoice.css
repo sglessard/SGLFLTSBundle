@@ -38,7 +38,7 @@ body#invoice header #billnumber{
     right:20px;
     font-size:24px;
     line-height:20px;
-    color:#dddddd;
+    color:#cccccc;
 }
 body#invoice header #logo {
     float:left;
