@@ -559,6 +559,10 @@ footer {
         content: "";
     }
 
+    .report-body #bills .bill .infos {
+        display:none;
+    }
+
     #main-nav,
     #top-bar,
     #recent-projects,

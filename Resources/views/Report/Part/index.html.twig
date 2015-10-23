@@ -115,18 +115,20 @@
                 <td>
                     {% if (part.bills|length) %}
                     <strong>Bills :</strong>
-                        <ul>
+                        <ul id="bills">
                         {% for bill in part.bills %}
-                            <li>
+                            <li class="bill">
                                 <a href="{{ path('sgl_flts_bill_show',{'id': bill.id }) }}">{{ bill.fullname }}</a>
+                                <span class="infos">
                                 {% if (bill.sentAt) %}
                                     <span>{% trans %}Bill sent at{% endtrans %} {{ bill.sentAt|date('Y-m-d') }}</span>
-                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Works list</a></li>
+                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Works list</a>
                                 {% else %}
                                     <span>{% trans %}Created{% endtrans %}</span>
-                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Edit works</a></li>
+                                    <a class="edit" href="{{ path('sgl_flts_bill_works',{'id': bill.id}) }}">Edit works</a>
                                 {% endif %}
-
+                                </span>
+                            </li>
 
                         {% endfor %}
                         </ul>
