@@ -433,24 +433,23 @@ class WorkController extends Controller
             // Moved-to task entity, based on identification or name
             $new_task = $em->getRepository('SGLFLTSBundle:Task')->retrievePartTaskFromForeignTask($new_part,$old_task);
 
-            if (!$new_task)
-                throw $this->createNotFoundException(sprintf('Unable to find Task "%s" in "%s" part.',$old_task->getFullname(), $new_part->getFullname()));
+            // New part must have the same task to allow moving
+            if (!$new_task) {
+                $this->get('session')->getFlashBag()->add(
+                    'warning',
+                    sprintf('Unable to find Task "%s" in "%s" part.',$old_task->getFullname(), $new_part->getFullname()) . "\nCreate it first."
+                );
+                return $this->redirect($this->generateUrl('sgl_flts_work_move', array('id' => $id, 'id_project'=>$old_task->getPart()->getProject()->getId(), 'id_part'=>$old_task->getPart()->getId(), 'id_task'=>$old_task->getId())));
 
-            // Set new task to work entity
-            $entity->setTask($new_task);
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $id, 'id_project'=>$new_task->getPart()->getProject()->getId(), 'id_part'=>$new_task->getPart()->getId(), 'id_task'=>$new_task->getId())));
+            } else {
+                // Set new task to work entity
+                $entity->setTask($new_task);
+                $em->persist($entity);
+                $em->flush();
+    
+                return $this->redirect($this->generateUrl('sgl_flts_work_show', array('id' => $id, 'id_project'=>$new_task->getPart()->getProject()->getId(), 'id_part'=>$new_task->getPart()->getId(), 'id_task'=>$new_task->getId())));
+            }
         }
-
-        return array(
-            'entity'      => $entity,
-            'project'     => $task->getPart()->getProject(),
-            'part'        => $task->getPart(),
-            'task'        => $task,
-            'edit_form'   => $editForm->createView(),
-        );
     }
 
     private function createDeleteForm($id)

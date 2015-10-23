@@ -27,7 +27,15 @@
     {% if (app.session.flashbag.has('notice')) %}
         <div class="notice">
         {% for flashMessage in app.session.flashbag.get('notice') %}
-            {{ flashMessage|trans }}<br/>
+            {{ flashMessage|trans|nl2br }}<br/>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if (app.session.flashbag.has('warning')) %}
+        <div class="notice notice-error">
+        {% for flashMessage in app.session.flashbag.get('warning') %}
+            {{ flashMessage|trans|nl2br }}<br/>
         {% endfor %}
         </div>
     {% endif %}
