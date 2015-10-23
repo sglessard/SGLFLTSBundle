@@ -13,6 +13,7 @@
         <ol>
             <li>{% trans %}Select the bill{% endtrans %}</li>
             <li>{% trans %}Check/uncheck the work checkbox{% endtrans %}</li>
+            <li>{{ "When you are done, %link_start%go to bill edition%link_end% to edit invoice content"|trans({'%link_start%' : '<a href="' ~ path('sgl_flts_bill_edit', { 'id': bill.id }) ~ '">', '%link_end%' : '</a>'})|raw  }}</li>
         </ol>
     </div>
 
