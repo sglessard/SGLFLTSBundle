@@ -342,6 +342,8 @@ Build status
     }
 ```
 
+## Coming soon
+ - [Watson integration](https://github.com/TailorDev/Watson)
 
 ## TODO
 
