@@ -147,6 +147,7 @@ footer {
     background:transparent url(/bundles/sglflts/images/icons/next.png) right center no-repeat;
     text-align:right;
 }
+
 /***********************************************************
  * RECORDS LIST
  */
@@ -444,6 +445,12 @@ ul.record_actions li .inactive,
 button.inactive {
     opacity: 0.5;
     font-style: italic;
+}
+
+section.show-action h4 {
+    margin-bottom:0;
+    padding-bottom:0.5em;
+    border-bottom:1px solid #f0f0f0;
 }
 
 /***********************************************************

@@ -156,12 +156,19 @@
 
     <div id="bill-body-content-ctn" style="clear:both; margin-top:20px;">
         {% if (entity.bodyContent) %}
-        <div id="task-details">{% trans %}Details{% endtrans %}</div>
+        <h4>{% trans %}Details{% endtrans %}</h4>
         {{ entity.bodyContent|raw }}
         {% else %}
         {% trans %}No content.{% endtrans %}
         {% endif %}
     </div>
+
+    {% if (entity.note) %}
+    <div id="bill-note-ctn" style="margin-top:40px;">
+        <h4>{% trans %}Note (private){% endtrans %}</h4>
+        <pre>{{ entity.note}}</pre>
+    </div>
+    {% endif %}
 
     {% include 'SGLFLTSBundle:Bill:Common/record_actions.html.twig' with { 'entity': entity, 'part': entity.part } %}
 
