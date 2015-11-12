@@ -478,12 +478,26 @@ input[type="date"] {
 input.native-date {
     width:120px; /*Chrome*/
 }
+
+input[type="submit"] {
+    background: #1A87B9;
+    padding:6px 10px;
+    color:#fff;
+    border:1px solid #0C4458;
+    -webkit-border-radius:4px;
+       -moz-border-radius:4px;
+            border-radius:4px;
+}
+
 textarea { }
 textarea.longtext {
     width: 500px;
 }
 
-
+.record_submit {
+    margin:1.5em 0;
+    text-align: center;
+}
 
 /***********************************************************
  * RECORDS FORMS EXTRA ACTIONS
