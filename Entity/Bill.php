@@ -176,6 +176,13 @@ class Bill
     protected $works;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
+    protected $note;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -843,4 +850,27 @@ class Bill
     public function hasEmptyContent() {
         return !$this->getBodyContent();
     }
+
+    /**
+      * Set note
+      *
+      * @param string $note
+      * @return Bill
+      */
+     public function setNote($note)
+     {
+         $this->note = $note;
+
+         return $this;
+     }
+
+     /**
+      * Get note
+      *
+      * @return string
+      */
+     public function getNote()
+     {
+         return $this->note;
+     }
 }

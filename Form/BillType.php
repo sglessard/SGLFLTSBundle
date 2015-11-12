@@ -57,17 +57,21 @@ class BillType extends AbstractType
                     'required'=>false,
                 ))
                 ->add('sent_at','genemu_jquerydate', array(
-                   'required' => false,
+                    'required' => false,
                     'widget' => 'single_text'
                  ))
                 ->add('paid_at','genemu_jquerydate', array(
-                   'required' => false,
-                'widget' => 'single_text'
-                 ))
-                ->add('deposited_at','genemu_jquerydate', array(
-                   'required' => false,
+                    'required' => false,
                     'widget' => 'single_text'
                  ))
+                ->add('deposited_at','genemu_jquerydate', array(
+                    'required' => false,
+                    'widget' => 'single_text'
+                 ))
+                ->add('note',null, array(
+                    'attr'=>array('cols'=>50,'rows'=>3),
+                    'required' => false
+                ))
             ;
         }
 
