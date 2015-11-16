@@ -68,8 +68,8 @@
 {% block choice_widget_collapsed %}
 {% spaceless %}
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
-        {% if empty_value is not none %}
-            <option value="">{{ empty_value|trans({}, translation_domain) }}</option>
+        {% if placeholder is not none %}
+            <option value="">{{ placeholder|trans({}, translation_domain) }}</option>
         {% endif %}
         {% if preferred_choices|length > 0 %}
             {% set options = preferred_choices %}

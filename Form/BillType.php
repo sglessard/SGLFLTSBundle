@@ -25,7 +25,7 @@ class BillType extends AbstractType
                 'property'      => 'fullname',
                 'group_by'      => 'clientName',
                 'label'         => 'Opened project part',
-                'empty_value'   => 'Select one',
+                'placeholder'   => 'Select one',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) {
                     return $er->retrieveOpened(true);
                 }))
