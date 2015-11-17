@@ -13,7 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WorkType extends AbstractType
 {
@@ -24,21 +24,21 @@ class WorkType extends AbstractType
         $builder
             ->add('task','entity',array(
                 'class'         => 'SGLFLTSBundle:Task',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\TaskRepository $er) use ($part) {
                     return $er->retrieve(true)->where('t.part = :id_part')->setParameter('id_part', $part->getId());
                 }
             ))
             ->add('user','entity',array(
                 'class'         => 'SGLFLTSBundle:User',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\UserRepository $er) {
                     return $er->retrieve(true);
                 }
             ))
             ->add('rate','entity',array(
                 'class'         => 'SGLFLTSBundle:Rate',
-                'property'      => 'name',
+                'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\RateRepository $er) {
                     return $er->retrieve(true);
                 }
@@ -70,7 +70,7 @@ class WorkType extends AbstractType
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'part'      => null,

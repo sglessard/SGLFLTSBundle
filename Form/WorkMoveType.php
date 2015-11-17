@@ -13,7 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WorkMoveType extends AbstractType
 {
@@ -22,7 +22,7 @@ class WorkMoveType extends AbstractType
         $builder
             ->add('part','entity',array(
                 'class'         => 'SGLFLTSBundle:Part',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',
                 'label'         => 'Opened project part',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) {
@@ -33,7 +33,7 @@ class WorkMoveType extends AbstractType
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
         ));

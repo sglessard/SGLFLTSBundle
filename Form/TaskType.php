@@ -13,7 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaskType extends AbstractType
 {
@@ -29,14 +29,14 @@ class TaskType extends AbstractType
             ->add('part','entity',array(
                 'label'         => 'Project part',
                 'class'         => 'SGLFLTSBundle:Part',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) use ($project) {
                     return $er->retrieveWithProjectClient(true)->andWhere('p.project = :id_project')->setParameter('id_project', $project->getId());
                 }))
             ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'project'   => null,

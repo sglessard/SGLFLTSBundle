@@ -499,7 +499,7 @@ class PartController extends Controller
         return $this->createFormBuilder(null,array('csrf_protection' => false))
             ->add($part_field_id,'entity',array(
                 'class'         => 'SGLFLTSBundle:Part',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) use ($opened_parts) {
                     if ($opened_parts) {

@@ -12,7 +12,7 @@
 namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
@@ -46,7 +46,7 @@ class UserType extends BaseType
         }
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'SGL\FLTSBundle\Entity\User',

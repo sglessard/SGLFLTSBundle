@@ -4,7 +4,7 @@ SGLFLTSBundle
 
 
 
-SGLFLTSBundle is a timesheet and billing application [Symfony2](http://symfony.com/doc/2.6/book/index.html) bundle mainly for freelancers.
+SGLFLTSBundle is a timesheet and billing application [Symfony2](http://symfony.com/doc/2.7/book/index.html) bundle mainly for freelancers.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
 
 ### Version 1
@@ -30,7 +30,7 @@ Build status
 
 ## Installation
 
-1. Install symfony/framework-standard-edition 2.6
+1. Install symfony/framework-standard-edition 2.7
 
 2. Install FLTS requirements  
    (using composer, see composer.json example at bottom)  
@@ -331,7 +331,7 @@ Build status
         "require": {
 
             "php": ">=5.3.3",
-            "symfony/symfony": "2.6.*",
+            "symfony/symfony": "2.7.*",
 
             # [...]
 

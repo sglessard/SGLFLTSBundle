@@ -13,7 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectType extends AbstractType
 {
@@ -24,7 +24,7 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('client','entity',array(
                 'class'         => 'SGLFLTSBundle:Client',
-                'property'      => 'name',
+                'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\ClientRepository $er) {
                     return $er->retrieve(true);
                 }
@@ -32,7 +32,7 @@ class ProjectType extends AbstractType
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'SGL\FLTSBundle\Entity\Project'

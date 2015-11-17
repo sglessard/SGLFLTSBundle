@@ -474,7 +474,7 @@ class BillController extends Controller
         return $this->createFormBuilder(null,array('csrf_protection' => false))
             ->add('bill','entity',array(
                 'class'         => 'SGLFLTSBundle:Bill',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\BillRepository $er) use ($part) {
                     return $er->retrieveByPartWithProject($part->getId(),true);
                 }))

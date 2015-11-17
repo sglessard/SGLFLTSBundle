@@ -13,7 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BillType extends AbstractType
 {
@@ -22,7 +22,7 @@ class BillType extends AbstractType
         $builder
             ->add('part','entity',array(
                 'class'         => 'SGLFLTSBundle:Part',
-                'property'      => 'fullname',
+                'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',
                 'label'         => 'Opened project part',
                 'placeholder'   => 'Select one',
@@ -41,7 +41,7 @@ class BillType extends AbstractType
             ->add('taxable')
             ->add('rate','entity',array(
                 'class'         => 'SGLFLTSBundle:Rate',
-                'property'      => 'name',
+                'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\RateRepository $er) {
                     return $er->retrieve(true);
                 }
@@ -86,7 +86,7 @@ class BillType extends AbstractType
         }
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'SGL\FLTSBundle\Entity\Bill',
