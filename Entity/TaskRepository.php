@@ -119,7 +119,7 @@ class TaskRepository extends EntityRepository
             ->leftjoin('w.bill','b')
             ->where('w.do_not_bill = false')
             ->andWhere('t.part = :id_part')
-            ->andWhere('b = :id_bill or b is null')
+            ->andWhere('b = :id_bill or b.id is null')
             ->orderBy('t.rank', 'ASC')
             ->addOrderBy('w.worked_at', $orderby)
             ->addOrderBy('w.started_at', $orderby)
