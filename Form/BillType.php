@@ -35,6 +35,9 @@ class BillType extends AbstractType
                 'attr'=>array('cols'=>50,'rows'=>3),
                 'required'=>false,
             ))
+            ->add('ordered_at','genemu_jquerydate', array(
+                'widget' => 'single_text'
+            ))
             ->add('billed_at','genemu_jquerydate', array(
                 'widget' => 'single_text'
             ))

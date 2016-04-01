@@ -5,6 +5,7 @@ flts:
         number.integer: Value should be a positive whole number
         part.not_null: Part should not be null
         rate.not_null: Rate should not be null
+        ordered_at.not_null: Purchase ordered at should not be null
 
     client:
         name.not_blank: Name should not be blank

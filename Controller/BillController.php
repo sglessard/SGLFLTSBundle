@@ -135,6 +135,7 @@ class BillController extends Controller
             if ($part) {
                 $entity->setPart($part);
                 $entity->setRate($part->getProject()->getClient()->getRate());
+                $entity->setOrderedAt($part->getStartedAt());
 
                 if ($part->getBills()->count() > 0) {
                     $entity->setDescription($part->getBills()->last()->getDescription());

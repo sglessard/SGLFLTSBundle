@@ -882,4 +882,27 @@ class Bill
      {
          return $this->note;
      }
+
+    /**
+     * Set ordered_at
+     *
+     * @param \DateTime $orderedAt
+     * @return Part
+     */
+    public function setOrderedAt($orderedAt)
+    {
+        $this->ordered_at = $orderedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get ordered_at
+     *
+     * @return \DateTime
+     */
+    public function getOrderedAt()
+    {
+        return $this->ordered_at;
+    }
 }
