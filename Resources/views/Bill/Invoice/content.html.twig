@@ -59,7 +59,7 @@
                             {% endif %}
                                 <tr>
                                     <th>{% trans %}flts.bill.invoice.Date{% endtrans %}</th>
-                                    <td>{{ part.startedAt|localizeddate('long', 'none', app.request.locale)  }}</td>
+                                    <td>{{ bill.orderedAt|localizeddate('long', 'none', app.request.locale)  }}</td>
                                 </tr>
                             {% if (client.contactName) %}
                                 <tr>
