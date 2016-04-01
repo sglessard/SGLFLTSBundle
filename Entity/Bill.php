@@ -156,6 +156,14 @@ class Bill
     protected $updated_at;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ordered_at", type="datetime")
+     * @Assert\NotNull(message = "flts.bill.ordered_at.not_null")
+     */
+    protected $ordered_at;
+
+    /**
     * @ORM\ManyToOne(targetEntity="SGL\FLTSBundle\Entity\Part", inversedBy="bills")
     * @ORM\JoinColumn(name="id_part", referencedColumnName="id", nullable=false)
     * @Assert\NotNull(message="flts.bill.part.not_null")
@@ -797,7 +805,7 @@ class Bill
      */
     public function getGstFees() {
         if ($this->taxable) {
-            return round($this->getSubtotal() * ($this->getGst() / 100),3);
+            return number_format($this->getSubtotal() * ($this->getGst() / 100),4);
         } else {
             return 0;
         }
@@ -809,8 +817,9 @@ class Bill
      * @return float $fees
      */
     public function getPstFees() {
+        
         if ($this->taxable) {
-            return round($this->getSubtotal() * ($this->getPst() / 100),3);
+            return number_format($this->getSubtotal() * ($this->getPst() / 100),4);
         } else {
             return 0;
         }
@@ -823,7 +832,7 @@ class Bill
      */
     public function getHstFees() {
         if ($this->taxable) {
-            return round($this->getSubtotal() * ($this->getHst()/100),3);
+            return number_format($this->getSubtotal() * ($this->getHst()/100),4);
         } else {
             return 0;
         }
