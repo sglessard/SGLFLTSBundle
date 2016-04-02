@@ -14,7 +14,7 @@ before_script:
   - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - echo "zend.enable_gc=0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` # php (5.3/5.4) segfault/zend_mm_heap corrupted
   - curl -s http://getcomposer.org/installer | php
-  - echo "memory_limit=1024M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - echo "memory_limit=2000M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --dev --prefer-source
 
 script: phpunit --coverage-text
