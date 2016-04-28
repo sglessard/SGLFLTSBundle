@@ -37,7 +37,9 @@ Build status
    
     1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
     1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
-    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
+    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)
+    1.4 [JMSSecurityExtraBundle](http://jmsyst.com/bundles/JMSSecurityExtraBundle/master/installation)
+    1.5 [AsseticBundle](https://symfony.com/doc/current/cookbook/assetic/asset_management.html#installing-and-enabling-assetic)
 
 3. Install FLTS using [composer](http://getcomposer.org)
 
@@ -58,13 +60,17 @@ Build status
         $bundles = array(
             # [...]
             
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new SGL\FLTSBundle\SGLFLTSBundle(),
     ```
 
-5. Add required parameters (parameters.yml), config (config.yml) and routing (routing.yml)  
+5. Add required parameters (parameters.yml.dist), config (config.yml) and routing (routing.yml)  
    See examples at bottom
 
 6. Install third-party helpers  
@@ -114,7 +120,7 @@ Build status
 
 ``` yaml
 
-    # app/config/parameters.yml  
+    # app/config/parameters.yml.dist
     
     # SGL FLTS params
     sgl_flts.business_name:                   "Symfony dev4fun"
@@ -161,10 +167,13 @@ Build status
 
     # app/config/config.yml  
     
-    # Notes
-    # You can comment the assetic.bundles array config to avoid adding bundles in it.
+
+    $ Assetic
     assetic:
-        #bundles:        [ ]
+        debug:          '%kernel.debug%'
+        use_controller: '%kernel.debug%'
+        filters:
+            cssrewrite: ~
     
     # Twig global variables
     twig:
@@ -301,7 +310,7 @@ Build status
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
     
-            - { path: ^/register, role: ROLE_ADMIN }
+            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY } # Set to ROLE_ADMIN after 1st user creation
             - { path: ^/profile, role: ROLE_ADMIN }
     
             - { path: ^/timesheet/invoices, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }  # Used by wkhtmltopdf locally
@@ -335,6 +344,8 @@ Build status
 
             # [...]
 
+            "jms/security-extra-bundle": "1.5.*",
+            "symfony/assetic-bundle": "^2.8",
             "Friendsofsymfony/user-bundle": "1.3.*",
             "genemu/form-bundle": "2.2.*",
             "knplabs/knp-snappy-bundle": "1.*",
