@@ -37,9 +37,9 @@ Build status
    
     1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
     1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
-    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)
-    1.4 [JMSSecurityExtraBundle](http://jmsyst.com/bundles/JMSSecurityExtraBundle/master/installation)
-    1.5 [AsseticBundle](https://symfony.com/doc/current/cookbook/assetic/asset_management.html#installing-and-enabling-assetic)
+    1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
+    1.4 [JMSSecurityExtraBundle](http://jmsyst.com/bundles/JMSSecurityExtraBundle/master/installation)  
+    1.5 [AsseticBundle](https://symfony.com/doc/current/cookbook/assetic/asset_management.html#installing-and-enabling-assetic)  
 
 3. Install FLTS using [composer](http://getcomposer.org)
 
