@@ -214,7 +214,7 @@ class BillController extends Controller
         if ($entity->getSent()) {
             $editForm = $this->createForm(new BillSentType(), $entity);
         } else {
-            $editForm = $this->createForm(new BillType(), $entity);
+            $editForm = $this->createForm(new BillType(), $entity, array('selected_part_id' => $entity->getPart()->getId()));
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -249,7 +249,7 @@ class BillController extends Controller
         if ($entity->getSent()) {
             $editForm = $this->createForm(new BillSentType(), $entity);
         } else {
-            $editForm = $this->createForm(new BillType(), $entity);
+            $editForm = $this->createForm(new BillType(), $entity, array('selected_part_id' => $entity->getPart()->getId()));
         }
 
         $editForm->submit($request);

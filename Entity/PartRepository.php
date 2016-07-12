@@ -44,16 +44,20 @@ class PartRepository extends EntityRepository
      * @param bool $queryBuilder (return query builder only)
      * @return Doctrine Collection or Query Builder
      */
-    public function retrieveOpened($queryBuilder = false)
+    public function retrieveOpened($queryBuilder = false, $selected_part_id = null)
     {
         $query = $this->retrieve(true)
             ->select('p, pp, c')
             ->innerjoin('p.project','pp')
             ->innerjoin('pp.client','c')
-            ->where('p.closed_at is null')
             ->orderBy('c.name', 'ASC')
             ->addOrderBy('p.identification', 'ASC')
             ->addOrderBy('p.name', 'ASC');
+
+        if ($selected_part_id)
+            $query->where('p.closed_at is null OR p.id = :selected_part_id')->setParameter('selected_part_id', $selected_part_id);
+        else
+            $query->where('p.closed_at is null');
 
         return $this->dispatch($query, $queryBuilder);
     }

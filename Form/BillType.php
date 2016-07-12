@@ -19,6 +19,9 @@ class BillType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Show closed part if it is the selected part
+        $selected_part_id = isset($options['selected_part_id']) ? $options['selected_part_id'] : null;
+
         $builder
             ->add('part','entity',array(
                 'class'         => 'SGLFLTSBundle:Part',
@@ -26,8 +29,8 @@ class BillType extends AbstractType
                 'group_by'      => 'clientName',
                 'label'         => 'Opened project part',
                 'placeholder'   => 'Select one',
-                'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) {
-                    return $er->retrieveOpened(true);
+                'query_builder' => function (\SGL\FLTSBundle\Entity\PartRepository $er) use ($selected_part_id) {
+                    return $er->retrieveOpened(true, $selected_part_id);
                 }))
             ->add('number')
             ->add('name')
@@ -97,6 +100,7 @@ class BillType extends AbstractType
             'use_pst'    => true,
             'use_hst'    => false,
             'new_entity' => false,
+            'selected_part_id' => null
         ));
     }
 
