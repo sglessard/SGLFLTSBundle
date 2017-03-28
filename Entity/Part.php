@@ -136,6 +136,8 @@ class Part
     {
         if ($this->identification)
             return $this->identification.' - '.$this->name;
+        else if ($this->project->getIdentification())
+            return $this->project->getIdentification().' - '.$this->name;
         else
             return $this->name;
     }
