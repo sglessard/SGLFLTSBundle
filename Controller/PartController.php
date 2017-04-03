@@ -466,6 +466,9 @@ class PartController extends Controller
                 }
             }
         }
+
+        ksort($recents);
+
         return array(
             'recents'=>$recents,
         );
