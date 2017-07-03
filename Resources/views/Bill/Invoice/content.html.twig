@@ -70,7 +70,7 @@
                             {% if (client.contactName) %}
                                 <tr>
                                     <th>{% trans %}flts.bill.invoice.Person in charge{% endtrans %}</th>
-                                    <td>{{ client.contactName }}</td>
+                                    <td>{{ client.contactName|raw }}</td>
                                 </tr>
                             {% endif %}
                                 <tr>
