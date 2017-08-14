@@ -65,7 +65,12 @@ class RequestListener
         }
 
         if (intval($part_id) > 0) {
-            if (!in_array($part_id,$parts)) {
+            
+            // Check if part is active (dont add inactive part in recent parts)
+            $em = $this->container->get('doctrine')->getManager();
+            $part = $em->getRepository('SGLFLTSBundle:Part')->find($part_id);
+            
+            if (!$part->getClosed() && !in_array($part_id,$parts)) {
 
                 // If full, pop the oldest part
                 if (sizeof($parts) >= $this->recent_parts_limit) {
