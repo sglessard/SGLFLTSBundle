@@ -444,6 +444,9 @@ class WorkController extends Controller
             } else {
                 // Set new task to work entity
                 $entity->setTask($new_task);
+                // Update rate (if different depending on client)
+                $entity->setRate($new_task->getPart()->getProject()->getClient()->getRate());
+
                 $em->persist($entity);
                 $em->flush();
     
