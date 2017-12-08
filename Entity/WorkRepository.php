@@ -133,6 +133,26 @@ class WorkRepository extends EntityRepository
         return $this->dispatch($query, $queryBuilder);
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return mixed
+     */
+    public function findByDate($from, $to)
+    {
+        $query = $this->retrieve(true);
+        
+        $query->where('w.worked_at >= :from')
+            ->andWhere('w.worked_at <= :to')
+            ->setParameters(array(
+                'from' =>$from,
+                'to' =>$to,
+             ));
+        
+        return $this->dispatch($query, false);
+    }
+
     /*
      * dispatch
      *

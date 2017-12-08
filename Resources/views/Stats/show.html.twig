@@ -1,0 +1,11 @@
+<h3>This week</h3>
+{{ render(controller('SGLFLTSBundle:Stats:week', { 'from': this_week_from, 'to': this_week_to} )) }}
+<h3>Last week</h3>
+{{ render(controller('SGLFLTSBundle:Stats:week', { 'from': last_week_from, 'to': last_week_to} )) }}
+
+<h3>This month</h3>
+{{ render(controller('SGLFLTSBundle:Stats:month', { 'from': this_month_from, 'to': this_month_to} )) }}
+<h3>Last month</h3>
+{{ render(controller('SGLFLTSBundle:Stats:month', { 'from': last_month_from, 'to': last_month_to} )) }}
+
+{{ render(controller('SGLFLTSBundle:Stats:graph', { 'from': graph_from, 'to': this_week_to} )) }}

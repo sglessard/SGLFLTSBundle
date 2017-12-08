@@ -162,6 +162,26 @@ class BillRepository extends EntityRepository
         return isset($next['number']) ? $next['number'] : 1;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return mixed
+     */
+    public function findByDate($from, $to)
+    {
+        $query = $this->retrieve(true);
+        
+        $query->where('b.billed_at >= :from')
+            ->andWhere('b.billed_at <= :to')
+            ->setParameters(array(
+                'from' =>$from,
+                'to' =>$to,
+             ));
+        
+        return $this->dispatch($query, false);
+    }
+
     /*
      * dispatch
      *

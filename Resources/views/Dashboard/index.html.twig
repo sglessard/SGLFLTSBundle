@@ -30,6 +30,10 @@
     </p>
     {% endif %}
 
+    <div class="stats">
+        {{ render(controller('SGLFLTSBundle:Stats:show', { } )) }}
+    </div>
+
     <h3>{% trans %}Browse the latest active project parts{% endtrans %} :</h3>
     {% if (latest_workedon_parts|length > 0) %}
     <table class="records_list">
