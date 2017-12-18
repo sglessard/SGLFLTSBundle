@@ -16,10 +16,10 @@
     <h1 class="hidden-print">{% trans %}Project part report (all){% endtrans %}</h1>
     {{ render(controller('SGLFLTSBundle:Part:selection', { 'part': part, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
 
-    {% if (part) %}
+    <h1 class="visible-print">{{ part.fullname }}</h1>
+    <h2 class="visible-print">{% trans %}flts.section.Report.Part{% endtrans %}</h2>
 
-        <h1 class="visible-print">{{ part.fullname }}</h1>
-        <h2 class="visible-print">{% trans %}flts.section.Report.Part{% endtrans %}</h2>
+    {% if (part) %}
 
         {% set works_count = 0 %}
 
