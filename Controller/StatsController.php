@@ -88,7 +88,7 @@ class StatsController extends Controller
         
         foreach ($bills as $bill) {
             $hours += $bill->getExtraHours();
-            $money += $bill->getExtraHours() * $work->getRate()->getRate();
+            $money += $bill->getExtraHours() * $bill->getRate()->getRate();
             $money += $bill->getExtraFees();
         }
         
@@ -153,7 +153,49 @@ class StatsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
+        $start = new \DateTime($from);
+        $end = new \DateTime($to);
+        $interval = \DateInterval::createFromDateString('1 month');
+        $period = new \DatePeriod($start, $interval, $end);
+        
+        $months = [];
+        
+        foreach ($period as $dt) {
+            $firstDay = $dt->format("Y-m-d");
+            $lastDay = $dt->modify('last day of this month')->format("Y-m-d");
+            $hours = 0;
+            $money = 0;
+
+            $works = $em->getRepository('SGLFLTSBundle:Work')->findByDate($firstDay, $lastDay);
+            
+            foreach ($works as $work) {
+                $hours += $work->getDuration();
+                $money += ($work->getHours() * $work->getRate()->getRate());
+            }
+
+            // Add Invoice extra billed time/fees
+        
+            $bills = $em->getRepository('SGLFLTSBundle:Bill')->findByDate($from, $to);
+            
+            foreach ($bills as $bill) {
+                $hours += $bill->getExtraHours();
+                $money += $bill->getExtraHours() * $work->getRate()->getRate();
+                $money += $bill->getExtraFees();
+            }
+
+            $months[$dt->format("Y-m")] = [
+                'from' => $firstDay,
+                'to' => $lastDay,
+                'hours' => $hours,
+                'money' => $money
+            ];
+        }
+        
         $works = $em->getRepository('SGLFLTSBundle:Work')->findByDate($from, $to);
+        
+        
+        // @todo rendu ici
+        // diviser par mois, retourner un array mois[mois => [hours, money]] pour filler le svg
         
         $hours = 0;
         $money = 0;
@@ -178,6 +220,7 @@ class StatsController extends Controller
             'money'           => $money,
             'graph_from' => $from,
             'graph_to' => $to,
+            'months' => $months
         );
     }
 }
