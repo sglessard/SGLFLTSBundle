@@ -76,8 +76,11 @@ class InvoiceController extends Controller
 
         $filename = $this->get('translator')->trans('flts.bill.invoice.Invoice-%year%-%number%',array('%year%'=>$bill->getBilledAt()->format('Y'),'%number%'=>$bill->getNumber())).'.pdf';
 
+        $session = $this->getRequest()->getSession();
+        $session->save();
+
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutput($this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId()), true)),
+            $this->get('knp_snappy.pdf')->getOutput($this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId(), 'cookie' => array($session->getName() => $session->getId())), true)),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
