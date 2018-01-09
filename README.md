@@ -283,7 +283,7 @@ Build status
                 pattern: ^/
                 form_login:
                     provider: fos_userbundle    # See providers
-                    csrf_provider: form.csrf_token_manager
+                    csrf_provider: security.csrf.token_manager
                     default_target_path: /timesheet/dashboard
     
                 logout:       true
