@@ -16,7 +16,7 @@
     "require": {
         "symfony/symfony": "~2.8",
         "Friendsofsymfony/user-bundle": "1.3.*",
-        "genemu/form-bundle": "2.2.*",
+        "genemu/form-bundle": "2.3.*",
         "knplabs/knp-snappy-bundle": "1.*"
     },
     "autoload": {
