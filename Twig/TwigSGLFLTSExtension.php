@@ -17,20 +17,20 @@ class TwigSGLFLTSExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'price' => new \Twig_Filter_Method($this, 'twig_price_filter'),
-            'hours' => new \Twig_Filter_Method($this, 'twig_hours_filter'),
-            'relativeTime' => new \Twig_Filter_Method($this, 'twig_relative_time_filter'),
-            'truncate' => new \Twig_Filter_Method($this,'twig_truncate_filter', array('needs_environment' => true)),
-            'substring' => new \Twig_Filter_Method($this, 'twig_substring_filter', array('needs_environment' => true)),
-            'localizeddate' => new \Twig_Filter_Method($this, 'twig_localized_date_filter', array('needs_environment' => true))
+            new \Twig_SimpleFilter('price', [$this, 'twig_price_filter']),
+            new \Twig_SimpleFilter('hours', [$this, 'twig_hours_filter']),
+            new \Twig_SimpleFilter('relativeTime', [$this, 'twig_relative_time_filter']),
+            new \Twig_SimpleFilter('truncate', [$this,'twig_truncate_filter'], ['needs_environment' => true]),
+            new \Twig_SimpleFilter('substring', [$this, 'twig_substring_filter'], ['needs_environment' => true]),
+            new \Twig_SimpleFilter('localizeddate', [$this, 'twig_localized_date_filter'], ['needs_environment' => true])
         );
     }
 
     public function getFunctions()
     {
         return array(
-            'getControllerName' => new \Twig_Function_Method($this,'twig_get_controller_name'),
-            'getActionName' => new \Twig_Function_Method($this,'twig_get_action_name'),
+            new \Twig_SimpleFunction('getControllerName', [$this,'twig_get_controller_name']),
+            new \Twig_SimpleFunction('getActionName', [$this,'twig_get_action_name']),
         );
     }
 
