@@ -52,8 +52,13 @@ class BillSentType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_billsenttype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

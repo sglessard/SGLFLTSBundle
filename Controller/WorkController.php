@@ -20,8 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Work;
 use SGL\FLTSBundle\Form\WorkType;
 use SGL\FLTSBundle\Form\WorkMoveType;
-
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Work controller.
@@ -128,7 +128,7 @@ class WorkController extends Controller
             $entity->setRate($rate);
         }
 
-        $form   = $this->createForm(new WorkType(), $entity, array('part'=>$part));
+        $form   = $this->createForm(WorkType::class, $entity, array('part'=>$part));
 
         return array(
             'entity'      => $entity,
@@ -161,7 +161,7 @@ class WorkController extends Controller
         }
 
         $entity  = new Work();
-        $form = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
+        $form = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -216,7 +216,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(new WorkType(), $entity, array('part'=>$task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -257,7 +257,7 @@ class WorkController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -388,7 +388,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(new WorkMoveType(), $entity);
+        $editForm = $this->createForm(WorkMoveType::class, $entity);
 
         // Since part's mapped attribute is false, we need to set the selected value
         $editForm->get('part')->setData($entity->getPart());
@@ -422,7 +422,7 @@ class WorkController extends Controller
 
         $old_task = $entity->getTask();
 
-        $editForm = $this->createForm($work_type, $entity);
+        $editForm = $this->createForm(WorkType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -458,7 +458,7 @@ class WorkController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

@@ -14,6 +14,7 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ProjectType extends AbstractType
 {
@@ -22,7 +23,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('identification')
             ->add('name')
-            ->add('client','entity',array(
+            ->add('client',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Client',
                 'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\ClientRepository $er) {
@@ -39,8 +40,13 @@ class ProjectType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_projecttype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

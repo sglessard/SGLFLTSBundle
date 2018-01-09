@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Rate;
 use SGL\FLTSBundle\Form\RateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Rate controller.
@@ -77,7 +78,7 @@ class RateController extends Controller
     public function newAction()
     {
         $entity = new Rate();
-        $form   = $this->createForm(new RateType(), $entity);
+        $form   = $this->createForm(RateType::class, $entity);
 
         return array(
             'entity' => $entity,
@@ -95,7 +96,7 @@ class RateController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Rate();
-        $form = $this->createForm(new RateType(), $entity);
+        $form = $this->createForm(RateType::class, $entity);
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -133,7 +134,7 @@ class RateController extends Controller
             throw $this->createNotFoundException('Unable to find Rate entity.');
         }
 
-        $editForm = $this->createForm(new RateType(), $entity);
+        $editForm = $this->createForm(RateType::class, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -161,7 +162,7 @@ class RateController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new RateType(), $entity);
+        $editForm = $this->createForm(RateType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -240,7 +241,7 @@ class RateController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

@@ -14,13 +14,14 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class WorkMoveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('part','entity',array(
+            ->add('part',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Part',
                 'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',
@@ -39,8 +40,13 @@ class WorkMoveType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_worktype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Task;
 use SGL\FLTSBundle\Form\TaskType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Task controller.
@@ -102,7 +103,7 @@ class TaskController extends Controller
         $entity = new Task();
         $entity->setPart($part);
 
-        $form   = $this->createForm(new TaskType(), $entity, array('project'=>$part->getProject()));
+        $form   = $this->createForm(TaskType::class, $entity, array('project'=>$part->getProject()));
 
         return array(
             'entity'   => $entity,
@@ -134,7 +135,7 @@ class TaskController extends Controller
         }
 
         $entity  = new Task();
-        $form = $this->createForm($task_type, $entity, array('project'=>$part->getProject()));
+        $form = $this->createForm(TaskType::class, $entity, array('project'=>$part->getProject()));
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -181,7 +182,7 @@ class TaskController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(new TaskType(), $entity, array('project'=>$part->getProject()));
+        $editForm = $this->createForm(TaskType::class, $entity, array('project'=>$part->getProject()));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -221,7 +222,7 @@ class TaskController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm($task_type, $entity, array('project'=>$part->getProject()));
+        $editForm = $this->createForm(TaskType::class, $entity, array('project'=>$part->getProject()));
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -284,7 +285,7 @@ class TaskController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

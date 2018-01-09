@@ -20,6 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Part;
 use SGL\FLTSBundle\Form\PartType;
 use SGL\FLTSBundle\Entity\Task;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Part controller.
@@ -133,7 +135,7 @@ class PartController extends Controller
         $entity->setProject($project);
         $entity->setStartedAt(new \DateTime);
 
-        $form   = $this->createForm(new PartType(), $entity, array('client'=>$project->getClient()));
+        $form   = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
 
         return array(
             'part' => $entity,
@@ -164,7 +166,7 @@ class PartController extends Controller
         }
 
         $entity  = new Part();
-        $form = $this->createForm($part_type, $entity, array('client'=>$project->getClient()));
+        $form = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -215,7 +217,7 @@ class PartController extends Controller
             throw $this->createNotFoundException('Unable to find Part entity.');
         }
 
-        $editForm = $this->createForm(new PartType(), $entity,array('client'=>$project->getClient()));
+        $editForm = $this->createForm(PartType::class, $entity,array('client'=>$project->getClient()));
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
 
         return array(
@@ -254,7 +256,7 @@ class PartController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
-        $editForm = $this->createForm($part_type, $entity, array('client'=>$project->getClient()));
+        $editForm = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -484,8 +486,8 @@ class PartController extends Controller
     private function createDeleteForm($id,$closed)
     {
         return $this->createFormBuilder(array('id' => $id, 'closed'=>$closed))
-            ->add('id', 'hidden')
-            ->add('closed', 'hidden')
+            ->add('id', HiddenType::class)
+            ->add('closed', HiddenType::class)
             ->getForm()
         ;
     }
@@ -500,7 +502,7 @@ class PartController extends Controller
     {
         $part_field_id = $opened_parts ? 'opened_part' : 'part';
         return $this->createFormBuilder(null,array('csrf_protection' => false))
-            ->add($part_field_id,'entity',array(
+            ->add($part_field_id,EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Part',
                 'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',

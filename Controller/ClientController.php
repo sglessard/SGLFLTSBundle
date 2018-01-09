@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Client;
 use SGL\FLTSBundle\Form\ClientType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Client controller.
@@ -76,7 +77,7 @@ class ClientController extends Controller
     public function newAction()
     {
         $entity = new Client();
-        $form   = $this->createForm(new ClientType(), $entity);
+        $form   = $this->createForm(ClientType::class, $entity);
 
         return array(
             'entity' => $entity,
@@ -94,7 +95,7 @@ class ClientController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Client();
-        $form = $this->createForm(new ClientType(), $entity);
+        $form = $this->createForm(ClientType::class, $entity);
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -132,7 +133,7 @@ class ClientController extends Controller
             throw $this->createNotFoundException('Unable to find Client entity.');
         }
 
-        $editForm = $this->createForm(new ClientType(), $entity);
+        $editForm = $this->createForm(ClientType::class, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -160,7 +161,7 @@ class ClientController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ClientType(), $entity);
+        $editForm = $this->createForm(ClientType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -224,7 +225,7 @@ class ClientController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

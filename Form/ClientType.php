@@ -14,6 +14,9 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 
 class ClientType extends AbstractType
 {
@@ -24,11 +27,11 @@ class ClientType extends AbstractType
                 'attr'=>array('size'=>40),
             ))
             ->add('rate')
-            ->add('logo','file',array(
+            ->add('logo',FileType::class,array(
                 'image_path' => 'webPath',
                 'required' => false
             ))
-            ->add('address','textarea',array(
+            ->add('address',TextareaType::class,array(
                 'attr'=>array('cols'=>40,'rows'=>3),
             ))
             ->add('contact_name',null,array(
@@ -47,8 +50,13 @@ class ClientType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_clienttype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

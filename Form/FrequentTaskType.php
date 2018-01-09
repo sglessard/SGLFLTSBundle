@@ -33,8 +33,13 @@ class FrequentTaskType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_frequenttasktype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

@@ -13,6 +13,7 @@ namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RegistrationFormType extends BaseType
 {
@@ -22,7 +23,7 @@ class RegistrationFormType extends BaseType
 
         $builder->add('firstName');
         $builder->add('lastName');
-        $builder->add('roles', 'choice', array(
+        $builder->add('roles', ChoiceType::class, array(
             'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN (First user has to be admin)'),
             'multiple' => true,
             'required' => true,
@@ -30,8 +31,13 @@ class RegistrationFormType extends BaseType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_user_registration';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

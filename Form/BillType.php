@@ -14,6 +14,7 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class BillType extends AbstractType
 {
@@ -23,7 +24,7 @@ class BillType extends AbstractType
         $selected_part_id = isset($options['selected_part_id']) ? $options['selected_part_id'] : null;
 
         $builder
-            ->add('part','entity',array(
+            ->add('part',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Part',
                 'choice_label'  => 'fullname',
                 'group_by'      => 'clientName',
@@ -45,7 +46,7 @@ class BillType extends AbstractType
                 'widget' => 'single_text'
             ))
             ->add('taxable')
-            ->add('rate','entity',array(
+            ->add('rate',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Rate',
                 'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\RateRepository $er) {
@@ -104,8 +105,13 @@ class BillType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_billtype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }
