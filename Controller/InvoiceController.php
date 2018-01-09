@@ -78,9 +78,12 @@ class InvoiceController extends Controller
 
         $session = $this->getRequest()->getSession();
         $session->save();
+        session_write_close();
+
+        $url = $this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId()), true);
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutput($this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId(), 'cookie' => array($session->getName() => $session->getId())), true)),
+            $this->get('knp_snappy.pdf')->getOutput($url, array('cookie' => array($session->getName() => $session->getId()))),
             200,
             array(
                 'Content-Type'          => 'application/pdf',
