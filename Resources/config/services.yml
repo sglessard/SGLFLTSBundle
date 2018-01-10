@@ -17,7 +17,7 @@ services:
     sgl_flts.image_type_extension:
         class: SGL\FLTSBundle\Form\Extension\ImageTypeExtension
         tags:
-            - { name: form.type_extension, alias: file }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FileType }
 
     request:
         class:  Symfony\Component\HttpFoundation\Request
