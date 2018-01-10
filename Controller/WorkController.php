@@ -60,7 +60,7 @@ class WorkController extends Controller
      * Finds and displays a Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/show", name="sgl_flts_work_show")
-     * @Template("SGLFLTSBundle:work:Crud/show.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/show.html.twig")
      */
     public function showAction($id_project,$id_part,$id_task,$id)
     {
@@ -87,7 +87,7 @@ class WorkController extends Controller
      * Displays a form to create a new Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/new", name="sgl_flts_work_new")
-     * @Template("SGLFLTSBundle:work:Crud/new.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
      */
     public function newAction($id_project,$id_part,$id_task)
     {
@@ -144,7 +144,7 @@ class WorkController extends Controller
      *
      * @Route("/create", name="sgl_flts_work_create")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/new.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -198,7 +198,7 @@ class WorkController extends Controller
      * Displays a form to edit an existing Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/edit", name="sgl_flts_work_edit")
-     * @Template("SGLFLTSBundle:work:Crud/edit.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
      */
     public function editAction($id_project,$id_part,$id_task,$id)
     {
@@ -234,7 +234,7 @@ class WorkController extends Controller
      *
      * @Route("/{id}/update", name="sgl_flts_work_update")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/edit.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -370,7 +370,7 @@ class WorkController extends Controller
      * Move an existing Work entity to another project part
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/move", name="sgl_flts_work_move")
-     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
      */
     public function moveAction($id_project,$id_part,$id_task,$id)
     {
@@ -407,7 +407,7 @@ class WorkController extends Controller
      *
      * @Route("/{id}/move-update", name="sgl_flts_work_moveupdate")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
      */
     public function moveupdateAction(Request $request, $id)
     {
