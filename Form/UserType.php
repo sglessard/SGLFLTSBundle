@@ -24,7 +24,6 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $action = $options['action'];
         $builder
             ->add('username')
             ->add('email')
@@ -35,17 +34,6 @@ class UserType extends AbstractType
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
             ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
         ;
-
-        if ($action == 'edit') {
-            $builder->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'form.new_password'),
-                'second_options' => array('label' => 'form.new_password_confirmation'),
-                'invalid_message' => 'fos_user.password.mismatch',
-                'required' => false
-            ));
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
