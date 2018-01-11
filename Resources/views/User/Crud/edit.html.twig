@@ -10,6 +10,10 @@
     <form action="{{ path('sgl_flts_user_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         {{ form_widget(edit_form) }}
 
+        <div style="margin-top:1em">
+            <a href="{{ path('fos_user_change_password') }}">{% trans %}Change password{% endtrans %}</a>
+        </div>
+
         <div class="record_submit">
             <input type="submit" class="edit" value="{% trans %}flts.button.Confirm edit{% endtrans%}" />
         </div>
