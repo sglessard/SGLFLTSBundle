@@ -8,11 +8,15 @@ services:
             - [ setDefaultPst, [%sgl_flts.tax_pst%] ]
             - [ setDefaultHst, [%sgl_flts.tax_hst%] ]
 
-    sgl_flts.registration.form.type:
+    sgl_flts.form.registration:
         class: SGL\FLTSBundle\Form\RegistrationFormType
-        arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: sgl_fltsbundle_user_registration }
+
+    sgl_flts.profile.form.type:
+        class: SGL\FLTSBundle\Form\UserType
+        tags:
+            - { name: form.type, alias: sgl_fltsbundle_usertype }
 
     sgl_flts.image_type_extension:
         class: SGL\FLTSBundle\Form\Extension\ImageTypeExtension
