@@ -164,6 +164,9 @@ Build status
     knp_snappy.pdf_option_grayscale:          true
     knp_snappy.temporary_folder:              %kernel.cache_dir%
     knp_snappy.disable-smart-shrinking:       true
+    
+    fos_user.from_email.address:              test@test.com
+    fos_user.from_email.sender_name:          Admin
 
 ```
 
@@ -198,7 +201,13 @@ Build status
     
         registration:
             form:
-                type: sgl_fltsbundle_user_registration
+                type: SGL\FLTSBundle\Form\RegistrationFormType
+        profile:
+            form:
+                type: SGL\FLTSBundle\Form\UserType
+        from_email:
+            address: %fos_user.from_email.address%
+            sender_name: %fos_user.from_email.sender_name%
     
     # knp snappy conf
     knp_snappy:
