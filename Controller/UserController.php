@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\User;
 use SGL\FLTSBundle\Form\UserType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * User controller.
@@ -76,7 +77,11 @@ class UserController extends Controller
     public function newAction()
     {
         $entity = new User();
-        $form   = $this->createForm(new UserType($entity), $entity,array('action'=>'create'));
+
+        $formFactory = $this->get('fos_user.registration.form.factory');
+
+        $form = $formFactory->createForm(array('action'=>'create'));
+        $form->setData($entity);
 
         return array(
             'entity' => $entity,
@@ -94,10 +99,15 @@ class UserController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new User();
-        $form = $this->createForm(new UserType($entity), $entity,array('action'=>'create'));
-        $form->submit($request);
 
-        if ($form->isValid()) {
+        $formFactory = $this->get('fos_user.registration.form.factory');
+
+        $editForm = $formFactory->createForm(array('action'=>'create'));
+        $editForm->setData($entity);
+
+        $editForm->submit($request);
+
+        if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -132,7 +142,11 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm = $this->createForm(new UserType($entity), $entity, array('validation_groups'=>'Profile'));
+        $formFactory = $this->get('fos_user.profile.form.factory');
+
+        $editForm = $formFactory->createForm(array('validation_groups'=>'Profile'));
+        $editForm->setData($entity);
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -160,7 +174,11 @@ class UserController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new UserType($entity), $entity, array('validation_groups'=>'Profile'));
+
+        $formFactory = $this->get('fos_user.profile.form.factory');
+
+        $editForm = $formFactory->createForm(array('validation_groups'=>'Profile'));
+        $editForm->setData($entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -216,7 +234,7 @@ class UserController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

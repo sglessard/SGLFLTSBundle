@@ -11,7 +11,7 @@
     </li>
     {% else %}
     <li>
-        <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.id }) }}" class="pdf">{% trans %}Invoice{% endtrans%}</a>
+        <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.hashId }) }}" class="pdf">{% trans %}Invoice{% endtrans%}</a>
     </li>
     {% endif %}
 </ul>

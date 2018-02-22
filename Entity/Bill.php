@@ -13,6 +13,7 @@ namespace SGL\FLTSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Hashids\Hashids;
 
 /**
  * Bill
@@ -887,7 +888,7 @@ class Bill
      * Set ordered_at
      *
      * @param \DateTime $orderedAt
-     * @return Part
+     * @return Bill
      */
     public function setOrderedAt($orderedAt)
     {
@@ -904,5 +905,12 @@ class Bill
     public function getOrderedAt()
     {
         return $this->ordered_at;
+    }
+
+    public function getHashId()
+    {
+        $hashids = new Hashids('SGLFLTSBundle:Bill');
+        return $hashids->encode($this->id, 10);
+
     }
 }

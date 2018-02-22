@@ -11,39 +11,29 @@
 
 namespace SGL\FLTSBundle\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UserType extends BaseType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
-        $action = $options['action'];
         $builder
             ->add('username')
             ->add('email')
             ->add('enabled',null,array('required'=>false))
-            ->add('roles','choice',array('choices'=>array('ROLE_USER'=>'ROLE_USER','ROLE_BILL'=>'ROLE_BILL','ROLE_ADMIN'=>'ROLE_ADMIN'),'multiple' => true,))
+            ->add('roles',ChoiceType::class,array('choices'=>array('ROLE_USER'=>'ROLE_USER','ROLE_BILL'=>'ROLE_BILL','ROLE_ADMIN'=>'ROLE_ADMIN'),'multiple' => true,))
             ->add('first_name')
             ->add('last_name')
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
-            ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
+            ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
         ;
-
-        if ($action == 'edit') {
-            $builder->add('plainPassword', 'repeated', array(
-                'type' => 'password',
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('label' => 'form.new_password'),
-                'second_options' => array('label' => 'form.new_password_confirmation'),
-                'invalid_message' => 'fos_user.password.mismatch',
-                'required' => false
-            ));
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -55,8 +45,18 @@ class UserType extends BaseType
         ));
     }
 
-    public function getName()
+    public function getParent()
+    {
+        return 'FOS\UserBundle\Form\Type\ProfileFormType';
+    }
+
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_usertype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Hashids\Hashids;
 
 /**
  * Invoice controller.
@@ -27,6 +28,8 @@ class InvoiceController extends Controller
 {
     /**
      * Show invoice (HTML)
+     * @param string $id
+     * @return array
      *
      * @Route("/{id}/show", name="sgl_flts_invoice")
      * @Template("SGLFLTSBundle:Bill:Invoice/content.html.twig")
@@ -35,7 +38,10 @@ class InvoiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $bill = $em->getRepository('SGLFLTSBundle:Bill')->findWithPartProjectClientWorks($id);
+        $hashids = new Hashids('SGLFLTSBundle:Bill');
+        $id = $hashids->decode($id);
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->findWithPartProjectClientWorks(reset($id));
 
         if (!$bill) {
             throw $this->createNotFoundException('Unable to find Bill entity.');
@@ -68,7 +74,10 @@ class InvoiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $bill = $em->getRepository('SGLFLTSBundle:Bill')->findWithPartProjectClientWorks($id);
+        $hashids = new Hashids('SGLFLTSBundle:Bill');
+        $id = $hashids->decode($id);
+
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->findWithPartProjectClientWorks(reset($id));
 
         if (!$bill) {
             throw $this->createNotFoundException('Unable to find Bill entity.');
@@ -76,8 +85,10 @@ class InvoiceController extends Controller
 
         $filename = $this->get('translator')->trans('flts.bill.invoice.Invoice-%year%-%number%',array('%year%'=>$bill->getBilledAt()->format('Y'),'%number%'=>$bill->getNumber())).'.pdf';
 
+        $url = $this->generateUrl('sgl_flts_invoice', array('id' => $bill->getHashId()), true);
+
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutput($this->generateUrl('sgl_flts_invoice', array('id' => $bill->getId()), true)),
+            $this->get('knp_snappy.pdf')->getOutput($url),
             200,
             array(
                 'Content-Type'          => 'application/pdf',

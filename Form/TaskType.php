@@ -14,6 +14,7 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TaskType extends AbstractType
 {
@@ -26,7 +27,7 @@ class TaskType extends AbstractType
             ->add('identification')
             ->add('estimated_hours')
             ->add('rank')
-            ->add('part','entity',array(
+            ->add('part',EntityType::class,array(
                 'label'         => 'Project part',
                 'class'         => 'SGLFLTSBundle:Part',
                 'choice_label'  => 'fullname',
@@ -44,8 +45,13 @@ class TaskType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_tasktype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

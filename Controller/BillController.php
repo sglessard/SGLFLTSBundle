@@ -21,6 +21,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Bill;
 use SGL\FLTSBundle\Form\BillType;
 use SGL\FLTSBundle\Form\BillSentType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Bill controller.
@@ -143,7 +145,7 @@ class BillController extends Controller
             }
         }
 
-        $form   = $this->createForm(new BillType(), $entity,array('new_entity'=>true));
+        $form   = $this->createForm(BillType::class, $entity,array('new_entity'=>true));
 
         return array(
             'entity' => $entity,
@@ -161,7 +163,7 @@ class BillController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Bill();
-        $form = $this->createForm(new BillType(), $entity,array('new_entity'=>true));
+        $form = $this->createForm(BillType::class, $entity,array('new_entity'=>true));
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -212,9 +214,9 @@ class BillController extends Controller
         }
 
         if ($entity->getSent()) {
-            $editForm = $this->createForm(new BillSentType(), $entity);
+            $editForm = $this->createForm(BillSentType::class, $entity);
         } else {
-            $editForm = $this->createForm(new BillType(), $entity, array('selected_part_id' => $entity->getPart()->getId()));
+            $editForm = $this->createForm(BillType::class, $entity, array('selected_part_id' => $entity->getPart()->getId()));
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -247,9 +249,9 @@ class BillController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         if ($entity->getSent()) {
-            $editForm = $this->createForm(new BillSentType(), $entity);
+            $editForm = $this->createForm(BillSentType::class, $entity);
         } else {
-            $editForm = $this->createForm(new BillType(), $entity, array('selected_part_id' => $entity->getPart()->getId()));
+            $editForm = $this->createForm(BillType::class, $entity, array('selected_part_id' => $entity->getPart()->getId()));
         }
 
         $editForm->submit($request);
@@ -461,7 +463,7 @@ class BillController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }
@@ -473,7 +475,7 @@ class BillController extends Controller
     private function createBillsForm($part)
     {
         return $this->createFormBuilder(null,array('csrf_protection' => false))
-            ->add('bill','entity',array(
+            ->add('bill',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Bill',
                 'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\BillRepository $er) use ($part) {

@@ -5,7 +5,7 @@
     <ul class="record_actions">
         {% if (entity.id) %}
             <li>
-                <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.id }) }}" class="pdf">
+                <a href="{{ path('sgl_flts_invoice_pdf', { 'id': entity.hashId }) }}" class="pdf">
                     {% trans %}Generate invoice{% endtrans%}
                 </a>
             </li>

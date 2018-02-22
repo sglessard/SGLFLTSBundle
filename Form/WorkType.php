@@ -14,6 +14,8 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class WorkType extends AbstractType
 {
@@ -22,21 +24,21 @@ class WorkType extends AbstractType
         $part = $options['part'];
 
         $builder
-            ->add('task','entity',array(
+            ->add('task',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Task',
                 'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\TaskRepository $er) use ($part) {
                     return $er->retrieve(true)->where('t.part = :id_part')->setParameter('id_part', $part->getId());
                 }
             ))
-            ->add('user','entity',array(
+            ->add('user',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:User',
                 'choice_label'  => 'fullname',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\UserRepository $er) {
                     return $er->retrieve(true);
                 }
             ))
-            ->add('rate','entity',array(
+            ->add('rate',EntityType::class,array(
                 'class'         => 'SGLFLTSBundle:Rate',
                 'choice_label'  => 'name',
                 'query_builder' => function (\SGL\FLTSBundle\Entity\RateRepository $er) {
@@ -53,13 +55,13 @@ class WorkType extends AbstractType
                 'required' => true,
                 'widget' => 'single_text'
             ))
-            ->add('started_at', 'time', array(
+            ->add('started_at', TimeType::class, array(
                 'input'       => 'datetime',
                 'widget'      => 'choice',
                 'minutes'     => array(0,6,12,18,24,30,36,42,48,54),
                 'with_seconds'=> false,
             ))
-            ->add('ended_at', 'time', array(
+            ->add('ended_at', TimeType::class, array(
                 'input'       => 'datetime',
                 'widget'      => 'choice',
                 'minutes'     => array(0,6,12,18,24,30,36,42,48,54),
@@ -78,8 +80,13 @@ class WorkType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sgl_fltsbundle_worktype';
+    }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 }

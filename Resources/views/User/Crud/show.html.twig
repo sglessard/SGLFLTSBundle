@@ -36,28 +36,16 @@
                 <td>{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Locked</th>
-                <td>{% if (entity.locked) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Expired</th>
-                <td>{% if (entity.expired) %}{% trans %}Yes{% endtrans %}{% else %}{% trans %}No{% endtrans %}{% endif %}</td>
-            </tr>
-            <tr>
                 <th>Confirmationtoken</th>
                 <td>{{ entity.confirmationToken }}</td>
             </tr>
             <tr>
-                <th>Passwordrequestedat</th>
+                <th>Passwordrequestedate</th>
                 <td>{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
                 <td>{{ entity.roles|join(', ') }}</td>
-            </tr>
-            <tr>
-                <th>Credentialsexpired</th>
-                <td>{{ entity.credentialsExpired }}</td>
             </tr>
             <tr>
                 <th>First_name</th>

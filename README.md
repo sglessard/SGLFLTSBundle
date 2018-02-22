@@ -7,14 +7,18 @@ SGLFLTSBundle
 SGLFLTSBundle is a timesheet and billing application [Symfony2](http://symfony.com/doc/2.8/book/index.html) bundle mainly for freelancers.
 It is a port of my sf1.0 timesheet application I used for 4 years.  
 
-### Version 1
+## Demo  
+
+[flts.centdix.com](http://flts.centdix.com) 
+
+### Version 1  
 
 Build status
 ------------
 
 | branch      | phpver | status |
 | ----------- | ------ | ------ |
-| master      | 5.3    | [![Build Status](https://api.travis-ci.org/sglessard/SGLFLTSBundle.png?branch=master)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle) |
+| master      | 5.5    | [![Build Status](https://api.travis-ci.org/sglessard/SGLFLTSBundle.png?branch=master)](http://travis-ci.org/#!/sglessard/SGLFLTSBundle) |
 
 
 ## Objects  
@@ -30,28 +34,28 @@ Build status
 
 ## Installation
 
-1. Install symfony/framework-standard-edition 2.8
+1. Install FLTS using [composer](http://getcomposer.org) 
 
-2. Install FLTS requirements  
-   (using composer, see composer.json example at bottom)  
+    ``` yaml  
+    
+        # composer.json  
+        "require": {
+            "php": ">=5.5",
+            "sgl/flts-bundle": "dev-master"  
+        }  
+    ```
+
+2. Check FLTS requirements documentation  
+   (using composer)  
    
     1.1 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle)  
     1.2 [GenemuFormBundle](https://github.com/genemu/GenemuFormBundle)  
     1.3 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle)  
     1.4 [JMSSecurityExtraBundle](http://jmsyst.com/bundles/JMSSecurityExtraBundle/master/installation)  
     1.5 [AsseticBundle](https://symfony.com/doc/current/cookbook/assetic/asset_management.html#installing-and-enabling-assetic)  
+    1.6 [Hashids](https://github.com/ivanakimov/hashids.php)
 
-3. Install FLTS using [composer](http://getcomposer.org)
-
-    ``` yaml  
-    
-        # composer.json  
-        "require": {  
-            "sgl/flts-bundle": "dev-master"  
-        }  
-    ```
-
-4. Enable FLTS and requirements bundles  
+3. Enable FLTS and requirements bundles  
 
     ``` php  
         
@@ -70,24 +74,24 @@ Build status
             new SGL\FLTSBundle\SGLFLTSBundle(),
     ```
 
-5. Add required parameters (parameters.yml.dist), config (config.yml) and routing (routing.yml)  
+4. Add required parameters (parameters.yml.dist), config (config.yml) and routing (routing.yml)  
    See examples at bottom
 
-6. Install third-party helpers  
+5. Install third-party helpers  
    Hint : you can extend FLTS bundle in your project and install those libraries inside.
 
-    6.1 [TinyMCE](http://www.tinymce.com/)
+    5.1 [TinyMCE](http://www.tinymce.com/)
 
-7. Edit firewall and security (security.yml)  
+6. Edit firewall and security (security.yml)  
    See security.yml example at bottom  
 
-8. Update your database
+7. Update your database
     ``` bash
 
         app/console doctrine:schema:update --dump-sql
         app/console doctrine:schema:update --force
     ```
-9. Dump assets
+8. Dump assets
     ``` bash
 
         app/console assets:install web --symlink
@@ -95,11 +99,11 @@ Build status
         app/console --env=dev assetic:dump
     ```
 
-10. Add an admin user  
+9. Add an admin user  
    Browse "http://the-hostname/register"  
    Check role 'ROLE_ADMIN'
 
-11. After creating your first admin user, remove anonymous registration access  
+10. After creating your first admin user, remove anonymous registration access  
     (FLTS has an User CRUD)
     You can also remove registration routes inside routing.yml
 
@@ -111,7 +115,7 @@ Build status
         }
     ```
 
-12. Browse "http://the-hostname/timesheet" and create new clients, your frequent tasks, etc.
+11. Browse "http://the-hostname/timesheet" and create new clients, your frequent tasks, etc.
 
 
 ## Configurations Examples
@@ -158,6 +162,11 @@ Build status
     knp_snappy.pdf_option_image-quality:      100
     knp_snappy.pdf_option_no-pdf-compression: false
     knp_snappy.pdf_option_grayscale:          true
+    knp_snappy.temporary_folder:              %kernel.cache_dir%
+    knp_snappy.disable-smart-shrinking:       true
+    
+    fos_user.from_email.address:              test@test.com
+    fos_user.from_email.sender_name:          Admin
 
 ```
 
@@ -192,7 +201,13 @@ Build status
     
         registration:
             form:
-                type: sgl_fltsbundle_user_registration
+                type: SGL\FLTSBundle\Form\RegistrationFormType
+        profile:
+            form:
+                type: SGL\FLTSBundle\Form\UserType
+        from_email:
+            address: %fos_user.from_email.address%
+            sender_name: %fos_user.from_email.sender_name%
     
     # knp snappy conf
     knp_snappy:
@@ -204,6 +219,7 @@ Build status
                 image-quality: %knp_snappy.pdf_option_image-quality%
                 no-pdf-compression: %knp_snappy.pdf_option_no-pdf-compression%
                 grayscale: %knp_snappy.pdf_option_grayscale%
+                disable-smart-shrinking: %knp_snappy.disable-smart-shrinking%
         image:
             enabled:    false
     
@@ -283,7 +299,7 @@ Build status
                 pattern: ^/
                 form_login:
                     provider: fos_userbundle    # See providers
-                    csrf_provider: form.csrf_provider
+                    csrf_provider: security.csrf.token_manager
                     default_target_path: /timesheet/dashboard
     
                 logout:       true
@@ -313,7 +329,7 @@ Build status
             - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY } # Set to ROLE_ADMIN after 1st user creation
             - { path: ^/profile, role: ROLE_ADMIN }
     
-            - { path: ^/timesheet/invoices, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }  # Used by wkhtmltopdf locally
+            - { path: ^/timesheet/invoices, roles: IS_AUTHENTICATED_ANONYMOUSLY }  # Used by wkhtmltopdf locally
             - { path: ^/timesheet/clients, role: ROLE_ADMIN }
             - { path: ^/timesheet/projects, role: ROLE_ADMIN }
             - { path: ^/timesheet/bills, role: ROLE_BILL }
@@ -325,35 +341,6 @@ Build status
     
             - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
-```
-
-
-### composer.json  
-
-``` yaml
-
-    # composer.json
-
-    {
-        # [...]
-
-        "require": {
-
-            "php": ">=5.3.3",
-            "symfony/symfony": "2.8.*",
-
-            # [...]
-
-            "jms/security-extra-bundle": "1.5.*",
-            "symfony/assetic-bundle": "^2.8",
-            "Friendsofsymfony/user-bundle": "1.3.*",
-            "genemu/form-bundle": "2.2.*",
-            "knplabs/knp-snappy-bundle": "1.*",
-            "sgl/flts-bundle": "dev-master"
-        },
-
-        # [...]
-    }
 ```
 
 ## Coming soon

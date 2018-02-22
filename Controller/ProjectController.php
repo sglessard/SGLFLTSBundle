@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Project;
 use SGL\FLTSBundle\Form\ProjectType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Project controller.
@@ -77,7 +78,7 @@ class ProjectController extends Controller
     public function newAction()
     {
         $entity = new Project();
-        $form   = $this->createForm(new ProjectType(), $entity);
+        $form   = $this->createForm(ProjectType::class, $entity);
 
         return array(
             'entity' => $entity,
@@ -95,7 +96,7 @@ class ProjectController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Project();
-        $form = $this->createForm(new ProjectType(), $entity);
+        $form = $this->createForm(ProjectType::class, $entity);
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -133,7 +134,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createForm(ProjectType::class, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -161,7 +162,7 @@ class ProjectController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createForm(ProjectType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -220,7 +221,7 @@ class ProjectController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

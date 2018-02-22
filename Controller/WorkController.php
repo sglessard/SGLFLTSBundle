@@ -20,8 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Work;
 use SGL\FLTSBundle\Form\WorkType;
 use SGL\FLTSBundle\Form\WorkMoveType;
-
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Work controller.
@@ -60,7 +60,7 @@ class WorkController extends Controller
      * Finds and displays a Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/show", name="sgl_flts_work_show")
-     * @Template("SGLFLTSBundle:work:Crud/show.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/show.html.twig")
      */
     public function showAction($id_project,$id_part,$id_task,$id)
     {
@@ -87,7 +87,7 @@ class WorkController extends Controller
      * Displays a form to create a new Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/new", name="sgl_flts_work_new")
-     * @Template("SGLFLTSBundle:work:Crud/new.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
      */
     public function newAction($id_project,$id_part,$id_task)
     {
@@ -128,7 +128,7 @@ class WorkController extends Controller
             $entity->setRate($rate);
         }
 
-        $form   = $this->createForm(new WorkType(), $entity, array('part'=>$part));
+        $form   = $this->createForm(WorkType::class, $entity, array('part'=>$part));
 
         return array(
             'entity'      => $entity,
@@ -144,7 +144,7 @@ class WorkController extends Controller
      *
      * @Route("/create", name="sgl_flts_work_create")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/new.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -161,7 +161,7 @@ class WorkController extends Controller
         }
 
         $entity  = new Work();
-        $form = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
+        $form = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -198,7 +198,7 @@ class WorkController extends Controller
      * Displays a form to edit an existing Work entity.
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/edit", name="sgl_flts_work_edit")
-     * @Template("SGLFLTSBundle:work:Crud/edit.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
      */
     public function editAction($id_project,$id_part,$id_task,$id)
     {
@@ -216,7 +216,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(new WorkType(), $entity, array('part'=>$task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -234,7 +234,7 @@ class WorkController extends Controller
      *
      * @Route("/{id}/update", name="sgl_flts_work_update")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/edit.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -257,7 +257,7 @@ class WorkController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm($work_type, $entity, array('part'=>$task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -370,7 +370,7 @@ class WorkController extends Controller
      * Move an existing Work entity to another project part
      *
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/move", name="sgl_flts_work_move")
-     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
      */
     public function moveAction($id_project,$id_part,$id_task,$id)
     {
@@ -388,7 +388,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(new WorkMoveType(), $entity);
+        $editForm = $this->createForm(WorkMoveType::class, $entity);
 
         // Since part's mapped attribute is false, we need to set the selected value
         $editForm->get('part')->setData($entity->getPart());
@@ -407,12 +407,11 @@ class WorkController extends Controller
      *
      * @Route("/{id}/move-update", name="sgl_flts_work_moveupdate")
      * @Method("POST")
-     * @Template("SGLFLTSBundle:work:Crud/move.html.twig")
+     * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
      */
     public function moveupdateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $work_type = new WorkMoveType();
 
         $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
 
@@ -422,7 +421,7 @@ class WorkController extends Controller
 
         $old_task = $entity->getTask();
 
-        $editForm = $this->createForm($work_type, $entity);
+        $editForm = $this->createForm(WorkMoveType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -458,7 +457,7 @@ class WorkController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

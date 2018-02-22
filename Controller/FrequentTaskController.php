@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\FrequentTask;
 use SGL\FLTSBundle\Form\FrequentTaskType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * FrequentTask controller.
@@ -76,7 +77,7 @@ class FrequentTaskController extends Controller
     public function newAction()
     {
         $entity = new FrequentTask();
-        $form   = $this->createForm(new FrequentTaskType(), $entity);
+        $form   = $this->createForm(FrequentTaskType::class, $entity);
 
         return array(
             'entity' => $entity,
@@ -94,7 +95,7 @@ class FrequentTaskController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new FrequentTask();
-        $form = $this->createForm(new FrequentTaskType(), $entity);
+        $form = $this->createForm(FrequentTaskType::class, $entity);
         $form->submit($request);
 
         if ($form->isValid()) {
@@ -132,7 +133,7 @@ class FrequentTaskController extends Controller
             throw $this->createNotFoundException('Unable to find FrequentTask entity.');
         }
 
-        $editForm = $this->createForm(new FrequentTaskType(), $entity);
+        $editForm = $this->createForm(FrequentTaskType::class, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -160,7 +161,7 @@ class FrequentTaskController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new FrequentTaskType(), $entity);
+        $editForm = $this->createForm(FrequentTaskType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
@@ -216,7 +217,7 @@ class FrequentTaskController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

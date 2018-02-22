@@ -12,7 +12,6 @@ body#invoice {
 }
 
 body#invoice #wrapper {
-    width:660px;
     margin:0 auto;
 }
 
@@ -34,20 +33,32 @@ body#invoice header {
 }
 body#invoice header #billnumber{
     position:absolute;
-    top:0px;
-    right:20px;
+    top:0;
+    right:0;
     font-size:24px;
     line-height:20px;
     color:#cccccc;
 }
-body#invoice header #logo {
-    float:left;
+body#invoice header > table {
+    width:100%;
 }
-body#invoice header table {
-    width:353px;
-    float:right;
+body#invoice header > table td {
+    width:46%;
 }
-body#invoice header table tr td {
+body#invoice header > table td:last-child {
+    width:54%;
+}
+
+body#invoice header > table td:last-child {
+    width:100%
+}
+
+body#invoice header table tr th {
+    padding-right:10px;
+    min-width: 80px;
+}
+
+body#invoice header table table tr td {
     padding-bottom:0.333em;
 }
 body#invoice table#project {
@@ -64,7 +75,7 @@ body#invoice table thead th,
 }
 
 body#invoice #purchase-order {
-    width:320px;
+    width:54%;
     padding-top:10px;
     padding-bottom:0;
 }
@@ -72,10 +83,11 @@ body#invoice #purchase-order {
 body#invoice #purchase-order th {
     padding-right:10px;
     white-space:nowrap;
+    min-width: 80px;
 }
 
 body#invoice #client {
-    width:280px;
+    width:46%;
     padding-top:15px;
     vertical-align: top;
 }
@@ -89,7 +101,7 @@ body#invoice #client_logo h3 {
 table#bill-body-content {
     border-collapse: collapse;
     font:normal 10px/16px 'Arial';
-    width:660px;
+    width:100%;
     border:0;
     margin-top:6px;
 }
@@ -115,7 +127,9 @@ body#invoice footer {
     clear:both;
     margin-top:10px;
 }
-
+body#invoice footer > table {
+    width:100%;
+}
 body#invoice footer table th,
 body#invoice footer table td {
     padding:0 0 2px 0;
