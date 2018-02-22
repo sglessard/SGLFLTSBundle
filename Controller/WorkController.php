@@ -412,6 +412,7 @@ class WorkController extends Controller
     public function moveupdateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $work_type = new WorkMoveType();
 
         $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
 
@@ -421,7 +422,7 @@ class WorkController extends Controller
 
         $old_task = $entity->getTask();
 
-        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$old_task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity);
         $editForm->submit($request);
 
         if ($editForm->isValid()) {
