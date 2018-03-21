@@ -33,6 +33,6 @@ services:
 
     sgl_flts.request_listener:
         class: SGL\FLTSBundle\Listeners\RequestListener
-        arguments: [ @service_container, %sgl_flts.recent_parts_limit% ]
+        arguments: [ '@service_container', '%sgl_flts.recent_parts_limit%' ]
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
