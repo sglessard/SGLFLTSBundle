@@ -29,7 +29,7 @@
         "jms/security-extra-bundle": "1.6.*",
         "jms/di-extra-bundle": "1.9.*",
         "genemu/form-bundle": "^3.0@dev",
-        "knplabs/knp-snappy-bundle": "1.4.*",
+        "knplabs/knp-snappy-bundle": "1.5.*",
         "hashids/hashids": "2.0.*"
     },
     "autoload": {
