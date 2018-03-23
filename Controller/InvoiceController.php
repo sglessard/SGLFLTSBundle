@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Hashids\Hashids;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Invoice controller.
@@ -85,7 +86,7 @@ class InvoiceController extends Controller
 
         $filename = $this->get('translator')->trans('flts.bill.invoice.Invoice-%year%-%number%',array('%year%'=>$bill->getBilledAt()->format('Y'),'%number%'=>$bill->getNumber())).'.pdf';
 
-        $url = $this->generateUrl('sgl_flts_invoice', array('id' => $bill->getHashId()), true);
+        $url = $this->generateUrl('sgl_flts_invoice', array('id' => $bill->getHashId()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutput($url),
