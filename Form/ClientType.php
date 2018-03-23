@@ -28,7 +28,7 @@ class ClientType extends AbstractType
             ))
             ->add('rate')
             ->add('logo',FileType::class,array(
-                'image_path' => 'webPath',
+                'image_property' => 'webPath',
                 'required' => false
             ))
             ->add('address',TextareaType::class,array(

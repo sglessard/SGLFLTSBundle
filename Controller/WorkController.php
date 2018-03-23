@@ -33,6 +33,11 @@ class WorkController extends Controller
     /**
      * Lists all Work entities.
      *
+     * @param int $id_project
+     * @param int $id_part
+     * @param int $id_task
+     * @return array
+     * 
      * @Route("/{id_project}/{id_part}/{id_task}", requirements={"id_project" = "\d+", "id_part" = "\d+", "id_task" = "\d+"}, name="sgl_flts_work")
      * @Template("SGLFLTSBundle:Work:List/index.html.twig")
      */
@@ -59,6 +64,12 @@ class WorkController extends Controller
     /**
      * Finds and displays a Work entity.
      *
+     * @param int $id_project
+     * @param int $id_part
+     * @param int $id_task
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/show", name="sgl_flts_work_show")
      * @Template("SGLFLTSBundle:Work:Crud/show.html.twig")
      */
@@ -86,6 +97,12 @@ class WorkController extends Controller
     /**
      * Displays a form to create a new Work entity.
      *
+     * @param int $id_project
+     * @param int $id_part
+     * @param int $id_task
+     * @return array
+     * @throws \Exception
+     * 
      * @Route("/{id_project}/{id_part}/{id_task}/new", name="sgl_flts_work_new")
      * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
      */
@@ -128,7 +145,10 @@ class WorkController extends Controller
             $entity->setRate($rate);
         }
 
-        $form   = $this->createForm(WorkType::class, $entity, array('part'=>$part));
+        $form   = $this->createForm(WorkType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_create'),
+            'part'=>$part
+        ]);
 
         return array(
             'entity'      => $entity,
@@ -142,6 +162,9 @@ class WorkController extends Controller
     /**
      * Creates a new Work entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_work_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Work:Crud/new.html.twig")
@@ -161,8 +184,11 @@ class WorkController extends Controller
         }
 
         $entity  = new Work();
-        $form = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
-        $form->submit($request);
+        $form = $this->createForm(WorkType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_create'),
+            'part'=>$task->getPart()
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -197,6 +223,12 @@ class WorkController extends Controller
     /**
      * Displays a form to edit an existing Work entity.
      *
+     * @param int $id_project
+     * @param int $id_part
+     * @param int $id_task
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/edit", name="sgl_flts_work_edit")
      * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
      */
@@ -216,7 +248,10 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
+        $editForm = $this->createForm(WorkType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_update', ['id' => $id]),
+            'part'=>$task->getPart()
+        ]);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -232,6 +267,11 @@ class WorkController extends Controller
     /**
      * Edits an existing Work entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
+     * 
      * @Route("/{id}/update", name="sgl_flts_work_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Work:Crud/edit.html.twig")
@@ -257,8 +297,11 @@ class WorkController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(WorkType::class, $entity, array('part'=>$task->getPart()));
-        $editForm->submit($request);
+        $editForm = $this->createForm(WorkType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_update', ['id' => $id]),
+            'part'=>$task->getPart()
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -278,8 +321,6 @@ class WorkController extends Controller
             } else {
                 return $this->redirect($this->generateUrl('sgl_flts_work_edit', array('id' => $id, 'id_project'=>$task->getPart()->getProject()->getId(), 'id_part'=>$task->getPart()->getId(), 'id_task'=>$task->getId())));
             }
-
-
         }
 
         return array(
@@ -295,10 +336,15 @@ class WorkController extends Controller
     /**
      * Bill a job.
      *
+     * @param Request $request
+     * @param int $id
+     * @param int $id_bill
+     * @return Response (json)
+     * 
      * @Route("/{id}/bill/{id_bill}", name="sgl_flts_work_bill")
      * @Method("POST")
      */
-    public function billToAction($id,$id_bill) {
+    public function billToAction(Request $request,$id,$id_bill) {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -312,7 +358,7 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Bill entity.');
         }
 
-        if ($this->getRequest()->request->get('checked',false) == 'true') {
+        if ($request->request->get('checked',false) == 'true') {
             $entity->setBill($bill);
         } else {
             $entity->setBill(null);
@@ -327,9 +373,14 @@ class WorkController extends Controller
         )));
         return $response;
     }
+
     /**
      * Deletes a Work entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_work_delete")
      * @Method("POST")
      */
@@ -338,7 +389,7 @@ class WorkController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         $entity = $em->getRepository('SGLFLTSBundle:Work')->find($id);
 
@@ -369,6 +420,12 @@ class WorkController extends Controller
     /**
      * Move an existing Work entity to another project part
      *
+     * @param int $id_project
+     * @param int $id_part
+     * @param int $id_task
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id_part}/{id_task}/{id}/move", name="sgl_flts_work_move")
      * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
      */
@@ -388,7 +445,9 @@ class WorkController extends Controller
             throw $this->createNotFoundException('Unable to find Task entity.');
         }
 
-        $editForm = $this->createForm(WorkMoveType::class, $entity);
+        $editForm = $this->createForm(WorkMoveType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_moveupdate', ['id' => $id])
+        ]);
 
         // Since part's mapped attribute is false, we need to set the selected value
         $editForm->get('part')->setData($entity->getPart());
@@ -405,6 +464,10 @@ class WorkController extends Controller
     /**
      * Moves a Work entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/move-update", name="sgl_flts_work_moveupdate")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Work:Crud/move.html.twig")
@@ -421,8 +484,10 @@ class WorkController extends Controller
 
         $old_task = $entity->getTask();
 
-        $editForm = $this->createForm(WorkMoveType::class, $entity);
-        $editForm->submit($request);
+        $editForm = $this->createForm(WorkMoveType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_work_moveupdate', ['id' => $id])
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
 
@@ -454,6 +519,10 @@ class WorkController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use SGL\FLTSBundle\Entity\Part;
 use SGL\FLTSBundle\Entity\Project;
 
@@ -52,7 +52,7 @@ class ReportController extends Controller
    public function dateSearchAction(Request $request)
    {
        $search_form = $this->createSearchDateForm();
-       $search_form->submit($request);
+       $search_form->handleRequest($request);
 
         if ($search_form->isValid()) {
             $data = $search_form->getData();
@@ -134,7 +134,7 @@ class ReportController extends Controller
     private function createSearchDateForm()
     {
         return $this->createFormBuilder(null,array('csrf_protection' => false))
-            ->add('date', 'genemu_jquerydate',array(
+            ->add('date', DateType::class,array(
                 'required' => true,
                 'widget' => 'single_text'
             ))

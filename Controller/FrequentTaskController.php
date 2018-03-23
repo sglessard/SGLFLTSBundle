@@ -47,6 +47,9 @@ class FrequentTaskController extends Controller
     /**
      * Finds and displays a FrequentTask entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/show", name="sgl_flts_frequenttask_show")
      * @Template("SGLFLTSBundle:FrequentTask:Crud/show.html.twig")
      */
@@ -71,13 +74,17 @@ class FrequentTaskController extends Controller
     /**
      * Displays a form to create a new FrequentTask entity.
      *
+     * @return array
+     * 
      * @Route("/new", name="sgl_flts_frequenttask_new")
      * @Template("SGLFLTSBundle:FrequentTask:Crud/new.html.twig")
      */
     public function newAction()
     {
         $entity = new FrequentTask();
-        $form   = $this->createForm(FrequentTaskType::class, $entity);
+        $form   = $this->createForm(FrequentTaskType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_frequenttask_create')
+        ]);
 
         return array(
             'entity' => $entity,
@@ -88,6 +95,9 @@ class FrequentTaskController extends Controller
     /**
      * Creates a new FrequentTask entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_frequenttask_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:FrequentTask:Crud/new.html.twig")
@@ -95,8 +105,10 @@ class FrequentTaskController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new FrequentTask();
-        $form = $this->createForm(FrequentTaskType::class, $entity);
-        $form->submit($request);
+        $form = $this->createForm(FrequentTaskType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_frequenttask_create')
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -120,6 +132,9 @@ class FrequentTaskController extends Controller
     /**
      * Displays a form to edit an existing FrequentTask entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/edit", name="sgl_flts_frequenttask_edit")
      * @Template("SGLFLTSBundle:FrequentTask:Crud/edit.html.twig")
      */
@@ -133,7 +148,9 @@ class FrequentTaskController extends Controller
             throw $this->createNotFoundException('Unable to find FrequentTask entity.');
         }
 
-        $editForm = $this->createForm(FrequentTaskType::class, $entity);
+        $editForm = $this->createForm(FrequentTaskType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_frequenttask_update', ['id' => $id])
+        ]);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -146,6 +163,10 @@ class FrequentTaskController extends Controller
     /**
      * Edits an existing FrequentTask entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/update", name="sgl_flts_frequenttask_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:FrequentTask:Crud/edit.html.twig")
@@ -161,8 +182,10 @@ class FrequentTaskController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(FrequentTaskType::class, $entity);
-        $editForm->submit($request);
+        $editForm = $this->createForm(FrequentTaskType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_frequenttask_update', ['id' => $id])
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -186,13 +209,17 @@ class FrequentTaskController extends Controller
     /**
      * Deletes a FrequentTask entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_frequenttask_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -214,6 +241,11 @@ class FrequentTaskController extends Controller
         return $this->redirect($this->generateUrl('sgl_flts_frequenttask'));
     }
 
+    /**
+     * @param $id
+     *
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

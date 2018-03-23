@@ -469,7 +469,6 @@ input[type="text"].longtext {
     width:500px;
 }
 input[type="date"] {
-    width: 70px;
     background: #ffffff url(/bundles/sglflts/images/icons/calendar_view_day.png) 4px center no-repeat;
     border:1px solid #999999;
     padding:4px 4px 4px 24px;

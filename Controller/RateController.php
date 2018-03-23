@@ -31,6 +31,8 @@ class RateController extends Controller
     /**
      * Lists all Rate entities.
      *
+     * @return array
+     * 
      * @Route("/", name="sgl_flts_rate")
      * @Template("SGLFLTSBundle:Rate:List/index.html.twig")
      */
@@ -48,6 +50,9 @@ class RateController extends Controller
     /**
      * Finds and displays a Rate entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/show", name="sgl_flts_rate_show")
      * @Template("SGLFLTSBundle:Rate:Crud/show.html.twig")
      */
@@ -72,13 +77,17 @@ class RateController extends Controller
     /**
      * Displays a form to create a new Rate entity.
      *
+     * @return array
+     * 
      * @Route("/new", name="sgl_flts_rate_new")
      * @Template("SGLFLTSBundle:Rate:Crud/new.html.twig")
      */
     public function newAction()
     {
         $entity = new Rate();
-        $form   = $this->createForm(RateType::class, $entity);
+        $form   = $this->createForm(RateType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_rate_create')
+        ]);
 
         return array(
             'entity' => $entity,
@@ -89,6 +98,9 @@ class RateController extends Controller
     /**
      * Creates a new Rate entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_rate_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Rate:Crud/new.html.twig")
@@ -96,8 +108,10 @@ class RateController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Rate();
-        $form = $this->createForm(RateType::class, $entity);
-        $form->submit($request);
+        $form = $this->createForm(RateType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_rate_create')
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -121,6 +135,9 @@ class RateController extends Controller
     /**
      * Displays a form to edit an existing Rate entity.
      *
+     * @param int $id
+     * @return array 
+     * 
      * @Route("/{id}/edit", name="sgl_flts_rate_edit")
      * @Template("SGLFLTSBundle:Rate:Crud/edit.html.twig")
      */
@@ -134,7 +151,9 @@ class RateController extends Controller
             throw $this->createNotFoundException('Unable to find Rate entity.');
         }
 
-        $editForm = $this->createForm(RateType::class, $entity);
+        $editForm = $this->createForm(RateType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_rate_update', ['id' => $id])
+        ]);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -147,6 +166,10 @@ class RateController extends Controller
     /**
      * Edits an existing Rate entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/update", name="sgl_flts_rate_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Rate:Crud/edit.html.twig")
@@ -162,8 +185,10 @@ class RateController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(RateType::class, $entity);
-        $editForm->submit($request);
+        $editForm = $this->createForm(RateType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_rate_update', ['id' => $id])
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -187,13 +212,17 @@ class RateController extends Controller
     /**
      * Deletes a Rate entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_rate_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -218,6 +247,9 @@ class RateController extends Controller
      /**
       * Get Part's rate
       *
+      * @param Request $request
+      * @return Response (json)
+      * 
       * @Route("/part-rate/", name="sgl_flts_part_rate")
       * @Method("POST")
       */
@@ -238,6 +270,10 @@ class RateController extends Controller
         return $response;
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

@@ -14,6 +14,7 @@ namespace SGL\FLTSBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class BillSentType extends AbstractType
 {
@@ -25,15 +26,15 @@ class BillSentType extends AbstractType
                 'attr'=>array('cols'=>50,'rows'=>3),
                 'required'=>false,
             ))
-            ->add('sent_at','genemu_jquerydate', array(
+            ->add('sent_at',DateType::class, array(
                 'required' => false,
                 'widget' => 'single_text'
             ))
-            ->add('paid_at','genemu_jquerydate', array(
+            ->add('paid_at',DateType::class, array(
                 'required' => false,
                 'widget' => 'single_text'
             ))
-            ->add('deposited_at','genemu_jquerydate', array(
+            ->add('deposited_at',DateType::class, array(
                 'required' => false,
                 'widget' => 'single_text'
             ))

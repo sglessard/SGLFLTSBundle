@@ -7,7 +7,7 @@
 {% block content %}
     {{ parent() }}
 
-    <form action="{{ path('sgl_flts_project_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form) }}
 
         {{ form_widget(form) }}
 
@@ -15,7 +15,7 @@
             <input type="submit" class="create" value="{% trans %}flts.button.Confirm create{% endtrans%}" />
         </div>
 
-    </form>
+    {{ form_end(form) }}
 
     {% include 'SGLFLTSBundle:Project:Common/record_actions.html.twig' with { 'entity_name': 'project','entity': false } %}
 {% endblock %}

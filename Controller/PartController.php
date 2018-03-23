@@ -43,7 +43,7 @@ class PartController extends Controller
         $clients = $em->getRepository('SGLFLTSBundle:Client')->retrieveWithOpenedProjects();
 
         // Session
-        $this->getRequest()->getSession()->set('opened_parts', true);
+        $this->get('session')->set('opened_parts', true);
 
         return array(
             'clients' => $clients,
@@ -53,12 +53,16 @@ class PartController extends Controller
     /**
      * Lists opened Project Part entities.
      *
+     * @param int $id_project
+     * @return array
+     * 
      * @Route("/{id_project}/list", name="sgl_flts_part_list")
      * @Template("SGLFLTSBundle:Part:List/list.html.twig")
      */
-    public function listAction($id_project, $opened_parts=true)
+    public function listAction($id_project)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
 
         $project = $em->getRepository('SGLFLTSBundle:Project')->find($id_project);
 
@@ -73,7 +77,7 @@ class PartController extends Controller
         }
 
         // Session
-        $this->getRequest()->getSession()->set('opened_parts', $opened_parts);
+        $this->get('session')->set('opened_parts', $opened_parts);
 
         return array(
             'entities' => $parts,
@@ -84,12 +88,17 @@ class PartController extends Controller
     /**
      * Finds and displays a Part entity.
      *
+     * @param int $id_project
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id}/show", name="sgl_flts_part_show")
      * @Template("SGLFLTSBundle:Part:Crud/show.html.twig")
      */
-    public function showAction($id_project,$id, $opened_parts=true)
+    public function showAction($id_project,$id)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
 
         $project = $em->getRepository('SGLFLTSBundle:Project')->find($id_project);
 
@@ -106,7 +115,7 @@ class PartController extends Controller
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
 
         // Session
-        $this->getRequest()->getSession()->set('opened_parts', $opened_parts);
+        $this->get('session')->set('opened_parts', $opened_parts);
 
         return array(
             'part'      => $entity,
@@ -118,12 +127,16 @@ class PartController extends Controller
     /**
      * Displays a form to create a new Part entity.
      *
+     * @param int $id_project
+     * @return array
+     * 
      * @Route("/{id_project}/new", name="sgl_flts_part_new")
      * @Template("SGLFLTSBundle:Part:Crud/new.html.twig")
      */
-    public function newAction($id_project, $opened_parts=true)
+    public function newAction($id_project)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
 
         $project = $em->getRepository('SGLFLTSBundle:Project')->find($id_project);
 
@@ -135,7 +148,11 @@ class PartController extends Controller
         $entity->setProject($project);
         $entity->setStartedAt(new \DateTime);
 
-        $form   = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
+        $createRoute = $opened_parts ? 'sgl_flts_part_create': 'sgl_flts_part_create_all';
+        $form   = $this->createForm(PartType::class, $entity, [
+            'action' => $this->generateUrl($createRoute),
+            'client'=>$project->getClient()
+        ]);
 
         return array(
             'part' => $entity,
@@ -147,13 +164,18 @@ class PartController extends Controller
     /**
      * Creates a new Part entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_part_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Part:Crud/new.html.twig")
      */
-    public function createAction(Request $request, $opened_parts=true)
+    public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
+
         $part_type = new PartType();
 
         $post_val = $request->get($part_type->getName());
@@ -166,8 +188,12 @@ class PartController extends Controller
         }
 
         $entity  = new Part();
-        $form = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
-        $form->submit($request);
+        $createRoute = $opened_parts ? 'sgl_flts_part_create': 'sgl_flts_part_create_all';
+        $form = $this->createForm(PartType::class, $entity, [
+            'action'=>$this->generateUrl($createRoute),
+            'client'=>$project->getClient()
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -198,12 +224,17 @@ class PartController extends Controller
     /**
      * Displays a form to edit an existing Part entity.
      *
+     * @param int $id_project
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id}/edit", name="sgl_flts_part_edit")
      * @Template("SGLFLTSBundle:Part:Crud/edit.html.twig")
      */
-    public function editAction($id_project, $id, $opened_parts=true)
+    public function editAction($id_project, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
 
         $project = $em->getRepository('SGLFLTSBundle:Project')->find($id_project);
 
@@ -217,7 +248,13 @@ class PartController extends Controller
             throw $this->createNotFoundException('Unable to find Part entity.');
         }
 
-        $editForm = $this->createForm(PartType::class, $entity,array('client'=>$project->getClient()));
+        // Edit route
+        $updateRoute = $opened_parts ? 'sgl_flts_part_update': 'sgl_flts_part_update_all';
+        $editForm = $this->createForm(PartType::class, $entity, [
+            'action'=>$this->generateUrl($updateRoute, ['id' => $id]),
+            'client'=>$project->getClient()
+        ]);
+
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
 
         return array(
@@ -231,13 +268,19 @@ class PartController extends Controller
     /**
      * Edits an existing Part entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/update", name="sgl_flts_part_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Part:Crud/edit.html.twig")
      */
-    public function updateAction(Request $request, $id, $opened_parts=true)
+    public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $opened_parts = $this->get('session')->get('opened_parts', true);
+
         $part_type = new PartType();
 
         $entity = $em->getRepository('SGLFLTSBundle:Part')->find($id);
@@ -256,8 +299,13 @@ class PartController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id, $entity->getClosed());
-        $editForm = $this->createForm(PartType::class, $entity, array('client'=>$project->getClient()));
-        $editForm->submit($request);
+
+        $updateRoute = $opened_parts ? 'sgl_flts_part_update': 'sgl_flts_part_update_all';
+        $editForm = $this->createForm(PartType::class, $entity, [
+            'action' => $this->generateUrl($updateRoute, ['id' => $id]),
+            'client'=>$project->getClient()
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -285,6 +333,10 @@ class PartController extends Controller
     /**
      * Deletes a Part entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_part_delete")
      * @Method("POST")
      */
@@ -305,7 +357,7 @@ class PartController extends Controller
         $project = $entity->getProject();
 
         $form = $this->createDeleteForm($id, $entity->getClosed());
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em->remove($entity);
@@ -324,71 +376,98 @@ class PartController extends Controller
      * All Projects view
      * Lists ALL Project Part entities
      *
+     * @param int $id_project
+     * @return array
+     * 
      * @Route("/{id_project}/list/all", name="sgl_flts_part_list_all")
      * @Template("SGLFLTSBundle:Part:List/list.html.twig")
      */
     public function listAllAction($id_project)
     {
-        return $this->listAction($id_project, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->listAction($id_project);
     }
 
     /**
      * All Projects view
      * Displays a form to create a new Part entity.
      *
+     * @param int $id_project
+     * @return array
+     * 
      * @Route("/{id_project}/new/all", name="sgl_flts_part_new_all")
      * @Template("SGLFLTSBundle:Part:Crud/new.html.twig")
      */
     public function newAllAction($id_project) {
-        return $this->newAction($id_project, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->newAction($id_project);
     }
 
     /**
      * All Projects view
      * Creates a new Part entity.
      *
+     * @param Request $request
+     * @return array
+     * 
      * @Route("/create/all", name="sgl_flts_part_create_all")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Part:Crud/new.html.twig")
      */
     public function createAllAction(Request $request) {
-        return $this->createAction($request, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->createAction($request);
     }
 
     /**
      * Finds and displays a Part entity
      * All Projects view
      *
+     * @param int $id_project
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id}/show/all", name="sgl_flts_part_show_all")
      * @Template("SGLFLTSBundle:Part:Crud/show.html.twig")
      */
     public function showAllAction($id_project,$id)
     {
-        return $this->showAction($id_project,$id, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->showAction($id_project,$id);
     }
     /**
      * All Projects view
      * Displays a form to edit an existing Part entity
      *
+     * @param int $id_project
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id_project}/{id}/edit/all", name="sgl_flts_part_edit_all")
      * @Template("SGLFLTSBundle:Part:Crud/edit.html.twig")
      */
     public function editAllAction($id_project,$id)
     {
-        return $this->editAction($id_project,$id, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->editAction($id_project,$id);
     }
 
     /**
      * All Projects view
      * Edits an existing Part entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/update/all", name="sgl_flts_part_update_all")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Part:Crud/edit.html.twig")
      */
     public function updateAllAction(Request $request, $id)
     {
-        return $this->updateAction($request,$id, false);
+        $this->get('session')->set('opened_parts', false);
+        return $this->updateAction($request,$id);
     }
 
     /**
@@ -398,6 +477,7 @@ class PartController extends Controller
      * @Route("/selection/{opened_only}", name="sgl_flts_part_selection")
      * @Method("POST")
      *
+     * @param Request $request
      * @param string $redirect_route
      * @param string $redirect_error
      * @param Part $part    false, null or Part object
@@ -410,11 +490,11 @@ class PartController extends Controller
      */
     public function selectionAction(Request $request, $opened_part=null, $part=null, $redirect_route=null, $redirect_error=null, $opened_only='0')
     {
-        $form = $this->createSelectPartForm($opened_only == '1');
+        $form = $this->createSelectPartForm();
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
 
-        if ($request->getMethod() == 'POST') {
-
-            $form->submit($request);
             $data = $form->getData();
 
             if ($form->isValid()) {
@@ -481,7 +561,7 @@ class PartController extends Controller
      * @param integer $id
      * @param boolean $closed
      *
-     * @return FormBuilder
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm($id,$closed)
     {
@@ -494,12 +574,13 @@ class PartController extends Controller
 
     /**
      * Part selection form
-     * @param boolean $opened
      *
-     * @return FormBuilder
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
-    private function createSelectPartForm($opened_parts=true)
+    private function createSelectPartForm()
     {
+        $opened_parts = $this->get('session')->get('opened_parts', true);
+
         $part_field_id = $opened_parts ? 'opened_part' : 'part';
         return $this->createFormBuilder(null,array('csrf_protection' => false))
             ->add($part_field_id,EntityType::class,array(
@@ -513,8 +594,8 @@ class PartController extends Controller
                         return $er->retrieveWithProjectClient(true);
                     }
                 }))
-            ->add('redirect_route', 'hidden')
-            ->add('redirect_error', 'hidden')
+            ->add('redirect_route', HiddenType::class)
+            ->add('redirect_error', HiddenType::class)
             ->getForm()
         ;
     }
@@ -522,10 +603,10 @@ class PartController extends Controller
     /**
      * Create frequent tasks for a project part
      *
-     * @param \SGL\FLTSBundle\Entity\Part $part
+     * @param Part $part
      * @return void
      */
-    private function createFrequentTasks(\SGL\FLTSBundle\Entity\Part $part)
+    private function createFrequentTasks(Part $part)
     {
         $em = $this->getDoctrine()->getManager();
 

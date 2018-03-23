@@ -10,14 +10,14 @@
 {% block content %}
     {{ parent() }}
 
-    <form action="{{ path('sgl_flts_task_create' ) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form) }}
 
         {{ form_widget(form) }}
 
         <div class="record_submit">
             <input type="submit" class="create" value="{% trans %}flts.button.Confirm create{% endtrans%}" />
         </div>
-    </form>
+    {{ form_end(form) }}
 
     <div class="record_actions_ctn">
 

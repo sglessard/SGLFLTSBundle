@@ -13,12 +13,12 @@ namespace SGL\FLTSBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SGL\FLTSBundle\Entity\Bill;
+use SGL\FLTSBundle\Entity\Part;
 use SGL\FLTSBundle\Form\BillType;
 use SGL\FLTSBundle\Form\BillSentType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -34,14 +34,18 @@ class BillController extends Controller
     /**
      * Lists latest Bill entities.
      *
+     * @param Request $request
+     * @return array
+     * @throws \Exception
+     * 
      * @Route("/", name="sgl_flts_bill")
      * @Template("SGLFLTSBundle:Bill:List/index.html.twig")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $latest_period = $this->getRequest()->get('period',$this->container->getParameter('sgl_flts.bill_latest_period'));
+        $latest_period = $request->get('period',$this->container->getParameter('sgl_flts.bill_latest_period'));
 
         // Latest for sgl_flts.bill_latest_period param
         $now = new \DateTime();
@@ -64,31 +68,37 @@ class BillController extends Controller
     }
 
     /**
-    * Lists Bill entities by part
-    *
-    * @Route("/part/{id_part}", name="sgl_flts_part_bills")
-    * @Template("SGLFLTSBundle:Bill:List/part_index.html.twig")
-    */
-   public function partAction($id_part)
-   {
-       $em = $this->getDoctrine()->getManager();
+     * Lists Bill entities by part
+     *
+     * @param int $id_part
+     * @return array
+     * 
+     * @Route("/part/{id_part}", name="sgl_flts_part_bills")
+     * @Template("SGLFLTSBundle:Bill:List/part_index.html.twig")
+     */
+    public function partAction($id_part)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-       $part = $em->getRepository('SGLFLTSBundle:Part')->find($id_part);
-       if (!$part) {
-           throw $this->createNotFoundException('Unable to find Part entity.');
-       }
+        $part = $em->getRepository('SGLFLTSBundle:Part')->find($id_part);
+        if (!$part) {
+            throw $this->createNotFoundException('Unable to find Part entity.');
+        }
 
-       $entities = $em->getRepository('SGLFLTSBundle:Bill')->retrieveByPartWithProject($id_part);
+        $entities = $em->getRepository('SGLFLTSBundle:Bill')->retrieveByPartWithProject($id_part);
 
-       return array(
-           'entities' => $entities,
-           'part'     => $part,
-       );
-   }
+        return array(
+            'entities' => $entities,
+            'part'     => $part,
+        );
+    }
 
     /**
      * Finds and displays a Bill entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/show", name="sgl_flts_bill_show")
      * @Template("SGLFLTSBundle:Bill:Crud/show.html.twig")
      */
@@ -114,6 +124,9 @@ class BillController extends Controller
     /**
      * Displays a form to create a new Bill entity.
      *
+     * @param Request $request
+     * @return array
+     * 
      * @Route("/new/{id_part}", name="sgl_flts_bill_new")
      * @Template("SGLFLTSBundle:Bill:Crud/new.html.twig")
      */
@@ -145,7 +158,10 @@ class BillController extends Controller
             }
         }
 
-        $form   = $this->createForm(BillType::class, $entity,array('new_entity'=>true));
+        $form = $this->createForm(BillType::class, $entity, [
+            'new_entity'=>true,
+            'action' => $this->generateUrl('sgl_flts_bill_create')
+        ]);
 
         return array(
             'entity' => $entity,
@@ -156,6 +172,9 @@ class BillController extends Controller
     /**
      * Creates a new Bill entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_bill_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Bill:Crud/new.html.twig")
@@ -163,8 +182,11 @@ class BillController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Bill();
-        $form = $this->createForm(BillType::class, $entity,array('new_entity'=>true));
-        $form->submit($request);
+        $form = $this->createForm(BillType::class, $entity, [
+            'new_entity'=>true,
+            'action' => $this->generateUrl('sgl_flts_bill_create')
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -196,6 +218,9 @@ class BillController extends Controller
     /**
      * Displays a form to edit an existing Bill entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/edit", name="sgl_flts_bill_edit")
      * @Template("SGLFLTSBundle:Bill:Crud/edit.html.twig")
      */
@@ -214,9 +239,14 @@ class BillController extends Controller
         }
 
         if ($entity->getSent()) {
-            $editForm = $this->createForm(BillSentType::class, $entity);
+            $editForm = $this->createForm(BillSentType::class, $entity, [
+                'action'=>$this->generateUrl('sgl_flts_bill_update', ['id' => $id])
+            ]);
         } else {
-            $editForm = $this->createForm(BillType::class, $entity, array('selected_part_id' => $entity->getPart()->getId()));
+            $editForm = $this->createForm(BillType::class, $entity, [
+                'selected_part_id' => $entity->getPart()->getId(),
+                'action'=>$this->generateUrl('sgl_flts_bill_update', ['id' => $id])
+            ]);
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -231,6 +261,10 @@ class BillController extends Controller
 
     /**
      * Edits an existing Bill entity.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/{id}/update", name="sgl_flts_bill_update")
      * @Method("POST")
@@ -249,12 +283,17 @@ class BillController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         if ($entity->getSent()) {
-            $editForm = $this->createForm(BillSentType::class, $entity);
+            $editForm = $this->createForm(BillSentType::class, $entity, [
+                'action'=>$this->generateUrl('sgl_flts_bill_update', ['id' => $id])
+            ]);
         } else {
-            $editForm = $this->createForm(BillType::class, $entity, array('selected_part_id' => $entity->getPart()->getId()));
+            $editForm = $this->createForm(BillType::class, $entity, [
+                'selected_part_id' => $entity->getPart()->getId(),
+                'action'=>$this->generateUrl('sgl_flts_bill_update', ['id' => $id])
+            ]);
         }
 
-        $editForm->submit($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
 
@@ -284,13 +323,17 @@ class BillController extends Controller
     /**
      * Deletes a Bill entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_bill_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -314,44 +357,50 @@ class BillController extends Controller
 
 
     /**
-    * @Route("/{id}/work", name="sgl_flts_bill_works")
-    * @Template("SGLFLTSBundle:Bill:List/work_index.html.twig")
-    */
-   public function editWorkAction($id)
-   {
-       $em = $this->getDoctrine()->getManager();
-       $bill = $em->getRepository('SGLFLTSBundle:Bill')->find($id);
+     * @param int $id
+     * @return array
+     * 
+     * @Route("/{id}/work", name="sgl_flts_bill_works")
+     * @Template("SGLFLTSBundle:Bill:List/work_index.html.twig")
+     */
+    public function editWorkAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $bill = $em->getRepository('SGLFLTSBundle:Bill')->find($id);
 
-       if (!$bill) {
-           throw $this->createNotFoundException('Unable to find Bill entity.');
-       }
+        if (!$bill) {
+            throw $this->createNotFoundException('Unable to find Bill entity.');
+        }
 
-       $part = $bill->getPart();
+        $part = $bill->getPart();
 
-       $bills_form = $this->createBillsForm($part);
-       $bills_form->get('bill')->setData($bill);
+        $bills_form = $this->createBillsForm($part);
+        $bills_form->get('bill')->setData($bill);
 
-       if ($bill->getSentAt() || $bill->getPaidAt()) {
-           $tasks = $em->getRepository('SGLFLTSBundle:Task')->retrieveByBillWithWorks($bill->getId());
-       } else {
-           $tasks = $em->getRepository('SGLFLTSBundle:Task')->retrieveByPartAvailableWorksToBill($part->getId(), $bill->getId());
-       }
+        if ($bill->getSentAt() || $bill->getPaidAt()) {
+            $tasks = $em->getRepository('SGLFLTSBundle:Task')->retrieveByBillWithWorks($bill->getId());
+        } else {
+            $tasks = $em->getRepository('SGLFLTSBundle:Task')->retrieveByPartAvailableWorksToBill($part->getId(), $bill->getId());
+        }
 
-       $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
 
-       return array(
-           'part'       => $part,
-           'tasks'      => $tasks,
-           'project'    => $part->getProject(),
-           'bill'       => $bill,
-           'bills_form' => $bills_form->createView(),
-           'delete_form'=> $deleteForm->createView(),
-       );
-   }
+        return array(
+            'part'       => $part,
+            'tasks'      => $tasks,
+            'project'    => $part->getProject(),
+            'bill'       => $bill,
+            'bills_form' => $bills_form->createView(),
+            'delete_form'=> $deleteForm->createView(),
+        );
+    }
 
     /**
      * Add all available (unchecked) works to a bill.
      *
+     * @param int $id
+     * @return Response (json)
+     * 
      * @Route("/{id}/billall/", name="sgl_flts_bill_addallworks")
      * @Method("POST")
      */
@@ -387,11 +436,14 @@ class BillController extends Controller
     }
 
     /**
-      * Remove all works to a bill.
-      *
-      * @Route("/{id}/unbillall/", name="sgl_flts_bill_remallworks")
-      * @Method("POST")
-      */
+     * Remove all works to a bill.
+     *
+     * @param int $id
+     * @return Response (json)
+     * 
+     * @Route("/{id}/unbillall/", name="sgl_flts_bill_remallworks")
+     * @Method("POST")
+     */
     public function RemAllWorksAction($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -422,10 +474,12 @@ class BillController extends Controller
     }
 
     /**
-    * @Route("/{id}/body-content", name="sgl_flts_bill_body_content")
-    * @Template("SGLFLTSBundle:Bill:Invoice/body_content.html.twig")
-    * @return array
-    */
+     * @param int $id
+     * @return array
+     * 
+     * @Route("/{id}/body-content", name="sgl_flts_bill_body_content")
+     * @Template("SGLFLTSBundle:Bill:Invoice/body_content.html.twig")
+     */
     public function getGenerateInvoiceBodyContent($id) {
 
         $em = $this->getDoctrine()->getManager();
@@ -442,9 +496,11 @@ class BillController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/works/list", name="sgl_flts_bill_works_list")
      * @Template("SGLFLTSBundle:Work:List/simplelist.html.twig")
-     * @return array
      */
     public function showBilledWorks($id) {
 
@@ -460,6 +516,11 @@ class BillController extends Controller
        );
     }
 
+    /**
+     * @param $id
+     *
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
@@ -469,9 +530,11 @@ class BillController extends Controller
     }
 
     /**
-    * Part's bill selection form
-    * @param Part $part
-    */
+     * Part's bill selection form
+     * 
+     * @param Part $part
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createBillsForm($part)
     {
         return $this->createFormBuilder(null,array('csrf_protection' => false))
@@ -486,16 +549,16 @@ class BillController extends Controller
     }
 
     /**
-     * @param \SGL\FLTSBundle\Entity\Bill $bill
-     * @return Response
+     * @param Bill $bill
+     * @return string
      */
     private function generateInvoiceBodyContent(Bill $bill) {
         return $this->render('SGLFLTSBundle:Bill:Invoice/body_content.html.twig', array('bill' => $bill, 'part'=>$bill->getPart()))->getContent();
     }
 
     /**
-     * @param \SGL\FLTSBundle\Entity\Bill $bill
-     * @return Response
+     * @param Bill $bill
+     * @return string
      */
     private function generateInvoiceHTML(Bill $bill) {
         return $this->render(

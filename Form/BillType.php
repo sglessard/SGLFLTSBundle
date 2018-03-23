@@ -12,9 +12,11 @@
 namespace SGL\FLTSBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class BillType extends AbstractType
 {
@@ -39,10 +41,10 @@ class BillType extends AbstractType
                 'attr'=>array('cols'=>50,'rows'=>3),
                 'required'=>false,
             ))
-            ->add('ordered_at','genemu_jquerydate', array(
+            ->add('ordered_at',DateType::class, array(
                 'widget' => 'single_text'
             ))
-            ->add('billed_at','genemu_jquerydate', array(
+            ->add('billed_at',DateType::class, array(
                 'widget' => 'single_text'
             ))
             ->add('taxable')
@@ -59,19 +61,19 @@ class BillType extends AbstractType
 
         if (!$options['new_entity']) {
             $builder
-                ->add('body_content','genemu_tinymce',array(
+                ->add('body_content',TextareaType::class,array(
                     'attr'=>array('style'=>'width: 680px; height:600px;'),
                     'required'=>false,
                 ))
-                ->add('sent_at','genemu_jquerydate', array(
+                ->add('sent_at',DateType::class, array(
                     'required' => false,
                     'widget' => 'single_text'
                  ))
-                ->add('paid_at','genemu_jquerydate', array(
+                ->add('paid_at',DateType::class, array(
                     'required' => false,
                     'widget' => 'single_text'
                  ))
-                ->add('deposited_at','genemu_jquerydate', array(
+                ->add('deposited_at',DateType::class, array(
                     'required' => false,
                     'widget' => 'single_text'
                  ))

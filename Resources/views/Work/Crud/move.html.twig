@@ -13,17 +13,16 @@
         {{ task.fullname }} : {{ entity }}
     </p>
     <h3>{% trans %}Move to{% endtrans %} :</h3>
-    <form action="{{ path('sgl_flts_work_moveupdate', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_start(edit_form) }}
         <p>
             {{ form_widget(edit_form.part) }} <br />
             {{ task.fullname }} : {{ entity }}
         </p>
-        {{ form_rest(edit_form) }}
 
         <div class="record_submit">
             <input type="submit" name="submit-work-move" class="move" value="{% trans %}Confirm move{% endtrans%}" />
         </div>
-    </form>
+    {{ form_end(edit_form) }}
 
     <div class="record_actions_ctn">
 

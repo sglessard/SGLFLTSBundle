@@ -58,3 +58,5 @@ flts:
             Total: Total
             Payment is due within 30 days upon receipt: Payment is due within 30 days upon receipt.
             Invoice-%year%-%number%: Invoice-%year%-%number%
+    user:
+        me: me

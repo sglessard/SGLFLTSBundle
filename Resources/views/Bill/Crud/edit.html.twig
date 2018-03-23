@@ -7,7 +7,7 @@
 {% block content %}
     {{ parent() }}
 
-    <form action="{{ path('sgl_flts_bill_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_start(edit_form) }}
         {{ form_errors(edit_form) }}
 
     {% if (entity.sent == false) %}
@@ -42,12 +42,10 @@
         {{ form_row(edit_form.pst) }}
     {% endif %}
 
-        {{ form_rest(edit_form) }}
-
         <div class="record_submit">
             <input type="submit" class="edit" value="{% trans %}flts.button.Confirm edit{% endtrans%}" />
         </div>
-    </form>
+    {{ form_end(edit_form) }}
 
     {% include 'SGLFLTSBundle:Bill:Common/record_actions.html.twig' with { 'entity': entity, 'part': entity.part } %}
 

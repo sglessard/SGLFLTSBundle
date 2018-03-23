@@ -77,7 +77,9 @@ class ClientController extends Controller
     public function newAction()
     {
         $entity = new Client();
-        $form   = $this->createForm(ClientType::class, $entity);
+        $form   = $this->createForm(ClientType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_client_create')
+        ]);
 
         return array(
             'entity' => $entity,
@@ -88,6 +90,9 @@ class ClientController extends Controller
     /**
      * Creates a new Client entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_client_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Client:Crud/new.html.twig")
@@ -95,8 +100,10 @@ class ClientController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Client();
-        $form = $this->createForm(ClientType::class, $entity);
-        $form->submit($request);
+        $form = $this->createForm(ClientType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_client_create')
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -120,6 +127,9 @@ class ClientController extends Controller
     /**
      * Displays a form to edit an existing Client entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/edit", name="sgl_flts_client_edit")
      * @Template("SGLFLTSBundle:Client:Crud/edit.html.twig")
      */
@@ -133,7 +143,9 @@ class ClientController extends Controller
             throw $this->createNotFoundException('Unable to find Client entity.');
         }
 
-        $editForm = $this->createForm(ClientType::class, $entity);
+        $editForm = $this->createForm(ClientType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_client_update', ['id' => $id])
+        ]);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -146,6 +158,10 @@ class ClientController extends Controller
     /**
      * Edits an existing Client entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/update", name="sgl_flts_client_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Client:Crud/edit.html.twig")
@@ -161,8 +177,10 @@ class ClientController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(ClientType::class, $entity);
-        $editForm->submit($request);
+        $editForm = $this->createForm(ClientType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_client_update', ['id' => $id])
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
 
@@ -200,7 +218,7 @@ class ClientController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

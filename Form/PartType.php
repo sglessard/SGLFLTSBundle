@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class PartType extends AbstractType
 {
@@ -33,11 +34,11 @@ class PartType extends AbstractType
             ->add('po')
             ->add('identification',null,array('required' => false))
             ->add('name')
-            ->add('started_at','genemu_jquerydate',array(
+            ->add('started_at',DateType::class,array(
                 'widget' => 'single_text'
             ))
             ->add('estimated_hours')
-            ->add('closed_at','genemu_jquerydate',array(
+            ->add('closed_at',DateType::class,array(
                 'required' => false,
                 'widget' => 'single_text'
             ))

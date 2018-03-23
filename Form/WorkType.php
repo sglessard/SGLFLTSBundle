@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class WorkType extends AbstractType
 {
@@ -51,7 +52,7 @@ class WorkType extends AbstractType
             ->add('description',null,array(
                 'attr'=>array('rows' => 3, 'cols'=>60, 'class'=>'longtext')
             ))
-            ->add('worked_at','genemu_jquerydate',array(
+            ->add('worked_at',DateType::class,array(
                 'required' => true,
                 'widget' => 'single_text'
             ))

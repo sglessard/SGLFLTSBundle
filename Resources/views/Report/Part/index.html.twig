@@ -14,7 +14,7 @@
     {{ render(controller('SGLFLTSBundle:Part:selection', {'opened_part': part, 'opened_only': '1', 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
 
     <h1 class="hidden-print">{% trans %}Project part report (all){% endtrans %}</h1>
-    {{ render(controller('SGLFLTSBundle:Part:selection', { 'part': part, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
+    {{ render(controller('SGLFLTSBundle:Part:selection', { 'part2': part, 'redirect_route': 'sgl_flts_report_part', 'redirect_error': 'sgl_flts_report_part_search'})) }}
 
     {% if (part) %}
 

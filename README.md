@@ -4,8 +4,7 @@ SGLFLTSBundle
 
 
 
-SGLFLTSBundle is a timesheet and billing application [Symfony2](http://symfony.com/doc/2.8/book/index.html) bundle mainly for freelancers.
-It is a port of my sf1.0 timesheet application I used for 4 years.  
+SGLFLTSBundle is a timesheet and billing application [Symfony3](http://symfony.com/doc/3.0/index.html) bundle mainly for freelancers.
 
 ## Demo  
 

@@ -30,6 +30,8 @@ class UserController extends Controller
     /**
      * Lists all User entities.
      *
+     * @return array
+     * 
      * @Route("/", name="sgl_flts_user")
      * @Template("SGLFLTSBundle:User:List/index.html.twig")
      */
@@ -47,6 +49,9 @@ class UserController extends Controller
     /**
      * Finds and displays a User entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/show", name="sgl_flts_user_show")
      * @Template("SGLFLTSBundle:User:Crud/show.html.twig")
      */
@@ -71,6 +76,8 @@ class UserController extends Controller
     /**
      * Displays a form to create a new User entity.
      *
+     * @return array
+     * 
      * @Route("/new", name="sgl_flts_user_new")
      * @Template("SGLFLTSBundle:User:Crud/new.html.twig")
      */
@@ -80,7 +87,9 @@ class UserController extends Controller
 
         $formFactory = $this->get('fos_user.registration.form.factory');
 
-        $form = $formFactory->createForm(array('action'=>'create'));
+        $form = $formFactory->createForm([
+            'action' => $this->generateUrl('sgl_flts_user_create')
+        ]);
         $form->setData($entity);
 
         return array(
@@ -92,6 +101,9 @@ class UserController extends Controller
     /**
      * Creates a new User entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_user_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:User:Crud/new.html.twig")
@@ -102,12 +114,14 @@ class UserController extends Controller
 
         $formFactory = $this->get('fos_user.registration.form.factory');
 
-        $editForm = $formFactory->createForm(array('action'=>'create'));
-        $editForm->setData($entity);
+        $form = $formFactory->createForm([
+            'action' => $this->generateUrl('sgl_flts_user_create')
+        ]);
+        $form->setData($entity);
 
-        $editForm->submit($request);
+        $form->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -129,6 +143,9 @@ class UserController extends Controller
     /**
      * Displays a form to edit an existing User entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/edit", name="sgl_flts_user_edit")
      * @Template("SGLFLTSBundle:User:Crud/edit.html.twig")
      */
@@ -144,7 +161,10 @@ class UserController extends Controller
 
         $formFactory = $this->get('fos_user.profile.form.factory');
 
-        $editForm = $formFactory->createForm(array('validation_groups'=>'Profile'));
+        $editForm = $formFactory->createForm([
+            'action' => $this->generateUrl('sgl_flts_user_update', ['id' => $id]),
+            'validation_groups'=>'Profile'
+        ]);
         $editForm->setData($entity);
 
         $deleteForm = $this->createDeleteForm($id);
@@ -159,6 +179,10 @@ class UserController extends Controller
     /**
      * Edits an existing User entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/update", name="sgl_flts_user_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:User:Crud/edit.html.twig")
@@ -177,9 +201,12 @@ class UserController extends Controller
 
         $formFactory = $this->get('fos_user.profile.form.factory');
 
-        $editForm = $formFactory->createForm(array('validation_groups'=>'Profile'));
+        $editForm = $formFactory->createForm([
+            'action' => $this->generateUrl('sgl_flts_user_update', ['id' => $id]),
+            'validation_groups'=>'Profile'
+        ]);
         $editForm->setData($entity);
-        $editForm->submit($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -203,13 +230,17 @@ class UserController extends Controller
     /**
      * Deletes a User entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/delete", name="sgl_flts_user_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -231,6 +262,10 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('sgl_flts_user'));
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

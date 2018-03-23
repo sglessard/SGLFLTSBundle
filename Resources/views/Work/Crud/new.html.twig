@@ -11,14 +11,14 @@
 
     <h3>Work creation</h3>
 
-    <form action="{{ path('sgl_flts_work_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form) }}
         {{ form_widget(form) }}
 
         <div class="record_submit">
             <input type="submit" name="submit-work-create" class="create" value="{% trans %}flts.button.Confirm create{% endtrans%}" />
             <input type="submit" name="submit-work-create-add" class="create" value="{% trans %}Confirm creation and add new{% endtrans%}" />
         </div>
-    </form>
+    {{ form_end(form) }}
 
     {% include 'SGLFLTSBundle:Work:Common/record_actions.html.twig' with { 'project': project, 'part': part, 'task': task} %}
 

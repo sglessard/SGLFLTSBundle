@@ -48,6 +48,9 @@ class ProjectController extends Controller
     /**
      * Finds and displays a Project entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/show", name="sgl_flts_project_show")
      * @Template("SGLFLTSBundle:Project:Crud/show.html.twig")
      */
@@ -72,13 +75,17 @@ class ProjectController extends Controller
     /**
      * Displays a form to create a new Project entity.
      *
+     * @return array
+     * 
      * @Route("/new", name="sgl_flts_project_new")
      * @Template("SGLFLTSBundle:Project:Crud/new.html.twig")
      */
     public function newAction()
     {
         $entity = new Project();
-        $form   = $this->createForm(ProjectType::class, $entity);
+        $form   = $this->createForm(ProjectType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_project_create')
+        ]);
 
         return array(
             'entity' => $entity,
@@ -89,6 +96,9 @@ class ProjectController extends Controller
     /**
      * Creates a new Project entity.
      *
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/create", name="sgl_flts_project_create")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Project:Crud/new.html.twig")
@@ -96,8 +106,10 @@ class ProjectController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Project();
-        $form = $this->createForm(ProjectType::class, $entity);
-        $form->submit($request);
+        $form = $this->createForm(ProjectType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_project_create')
+        ]);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -121,6 +133,9 @@ class ProjectController extends Controller
     /**
      * Displays a form to edit an existing Project entity.
      *
+     * @param int $id
+     * @return array
+     * 
      * @Route("/{id}/edit", name="sgl_flts_project_edit")
      * @Template("SGLFLTSBundle:Project:Crud/edit.html.twig")
      */
@@ -134,7 +149,9 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $editForm = $this->createForm(ProjectType::class, $entity);
+        $editForm = $this->createForm(ProjectType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_project_update', ['id' => $id])
+        ]);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -147,6 +164,10 @@ class ProjectController extends Controller
     /**
      * Edits an existing Project entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * 
      * @Route("/{id}/update", name="sgl_flts_project_update")
      * @Method("POST")
      * @Template("SGLFLTSBundle:Project:Crud/edit.html.twig")
@@ -162,8 +183,10 @@ class ProjectController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(ProjectType::class, $entity);
-        $editForm->submit($request);
+        $editForm = $this->createForm(ProjectType::class, $entity, [
+            'action' => $this->generateUrl('sgl_flts_project_update', ['id' => $id])
+        ]);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -187,13 +210,17 @@ class ProjectController extends Controller
     /**
      * Deletes a Project entity.
      *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * 
      * @Route("/{id}/delete", name="sgl_flts_project_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->submit($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -204,7 +231,7 @@ class ProjectController extends Controller
             }
 
             if ($entity->getParts()->count() > 0)
-                return \Symfony\Component\HttpFoundation\Response::create('Can\'t delete Project with associated Parts.<br /><a href="#" onclick="history.go(-1);">Back</a>');
+                return Response::create('Can\'t delete Project with associated Parts.<br /><a href="#" onclick="history.go(-1);">Back</a>');
 
             $em->remove($entity);
             $em->flush();
@@ -218,6 +245,10 @@ class ProjectController extends Controller
         return $this->redirect($this->generateUrl('sgl_flts_project'));
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
