@@ -75,7 +75,7 @@ class Bill
     /**
      * @var float
      *
-     * @ORM\Column(name="extra_fees", type="decimal", precision=5, scale=2, nullable=true)
+     * @ORM\Column(name="extra_fees", type="decimal", precision=7, scale=2, nullable=true)
      */
     protected $extra_fees;
 
