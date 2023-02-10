@@ -65,6 +65,10 @@ class TwigSGLFLTSExtension extends \Twig_Extension
      */
     public function twig_relative_time_filter($diff){
 
+        if ($diff > 63115200) {
+            return "More than 2 years";
+        }
+
         $periods = array("second", "minute", "hour", "day", "week", "month", "years", "decade");
         $lengths = array("60","60","24","7","4.35","12","10");
 
